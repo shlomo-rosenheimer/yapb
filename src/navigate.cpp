@@ -295,7 +295,8 @@ void Bot::ignoreCollision () {
 }
 
 bool Bot::doPlayerAvoidance (const Vector &normal) {
-   (void)normal
+   //qqq
+   (void)normal;
    return false;
 
    // edict_t *hindrance = nullptr;

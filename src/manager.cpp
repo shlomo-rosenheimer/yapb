@@ -545,7 +545,7 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
    else {
       selection = 5;
    }
-   char teams[6][12] = {"", {"Terrorists"}, {"CTs"}, "", "", {"Random"}, };
+   //char teams[6][12] = {"", {"Terrorists"}, {"CTs"}, "", "", {"Random"}, };
 
    int toAdd = numToAdd == -1 ? maxClients - (getHumansCount () + getBotCount ()) : numToAdd;
 
