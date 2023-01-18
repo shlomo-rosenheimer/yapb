@@ -5322,7 +5322,7 @@ void Bot::dropWeaponForUser (edict_t *user, bool discardC4) {
 
 void Bot::startDoubleJump (edict_t *ent) {
    // qqq
-   (void)ent
+   (void)ent;
    resetDoubleJump ();
    return; // added
 
