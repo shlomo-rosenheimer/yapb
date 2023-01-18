@@ -2898,8 +2898,8 @@ void Bot::frame () {
    pev->flags |= FL_FAKECLIENT; // restore fake client bit
 
    // qqq
-   if(m_healthValue == 111.0f)
-      return;
+   // if(m_healthValue == 111.0f)
+   //    return;
 
    if (m_updateTime <= game.time ()) {
       update ();
@@ -2954,10 +2954,10 @@ void Bot::update () {
    m_healthValue = cr::clamp (pev->health, 0.0f, 111.0f);
 
    // qqq
-   if(m_healthValue == 111.0f) {
-      m_updateTime = game.time () + 4.0f;
-      return;
-   }
+   // if(m_healthValue == 111.0f) {
+   //    m_updateTime = game.time () + 4.0f;
+   //    return;
+   // }
 
    if (game.mapIs (MapFlags::Assassination) && !m_isVIP) {
       m_isVIP = util.isPlayerVIP (ent ());
