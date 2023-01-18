@@ -392,7 +392,8 @@ void Bot::checkBreakable (edict_t *touch) {
    if (game.isNullEntity (m_breakableEntity)) {
       return;
    }
-   m_campButtons = pev->button & IN_DUCK;
+   //qqq
+   //m_campButtons = pev->button & IN_DUCK;
    startTask (Task::ShootBreakable, TaskPri::ShootBreakable, kInvalidNodeIndex, 0.0f, false);
 }
 
@@ -422,7 +423,8 @@ void Bot::checkBreakablesAround () {
       if (isInFOV (origin - getEyesPos ()) < pev->fov && seesEntity (origin)) {
          m_breakableOrigin = origin;
          m_breakableEntity = breakable;
-         m_campButtons = pev->button & IN_DUCK;
+         //qqq
+         //m_campButtons = pev->button & IN_DUCK;
 
          startTask (Task::ShootBreakable, TaskPri::ShootBreakable, kInvalidNodeIndex, 0.0f, false);
          break;
@@ -672,12 +674,14 @@ void Bot::updatePickups () {
                   startTask (Task::Camp, TaskPri::Camp, kInvalidNodeIndex, game.time () + rg.get (30.0f, 60.0f), true); // push camp task on to stack
                   startTask (Task::MoveToPosition, TaskPri::MoveToPosition, index, game.time () + rg.get (3.0f, 6.0f), true); // push move command
 
-                  if (graph[index].vis.crouch <= graph[index].vis.stand) {
-                     m_campButtons |= IN_DUCK;
-                  }
-                  else {
+                  // if (graph[index].vis.crouch <= graph[index].vis.stand) {
+                  //    m_campButtons |= IN_DUCK;
+                  // }
+                  // else {
+                  //    m_campButtons &= ~IN_DUCK;
+                  // }
+                  //qqq
                      m_campButtons &= ~IN_DUCK;
-                  }
                   m_defendHostage = true;
 
                   pushChatterMessage (Chatter::GoingToGuardHostages); // play info about that
@@ -702,12 +706,14 @@ void Bot::updatePickups () {
                      startTask (Task::Camp, TaskPri::Camp, kInvalidNodeIndex, timeMidBlowup, true); // push camp task on to stack
                      startTask (Task::MoveToPosition, TaskPri::MoveToPosition, index, timeMidBlowup, true); // push  move command
 
-                     if (path.vis.crouch <= path.vis.stand) {
-                        m_campButtons |= IN_DUCK;
-                     }
-                     else {
-                        m_campButtons &= ~IN_DUCK;
-                     }
+                     // if (path.vis.crouch <= path.vis.stand) {
+                     //    m_campButtons |= IN_DUCK;
+                     // }
+                     // else {
+                     //    m_campButtons &= ~IN_DUCK;
+                     // }
+                     //qqq
+                     m_campButtons &= ~IN_DUCK;
                      if (rg.chance (90)) {
                         pushChatterMessage (Chatter::DefendingBombsite);
                      }
@@ -767,12 +773,14 @@ void Bot::updatePickups () {
                   startTask (Task::Camp, TaskPri::Camp, kInvalidNodeIndex, timeToExplode, true); // push camp task on to stack
                   startTask (Task::MoveToPosition, TaskPri::MoveToPosition, index, timeToExplode, true); // push move command
 
-                  if (path.vis.crouch <= path.vis.stand) {
-                     m_campButtons |= IN_DUCK;
-                  }
-                  else {
-                     m_campButtons &= ~IN_DUCK;
-                  }
+                  // if (path.vis.crouch <= path.vis.stand) {
+                  //    m_campButtons |= IN_DUCK;
+                  // }
+                  // else {
+                  //    m_campButtons &= ~IN_DUCK;
+                  // }
+                  //qqq
+                  m_campButtons &= ~IN_DUCK;
 
                   if (rg.chance (85)) {
                      pushChatterMessage (Chatter::DefendingBombsite);
@@ -796,12 +804,14 @@ void Bot::updatePickups () {
                   startTask (Task::Camp, TaskPri::Camp, kInvalidNodeIndex, game.time () + rg.get (30.0f, 70.0f), true); // push camp task on to stack
                   startTask (Task::MoveToPosition, TaskPri::MoveToPosition, index, game.time () + rg.get (10.0f, 30.0f), true); // push move command
 
-                  if (graph[index].vis.crouch <= graph[index].vis.stand) {
-                     m_campButtons |= IN_DUCK;
-                  }
-                  else {
-                     m_campButtons &= ~IN_DUCK;
-                  }
+                  // if (graph[index].vis.crouch <= graph[index].vis.stand) {
+                  //    m_campButtons |= IN_DUCK;
+                  // }
+                  // else {
+                  //    m_campButtons &= ~IN_DUCK;
+                  // }
+                  //qqq
+                  m_campButtons &= ~IN_DUCK;
                   m_defendedBomb = true;
 
                   pushChatterMessage (Chatter::GoingToGuardDroppedC4); // play info about that
@@ -1732,7 +1742,8 @@ void Bot::overrideConditions () {
    if (m_reloadState != Reload::None && m_isReloading && ((pev->button | m_oldButtons) & IN_RELOAD))  {
       if (m_seeEnemyTime + 4.0f < game.time () && (m_states & Sense::SuspectEnemy)) {
          m_moveSpeed = 0.0f;
-         m_strafeSpeed = 0.0f;
+         //qqq
+         //m_strafeSpeed = 0.0f;
 
          m_navTimeset = game.time ();
       }
@@ -2673,12 +2684,14 @@ void Bot::checkRadioQueue () {
             // push move command
             startTask (Task::MoveToPosition, TaskPri::MoveToPosition, index, game.time () + rg.get (30.0f, 60.0f), true);
 
-            if (graph[index].vis.crouch <= graph[index].vis.stand) {
-               m_campButtons |= IN_DUCK;
-            }
-            else {
-               m_campButtons &= ~IN_DUCK;
-            }
+            // if (graph[index].vis.crouch <= graph[index].vis.stand) {
+            //    m_campButtons |= IN_DUCK;
+            // }
+            // else {
+            //    m_campButtons &= ~IN_DUCK;
+            // }
+            //qqq
+            m_campButtons &= ~IN_DUCK;
          }
       }
       break;
@@ -3107,7 +3120,8 @@ void Bot::normal_ () {
       }
 
       // reached waypoint is a camp waypoint
-      if ((m_path->flags & NodeFlag::Camp) && !game.is (GameFlags::CSDM) && cv_camping_allowed.bool_ ()) {
+      //qqq
+      if (1==2 && (m_path->flags & NodeFlag::Camp) && !game.is (GameFlags::CSDM) && cv_camping_allowed.bool_ ()) {
 
          // check if bot has got a primary weapon and hasn't camped before
          if (hasPrimaryWeapon () && m_timeCamping + 10.0f < game.time () && !hasHostage ()) {
@@ -3135,14 +3149,16 @@ void Bot::normal_ () {
                campingAllowed = false;
             }
 
-            if (campingAllowed) {
+            if (1==2 && campingAllowed) {
                // crouched camping here?
-               if (m_path->flags & NodeFlag::Crouch) {
-                  m_campButtons = IN_DUCK;
-               }
-               else {
-                  m_campButtons = 0;
-               }
+               // if (m_path->flags & NodeFlag::Crouch) {
+               //    m_campButtons = IN_DUCK;
+               // }
+               // else {
+               //    m_campButtons = 0;
+               // }
+               //qqq
+               m_campButtons = 0;
                selectBestWeapon ();
 
                if (!(m_states & (Sense::SeeingEnemy | Sense::HearingEnemy)) && !m_reloadState) {
@@ -3186,12 +3202,14 @@ void Bot::normal_ () {
                auto &path = graph[index];
 
                // decide to duck or not to duck
-               if (path.vis.crouch <= path.vis.stand) {
-                  m_campButtons |= IN_DUCK;
-               }
-               else {
-                  m_campButtons &= ~IN_DUCK;
-               }
+               // if (path.vis.crouch <= path.vis.stand) {
+               //    m_campButtons |= IN_DUCK;
+               // }
+               // else {
+               //    m_campButtons &= ~IN_DUCK;
+               // }
+               //qqq
+               m_campButtons &= ~IN_DUCK;
                pushChatterMessage (Chatter::GoingToGuardVIPSafety); // play info about that
             }
          }
@@ -3225,12 +3243,14 @@ void Bot::normal_ () {
                   auto &path = graph[index];
 
                   // decide to duck or not to duck
-                  if (path.vis.crouch <= path.vis.stand) {
-                     m_campButtons |= IN_DUCK;
-                  }
-                  else {
-                     m_campButtons &= ~IN_DUCK;
-                  }
+                  // if (path.vis.crouch <= path.vis.stand) {
+                  //    m_campButtons |= IN_DUCK;
+                  // }
+                  // else {
+                  //    m_campButtons &= ~IN_DUCK;
+                  // }
+                  //qqq
+                  m_campButtons &= ~IN_DUCK;
                   pushChatterMessage (Chatter::DefendingBombsite); // play info about that
                }
             }
@@ -3437,33 +3457,39 @@ void Bot::seekCover_ () {
       m_campDirection = 0;
 
       // chosen waypoint is a camp waypoint?
-      if (m_path->flags & NodeFlag::Camp) {
-         // use the existing camp node prefs
-         if (m_path->flags & NodeFlag::Crouch) {
-            m_campButtons = IN_DUCK;
-         }
-         else {
-            m_campButtons = 0;
-         }
-      }
-      else {
-         // choose a crouch or stand pos
-         if (m_path->vis.crouch <= m_path->vis.stand) {
-            m_campButtons = IN_DUCK;
-         }
-         else {
-            m_campButtons = 0;
-         }
+      // if (m_path->flags & NodeFlag::Camp) {
+      //    // use the existing camp node prefs
+      //    if (m_path->flags & NodeFlag::Crouch) {
+      //       m_campButtons = IN_DUCK;
+      //    }
+      //    else {
+      //       m_campButtons = 0;
+      //    }
+      // }
+      // else {
+      //    // choose a crouch or stand pos
+      //    if (m_path->vis.crouch <= m_path->vis.stand) {
+      //       m_campButtons = IN_DUCK;
+      //    }
+      //    else {
+      //       m_campButtons = 0;
+      //    }
 
-         // enter look direction from previously calculated positions
-         m_path->start = dest;
-         m_path->end = dest;
-      }
+      //    // enter look direction from previously calculated positions
+      //    m_path->start = dest;
+      //    m_path->end = dest;
+      // }
+
+   //qqq
+      m_campButtons = 0;
+      m_path->start = dest;
+      m_path->end = dest;
 
       if (m_reloadState == Reload::None && getAmmoInClip () < 5 && getAmmo () != 0) {
          m_reloadState = Reload::Primary;
       }
-      m_moveSpeed = 0.0f;
+      //qqq
+      //m_moveSpeed = 0.0f;
       m_strafeSpeed = 0.0f;
 
       m_moveToGoal = false;
@@ -3522,8 +3548,9 @@ void Bot::pause_ () {
    m_checkTerrain = false;
 
    m_navTimeset = game.time ();
-   m_moveSpeed = 0.0f;
-   m_strafeSpeed = 0.0f;
+   //qqq
+   //m_moveSpeed = 0.0f;
+   //m_strafeSpeed = 0.0f;
 
    m_aimFlags |= AimFlags::Nav;
 
@@ -3540,14 +3567,16 @@ void Bot::pause_ () {
       m_aimFlags |= AimFlags::Override;
       m_wantsToFire = true;
    }
-   else {
-      pev->button |= m_campButtons;
-   }
+   //qqq
+   // else {
+   //    pev->button |= m_campButtons;
+   // }
 
    // stop camping if time over or gets hurt by something else than bullets
-   if (getTask ()->time < game.time () || m_lastDamageType > 0) {
+   //qqq
+   // if (getTask ()->time < game.time () || m_lastDamageType > 0) {
       completeTask ();
-   }
+   // }
 }
 
 void Bot::blind_ () {
@@ -3571,10 +3600,10 @@ void Bot::blind_ () {
 }
 
 void Bot::camp_ () {
-   if (!cv_camping_allowed.bool_ ()) {
+   //if (!cv_camping_allowed.bool_ ()) {
       completeTask ();
       return;
-   }
+   //}
 
    m_aimFlags |= AimFlags::Camp;
    m_checkTerrain = false;
@@ -3593,8 +3622,9 @@ void Bot::camp_ () {
    m_navTimeset = game.time ();
    m_timeCamping = game.time ();
 
-   m_moveSpeed = 0.0f;
-   m_strafeSpeed = 0.0f;
+   //qqq
+   //m_moveSpeed = 0.0f;
+   //m_strafeSpeed = 0.0f;
 
    findValidNode ();
 
@@ -3665,7 +3695,7 @@ void Bot::camp_ () {
       }
    }
    // press remembered crouch button
-   pev->button |= m_campButtons;
+   //pev->button |= m_campButtons;
 
    // stop camping if time over or gets hurt by something else than bullets
    if (getTask ()->time < game.time () || m_lastDamageType > 0) {
@@ -3683,8 +3713,9 @@ void Bot::hide_ () {
    m_idealReactionTime *= 0.5f;
 
    m_navTimeset = game.time ();
-   m_moveSpeed = 0.0f;
-   m_strafeSpeed = 0.0f;
+   //qqq
+   //m_moveSpeed = 0.0f;
+   //m_strafeSpeed = 0.0f;
 
    findValidNode ();
 
@@ -3726,7 +3757,8 @@ void Bot::hide_ () {
       return;
    }
 
-   pev->button |= m_campButtons;
+   //qqq
+   //pev->button |= m_campButtons;
    m_navTimeset = game.time ();
 
    if (!m_isReloading) {
@@ -3826,12 +3858,13 @@ void Bot::plantBomb_ () {
       // push move command
       startTask (Task::MoveToPosition, TaskPri::MoveToPosition, index, game.time () + guardTime, true);
 
-      if (graph[index].vis.crouch <= graph[index].vis.stand) {
-         m_campButtons |= IN_DUCK;
-      }
-      else {
-         m_campButtons &= ~IN_DUCK;
-      }
+      // if (graph[index].vis.crouch <= graph[index].vis.stand) {
+      //    m_campButtons |= IN_DUCK;
+      // }
+      // else {
+      //    m_campButtons &= ~IN_DUCK;
+      // }
+      m_campButtons &= ~IN_DUCK;
    }
 }
 
@@ -3974,12 +4007,13 @@ void Bot::defuseBomb_ () {
    }
 
    // press duck button
-   if (m_duckDefuse || (m_oldButtons & IN_DUCK)) {
-      pev->button |= IN_DUCK;
-   }
-   else {
-      pev->button &= ~IN_DUCK;
-   }
+   //qqq
+   // if (m_duckDefuse || (m_oldButtons & IN_DUCK)) {
+   //    pev->button |= IN_DUCK;
+   // }
+   // else {
+   //    pev->button &= ~IN_DUCK;
+   // }
 
    // we are defusing bomb
    if (m_hasProgressBar || (m_oldButtons & IN_USE) || !game.isNullEntity (m_pickupItem)) {
@@ -4112,7 +4146,8 @@ void Bot::throwExplosive_ () {
    Vector dest = m_throw;
 
    if (!(m_states & Sense::SeeingEnemy)) {
-      m_strafeSpeed = 0.0f;
+      //qqq
+      //m_strafeSpeed = 0.0f;
       m_moveSpeed = 0.0f;
       m_moveToGoal = false;
    }
@@ -4171,7 +4206,7 @@ void Bot::throwExplosive_ () {
          }
       }
    }
-   pev->button |= m_campButtons;
+   //pev->button |= m_campButtons;
 }
 
 void Bot::throwFlashbang_ () {
@@ -4237,7 +4272,7 @@ void Bot::throwFlashbang_ () {
          }
       }
    }
-   pev->button |= m_campButtons;
+   //pev->button |= m_campButtons;
 }
 
 void Bot::throwSmoke_ () {
@@ -4288,7 +4323,7 @@ void Bot::throwSmoke_ () {
       pev->button |= IN_ATTACK;
       m_grenadeRequested = false;
    }
-   pev->button |= m_campButtons;
+   //pev->button |= m_campButtons;
 }
 
 void Bot::doublejump_ () {
@@ -4389,9 +4424,10 @@ void Bot::escapeFromBomb_ () {
       completeTask (); // we're done
 
       // press duck button if we still have some enemies
-      if (numEnemiesNear (pev->origin, 2048.0f)) {
-         m_campButtons = IN_DUCK;
-      }
+      //qqq
+      // if (numEnemiesNear (pev->origin, 2048.0f)) {
+      //    m_campButtons = IN_DUCK;
+      // }
 
       // we're reached destination point so just sit down and camp
       startTask (Task::Camp, TaskPri::Camp, kInvalidNodeIndex, game.time () + 10.0f, true);
@@ -4443,7 +4479,7 @@ void Bot::shootBreakable_ () {
       completeTask ();
       return;
    }
-   pev->button |= m_campButtons;
+   //pev->button |= m_campButtons;
 
    m_checkTerrain = false;
    m_moveToGoal = false;
@@ -4453,7 +4489,8 @@ void Bot::shootBreakable_ () {
    // is bot facing the breakable?
    if (util.getShootingCone (ent (), m_breakableOrigin) >= 0.90f) {
       m_moveSpeed = 0.0f;
-      m_strafeSpeed = 0.0f;
+      //qqq
+      //m_strafeSpeed = 0.0f;
 
       if (usesKnife ()) {
          selectBestWeapon ();
@@ -5200,9 +5237,10 @@ void Bot::takeBlind (int alpha) {
    m_enemy = nullptr;
 
    if (m_difficulty <= Difficulty::Normal) {
-      m_blindMoveSpeed = 0.0f;
-      m_blindSidemoveSpeed = 0.0f;
-      m_blindButton = IN_DUCK;
+      //qqq
+      // m_blindMoveSpeed = 0.0f;
+      m_blindSidemoveSpeed = pev->maxspeed;
+      // m_blindButton = IN_DUCK;
 
       return;
    }
@@ -5221,8 +5259,10 @@ void Bot::takeBlind (int alpha) {
       m_blindMoveSpeed = -pev->maxspeed;
    }
    else if (m_personality == Personality::Careful) {
-      m_blindMoveSpeed = 0.0f;
-      m_blindButton = IN_DUCK;
+      //qqq
+      // m_blindMoveSpeed = 0.0f;
+      // m_blindButton = IN_DUCK;
+      m_blindMoveSpeed = pev->maxspeed;
    }
    else {
       m_blindMoveSpeed = pev->maxspeed;

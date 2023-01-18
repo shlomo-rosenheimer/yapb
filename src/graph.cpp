@@ -557,38 +557,39 @@ void BotGraph::add (int type, const Vector &pos) {
    m_hasChanged = true;
 
    switch (type) {
-   case NodeAddFlag::Camp:
-      index = getEditorNeareset ();
+      //qqq
+   // case NodeAddFlag::Camp:
+   //    index = getEditorNeareset ();
 
-      if (index != kInvalidNodeIndex) {
-         path = &m_paths[index];
+   //    if (index != kInvalidNodeIndex) {
+   //       path = &m_paths[index];
 
-         if (path->flags & NodeFlag::Camp) {
-            path->start = m_editor->v.v_angle.get2d ();
+   //       if (path->flags & NodeFlag::Camp) {
+   //          path->start = m_editor->v.v_angle.get2d ();
 
-            // play "done" sound...
-            game.playSound (m_editor, "common/wpn_hudon.wav");
-            return;
-         }
-      }
-      break;
+   //          // play "done" sound...
+   //          game.playSound (m_editor, "common/wpn_hudon.wav");
+   //          return;
+   //       }
+   //    }
+   //    break;
 
-   case NodeAddFlag::CampEnd:
-      index = getEditorNeareset ();
+   // case NodeAddFlag::CampEnd:
+   //    index = getEditorNeareset ();
 
-      if (index != kInvalidNodeIndex) {
-         path = &m_paths[index];
+   //    if (index != kInvalidNodeIndex) {
+   //       path = &m_paths[index];
 
-         if (!(path->flags & NodeFlag::Camp)) {
-            ctrl.msg ("This is not camping node.");
-            return;
-         }
-         path->end = m_editor->v.v_angle.get2d ();
+   //       if (!(path->flags & NodeFlag::Camp)) {
+   //          ctrl.msg ("This is not camping node.");
+   //          return;
+   //       }
+   //       path->end = m_editor->v.v_angle.get2d ();
 
-         // play "done" sound...
-         game.playSound (m_editor, "common/wpn_hudon.wav");
-      }
-      return;
+   //       // play "done" sound...
+   //       game.playSound (m_editor, "common/wpn_hudon.wav");
+   //    }
+   //    return;
 
    //qqq
    // case NodeAddFlag::JumpStart:
@@ -676,32 +677,34 @@ void BotGraph::add (int type, const Vector &pos) {
       m_lastNode = m_editor->v.origin;
    }
 
-   if (type == NodeAddFlag::JumpStart) {
-      m_lastJumpNode = index;
-   }
-   else if (type == NodeAddFlag::JumpEnd) {
-      float distance = m_paths[m_lastJumpNode].origin.distance (m_editor->v.origin);
-      addPath (m_lastJumpNode, index, distance);
+   //qqq
+   // if (type == NodeAddFlag::JumpStart) {
+   //    m_lastJumpNode = index;
+   // }
+   // else if (type == NodeAddFlag::JumpEnd) {
+   //    float distance = m_paths[m_lastJumpNode].origin.distance (m_editor->v.origin);
+   //    addPath (m_lastJumpNode, index, distance);
 
-      for (auto &link : m_paths[m_lastJumpNode].links) {
-         if (link.index == index) {
-            link.flags |= PathFlag::Jump;
-            link.velocity = m_learnVelocity;
+   //    for (auto &link : m_paths[m_lastJumpNode].links) {
+   //       if (link.index == index) {
+   //          link.flags |= PathFlag::Jump;
+   //          link.velocity = m_learnVelocity;
 
-            break;
-         }
-      }
-      calculatePathRadius (index);
-      return;
-   }
+   //          break;
+   //       }
+   //    }
+   //    calculatePathRadius (index);
+   //    return;
+   // }
 
    if (!path || path->number == kInvalidNodeIndex) {
       return;
    }
 
-   if (m_editor->v.flags & FL_DUCKING) {
-      path->flags |= NodeFlag::Crouch; // set a crouch node
-   }
+   //qqq
+   // if (m_editor->v.flags & FL_DUCKING) {
+   //    path->flags |= NodeFlag::Crouch; // set a crouch node
+   // }
 
    if (m_editor->v.movetype == MOVETYPE_FLY) {
       path->flags |= NodeFlag::Ladder;
@@ -729,12 +732,13 @@ void BotGraph::add (int type, const Vector &pos) {
       path->flags |= NodeFlag::Rescue;
       break;
 
-   case NodeAddFlag::Camp:
-      path->flags |= NodeFlag::Crossing;
-      path->flags |= NodeFlag::Camp;
+   //qqq
+   // case NodeAddFlag::Camp:
+   //    path->flags |= NodeFlag::Crossing;
+   //    path->flags |= NodeFlag::Camp;
 
-      path->start = m_editor->v.v_angle;
-      break;
+   //    path->start = m_editor->v.v_angle;
+   //    break;
 
    case NodeAddFlag::Goal:
       path->flags |= NodeFlag::Goal;
@@ -1480,7 +1484,8 @@ void BotGraph::initNodesTypes () {
          m_goalPoints.push (path.number);
       }
       else if (path.flags & NodeFlag::Camp) {
-         m_campPoints.push (path.number);
+         //qqq
+         //m_campPoints.push (path.number);
       }
       else if (path.flags & NodeFlag::Sniper) {
          m_sniperPoints.push (path.number);

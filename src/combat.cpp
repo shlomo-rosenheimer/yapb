@@ -866,7 +866,8 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
    // we're should stand still before firing sniper weapons, else sniping is useless..
    if (usesSniper () && (m_aimFlags & (AimFlags::Enemy | AimFlags::LastEnemy)) && !m_isReloading && pev->velocity.lengthSq () > 0.0f && getCurrentTaskId () != Task::SeekCover) {
       m_moveSpeed = 0.0f;
-      m_strafeSpeed = 0.0f;
+      //qqq
+      //m_strafeSpeed = 0.0f;
       m_navTimeset = game.time ();
 
       if (cr::abs (pev->velocity.x) > 5.0f || cr::abs (pev->velocity.y) > 5.0f || cr::abs (pev->velocity.z) > 5.0f) {
@@ -1270,7 +1271,8 @@ void Bot::attackMovement () {
             }
          }
          m_moveSpeed = 0.0f;
-         m_strafeSpeed = 0.0f;
+         //qqq
+         //m_strafeSpeed = 0.0f;
          m_navTimeset = game.time ();
       }
    }
@@ -1373,7 +1375,8 @@ bool Bot::usesBadWeapon () {
 }
 
 bool Bot::usesCampGun () {
-   return usesSubmachine () || usesRifle () || usesSniper () || usesHeavy ();
+   return false;
+   //return usesSubmachine () || usesRifle () || usesSniper () || usesHeavy ();
 }
 
 bool Bot::usesKnife (){

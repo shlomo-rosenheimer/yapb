@@ -133,9 +133,10 @@ int Bot::findBestGoal () {
    campDesire = rg.get (0.0f, 100.0f) + defensive;
    backoffDesire = rg.get (0.0f, 100.0f) + defensive;
 
-   if (!usesCampGun () || forwardDesire == 0.0f) {
-      campDesire *= 0.5f;
-   }
+   //qqq
+   // if (!usesCampGun () || forwardDesire == 0.0f) {
+   //    campDesire *= 0.5f;
+   // }
 
    tacticChoice = backoffDesire;
    tactic = 0;
@@ -150,6 +151,10 @@ int Bot::findBestGoal () {
    //    tacticChoice = forwardDesire;
    //    tactic = 2;
    // }
+
+   //qqq
+   forwardDesire = 0.0f;
+   campDesire = 0.0f;
 
    if (goalDesire > tacticChoice) {
       tactic = 3;
