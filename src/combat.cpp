@@ -547,9 +547,9 @@ const Vector &Bot::getEnemyBodyOffset () {
       // float z2 = 0.0f
       // float z3 = 1.0f
       
-      float z1 = 2.5f
-      float z2 = 2.0f
-      float z3 = 3.0f
+      float z1 = 2.5f;
+      float z2 = 2.0f;
+      float z3 = 3.0f;
 
       // qqq
       if (m_enemyParts & (Visibility::Head | Visibility::Body)) {
