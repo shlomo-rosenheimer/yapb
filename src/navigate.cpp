@@ -134,9 +134,9 @@ int Bot::findBestGoal () {
    backoffDesire = rg.get (0.0f, 100.0f) + defensive;
 
    //qqq
-   // if (!usesCampGun () || forwardDesire == 0.0f) {
-   //    campDesire *= 0.5f;
-   // }
+   if (!usesCampGun () || forwardDesire == 0.0f || campDesire == 0.0f) {
+      campDesire *= 0.5f;
+   }
 
    tacticChoice = backoffDesire;
    tactic = 0;
