@@ -350,7 +350,7 @@ void BotConfig::loadChatterConfig () {
    }
    else {
       cv_radio_mode.set (1);
-      logger.message ("Bots chatter communication disabled.");
+      //logger.message ("Bots chatter communication disabled.");
    }
 }
 
@@ -457,7 +457,7 @@ void BotConfig::loadLanguageConfig () {
    setupMemoryFiles ();
 
    if (game.is (GameFlags::Legacy)) {
-      logger.message ("Bots multilingual system disabled.");
+      //logger.message ("Bots multilingual system disabled.");
       return; // dedicated server will use only english translation
    }
    String line;

@@ -295,75 +295,78 @@ void Bot::ignoreCollision () {
 }
 
 bool Bot::doPlayerAvoidance (const Vector &normal) {
-   edict_t *hindrance = nullptr;
-   float distance = cr::square (300.0f);
-
-   if (getCurrentTaskId () == Task::Attack || getCurrentTaskId () == Task::SeekCover || isOnLadder ()) {
-      return false;
-   }
-
-   // find nearest player to bot
-   for (const auto &client : util.getClients ()) {
-
-      // need only good meat
-      if (!(client.flags & ClientFlags::Used)) {
-         continue;
-      }
-
-      // and still alive meet
-      if (!(client.flags & ClientFlags::Alive)) {
-         continue;
-      }
-
-      // our team, alive and not myself?
-      if (client.team != m_team || client.ent == ent ()) {
-         continue;
-      }
-      auto nearest = client.ent->v.origin.distanceSq (pev->origin);
-
-      if (nearest < cr::square (pev->maxspeed) && nearest < distance) {
-         hindrance = client.ent;
-         distance = nearest;
-      }
-   }
-
-   // found somebody?
-   if (!hindrance) {
-      return false;
-   }
-   const float interval = getFrameInterval () * 4.0f;
-
-   // use our movement angles, try to predict where we should be next frame
-   Vector right, forward;
-   m_moveAngles.angleVectors (&forward, &right, nullptr);
-      
-   Vector predict = pev->origin + forward * m_moveSpeed * interval;
-
-   predict += right * m_strafeSpeed * interval;
-   predict += pev->velocity * interval;
-
-   auto movedDistance = hindrance->v.origin.distanceSq (predict);
-   auto nextFrameDistance = pev->origin.distanceSq (hindrance->v.origin + hindrance->v.velocity * interval);
-
-   // is player that near now or in future that we need to steer away?
-   if (movedDistance <= cr::square (48.0f) || (distance <= cr::square (56.0f) && nextFrameDistance < distance)) {
-      auto dir = (pev->origin - hindrance->v.origin).normalize2d ();
-
-      // to start strafing, we have to first figure out if the target is on the left side or right side
-      if ((dir | right.get2d ()) > 0.0f) {
-         setStrafeSpeed (normal, pev->maxspeed);
-      }
-      else {
-         setStrafeSpeed (normal, -pev->maxspeed);
-      }
-      if (distance < cr::square (56.0f)) {
-         if ((dir | forward.get2d ()) < 0.0f) {
-            m_moveSpeed = -pev->maxspeed;
-         }
-      }
-      return true;
-   }
+   (void)normal
    return false;
+
+   // edict_t *hindrance = nullptr;
+   // float distance = cr::square (300.0f);
+
+   // if (getCurrentTaskId () == Task::Attack || getCurrentTaskId () == Task::SeekCover || isOnLadder ()) {
+   //    return false;
+   // }
+
+   // // find nearest player to bot
+   // for (const auto &client : util.getClients ()) {
+
+   //    // need only good meat
+   //    if (!(client.flags & ClientFlags::Used)) {
+   //       continue;
+   //    }
+
+   //    // and still alive meet
+   //    if (!(client.flags & ClientFlags::Alive)) {
+   //       continue;
+   //    }
+
+   //    // our team, alive and not myself?
+   //    if (client.team != m_team || client.ent == ent ()) {
+   //       continue;
+   //    }
+   //    auto nearest = client.ent->v.origin.distanceSq (pev->origin);
+
+   //    if (nearest < cr::square (pev->maxspeed) && nearest < distance) {
+   //       hindrance = client.ent;
+   //       distance = nearest;
+   //    }
+   // }
+
+   // // found somebody?
+   // if (!hindrance) {
+   //    return false;
+   // }
+   // const float interval = getFrameInterval () * 4.0f;
+
+   // // use our movement angles, try to predict where we should be next frame
+   // Vector right, forward;
+   // m_moveAngles.angleVectors (&forward, &right, nullptr);
+      
+   // Vector predict = pev->origin + forward * m_moveSpeed * interval;
+
+   // predict += right * m_strafeSpeed * interval;
+   // predict += pev->velocity * interval;
+
+   // auto movedDistance = hindrance->v.origin.distanceSq (predict);
+   // auto nextFrameDistance = pev->origin.distanceSq (hindrance->v.origin + hindrance->v.velocity * interval);
+
+   // // is player that near now or in future that we need to steer away?
+   // if (movedDistance <= cr::square (48.0f) || (distance <= cr::square (56.0f) && nextFrameDistance < distance)) {
+   //    auto dir = (pev->origin - hindrance->v.origin).normalize2d ();
+
+   //    // to start strafing, we have to first figure out if the target is on the left side or right side
+   //    if ((dir | right.get2d ()) > 0.0f) {
+   //       setStrafeSpeed (normal, pev->maxspeed);
+   //    }
+   //    else {
+   //       setStrafeSpeed (normal, -pev->maxspeed);
+   //    }
+   //    if (distance < cr::square (56.0f)) {
+   //       if ((dir | forward.get2d ()) < 0.0f) {
+   //          m_moveSpeed = -pev->maxspeed;
+   //       }
+   //    }
+   //    return true;
+   // }
+   // return false;
 }
 
 void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
@@ -430,10 +433,14 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             bits |= CollisionProbe::Strafe;
          }
          else if (isInWater ()) {
-            bits |= (CollisionProbe::Jump | CollisionProbe::Strafe);
+            // qqq
+            //bits |= (CollisionProbe::Jump | CollisionProbe::Strafe);
+            bits |= CollisionProbe::Strafe;
          }
          else {
-            bits |= (CollisionProbe::Strafe | CollisionProbe::Jump);
+            // qqq
+            //bits |= (CollisionProbe::Strafe | CollisionProbe::Jump);
+            bits |= CollisionProbe::Strafe;
          }
 
          // collision check allowed if not flying through the air
@@ -628,6 +635,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                // if (isOnFloor () || isInWater ()) {
                //    pev->button |= IN_JUMP;
                // }
+               setStrafeSpeed (dirNormal, -pev->maxspeed);
                break;
 
             case CollisionState::Duck:
@@ -635,6 +643,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                // if (isOnFloor () || isInWater ()) {
                //    pev->button |= IN_DUCK;
                // }
+               setStrafeSpeed (dirNormal, pev->maxspeed);
                break;
 
             case CollisionState::StrafeLeft:

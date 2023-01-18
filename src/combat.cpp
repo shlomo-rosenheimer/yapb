@@ -501,9 +501,10 @@ const Vector &Bot::getEnemyBodyOffset () {
 
    Vector aimPos = m_enemy->v.origin;
 
-   if (m_difficulty > Difficulty::Normal) {
+   // qqq
+   // if (m_difficulty > Difficulty::Normal) {
       aimPos += (m_enemy->v.velocity - pev->velocity) * (getFrameInterval () * 1.25f);
-   }
+   // }
 
    // if we only suspect an enemy behind a wall take the worst skill
    // qqq
@@ -512,7 +513,7 @@ const Vector &Bot::getEnemyBodyOffset () {
    //}
    //else if (util.isPlayer (m_enemy)) {
    if (util.isPlayer (m_enemy)) {
-      const float highOffset = m_difficulty > Difficulty::Normal ? 1.5f : 0.0f;
+      //const float highOffset = m_difficulty > Difficulty::Normal ? 1.5f : 0.0f;
 
       // now take in account different parts of enemy body
       // if (m_enemyParts & (Visibility::Head | Visibility::Body)) {
@@ -537,7 +538,7 @@ const Vector &Bot::getEnemyBodyOffset () {
 
       // qqq
       if (m_enemyParts & Visibility::Body) {
-         aimPos.z += highOffset;
+         aimPos.z += 2.5f;
       }
       else if (m_enemyParts & Visibility::Other) {
          aimPos = m_enemyOrigin;
@@ -856,12 +857,14 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
    if (distance < kSprayDistance || m_blindTime > game.time ()) {
       if (id == Weapon::Knife) {
          if (distance < 64.0f) {
-            if (rg.chance (30) || hasShield ()) {
-               pev->button |= IN_ATTACK; // use primary attack
-            }
-            else {
-               pev->button |= IN_ATTACK2; // use secondary attack
-            }
+            pev->button |= IN_ATTACK2; // use secondary attack
+
+            // if (rg.chance (30) || hasShield ()) {
+            //    pev->button |= IN_ATTACK; // use primary attack
+            // }
+            // else {
+            //    pev->button |= IN_ATTACK2; // use secondary attack
+            // }
          }
       }
       else {
@@ -1164,7 +1167,8 @@ void Bot::attackMovement () {
 
       // qqq
       if (usesSniper () || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
-         m_fightStyle = Fight::Stay;
+         //m_fightStyle = Fight::Stay;
+         m_fightStyle = Fight::Strafe;
          m_lastFightStyleCheck = game.time ();
       }
       else if (usesRifle () || usesSubmachine ()) {

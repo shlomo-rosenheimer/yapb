@@ -219,7 +219,7 @@ BotCreateResult BotManager::create (StringRef name, int difficulty, int personal
    bot = engfuncs.pfnCreateFakeClient (resultName.chars ());
 
    if (game.isNullEntity (bot)) {
-      ctrl.msg ("Maximum players reached (%d/%d). Unable to create Bot.", game.maxClients (), game.maxClients ());
+      //ctrl.msg ("Maximum players reached (%d/%d). Unable to create Bot.", game.maxClients (), game.maxClients ());
       return BotCreateResult::MaxPlayersReached;
    }
    auto object = cr::makeUnique <Bot> (bot, difficulty, personality, team, skin);
@@ -231,7 +231,7 @@ BotCreateResult BotManager::create (StringRef name, int difficulty, int personal
    }
    m_bots.push (cr::move (object));
 
-   ctrl.msg ("Connecting Bot...");
+   //ctrl.msg ("Connecting Bot...");
 
    return BotCreateResult::Success;
 }
@@ -552,7 +552,7 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
    for (int i = 0; i <= toAdd; ++i) {
       addbot ("", difficulty, personality, selection, -1, true);
    }
-   ctrl.msg ("Fill server with %s bots...", &teams[selection][0]);
+   //ctrl.msg ("Fill server with %s bots...", &teams[selection][0]);
 }
 
 void BotManager::kickEveryone (bool instant, bool zeroQuota) {
@@ -1177,9 +1177,6 @@ void BotManager::handleDeath (edict_t *killer, edict_t *victim) {
 
 void Bot::newRound () {
    // this function initializes a bot after creation & at the start of each round
-
-   // qqq
-   ctrl.msg ("######### Yo");
 
    // delete all allocated path nodes
    clearSearchNodes ();
