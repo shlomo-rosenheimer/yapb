@@ -474,9 +474,10 @@ const Vector &Bot::getEnemyBodyOffset () {
    // the purpose of this function, is to make bot aiming not so ideal. it's mutate m_enemyOrigin enemy vector
    // returned from visibility check function.
 
-   const auto headOffset = [] (edict_t *e) {
-      return e->v.absmin.z + e->v.size.z * 0.81f;
-   };
+   // qqq
+   // const auto headOffset = [] (edict_t *e) {
+   //    return e->v.absmin.z + e->v.size.z * 0.81f;
+   // };
 
    // if no visibility data, use last one
    if (!m_enemyParts) {
