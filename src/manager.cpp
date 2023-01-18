@@ -192,6 +192,8 @@ BotCreateResult BotManager::create (StringRef name, int difficulty, int personal
          }
       }
    }
+   // qqq
+   personality = Personality::Careful;
    BotName *botName = nullptr;
 
    // setup name
@@ -549,10 +551,14 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
 
    int toAdd = numToAdd == -1 ? maxClients - (getHumansCount () + getBotCount ()) : numToAdd;
 
+   toAdd = 4
+   selection = 5;
+
    for (int i = 0; i <= toAdd; ++i) {
       addbot ("", difficulty, personality, selection, -1, true);
    }
    //ctrl.msg ("Fill server with %s bots...", &teams[selection][0]);
+   ctrl.msg ("Filling with %d bots... [%d] [%d] [%d] [%d]", toAdd, selection, personality, difficulty, numToAdd);
 }
 
 void BotManager::kickEveryone (bool instant, bool zeroQuota) {

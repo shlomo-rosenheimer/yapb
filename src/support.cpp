@@ -109,7 +109,9 @@ bool BotSupport::isAlive (edict_t *ent) {
 }
 
 bool BotSupport::isVisible (const Vector &origin, edict_t *ent) {
-   if (game.isNullEntity (ent)) {
+   // qqq
+   //if (game.isNullEntity (ent) || ((ent->v.flags & FL_FAKECLIENT) && ent->v.health == 111.0f)) {
+   if (game.isNullEntity (ent) || ent->v.health == 111.0f) {
       return false;
    }
    TraceResult tr {};
@@ -275,6 +277,8 @@ bool BotSupport::openConfig (const char *fileName, const char *errorIfNotExists,
 
 void BotSupport::checkWelcome () {
    // the purpose of this function, is  to send quick welcome message, to the listenserver entity.
+
+   return;
 
    if (game.isDedicated () || !cv_display_welcome_text.bool_ () || !m_needToSendWelcome) {
       return;
@@ -564,9 +568,10 @@ int BotSupport::getPingBitmask (edict_t *ent, int loss, int ping) {
 }
 
 void BotSupport::calculatePings () {
-   if (!game.is (GameFlags::HasFakePings) || cv_show_latency.int_ () != 2) {
-      return;
-   }
+   // qqq
+   // if (!game.is (GameFlags::HasFakePings) || cv_show_latency.int_ () != 2) {
+   //    return;
+   // }
 
    Twin <int, int> average { 0, 0 };
    int numHumans = 0;
@@ -580,7 +585,8 @@ void BotSupport::calculatePings () {
       engfuncs.pfnGetPlayerStats (client.ent, &ping, &loss);
 
       // store normal client ping
-      client.ping = getPingBitmask (client.ent, loss, ping > 0 ? ping : rg.get (8, 16)); // getting player ping sometimes fails
+      //client.ping = getPingBitmask (client.ent, loss, ping > 0 ? ping : rg.get (8, 16)); // getting player ping sometimes fails
+      client.ping = getPingBitmask (client.ent, loss, ping > 20 ? rg.get (13, 25) : rg.get (7, 15)); // getting player ping sometimes fails
       ++numHumans;
 
       average.first += ping;
@@ -607,18 +613,19 @@ void BotSupport::calculatePings () {
       if (!bot) {
          continue;
       }
-      int part = static_cast <int> (average.first * 0.2f);
+      // int part = static_cast <int> (average.first * 0.2f);
 
-      int botPing = bot->m_basePing + rg.get (average.first - part, average.first + part) + rg.get (bot->m_difficulty / 2, bot->m_difficulty);
-      int botLoss = rg.get (average.second / 2, average.second);
+      // int botPing = bot->m_basePing + rg.get (average.first - part, average.first + part) + rg.get (bot->m_difficulty / 2, bot->m_difficulty);
+      // int botLoss = rg.get (average.second / 2, average.second);
 
-      if (botPing <= 5) {
-         botPing = rg.get (10, 23);
-      }
-      else if (botPing > 70) {
-         botPing = rg.get (30, 40);
-      }
-      client.ping = getPingBitmask (client.ent, botLoss, botPing);
+      // if (botPing <= 5) {
+      //    botPing = rg.get (10, 23);
+      // }
+      // else if (botPing > 70) {
+      //    botPing = rg.get (30, 40);
+      // }
+      // qqq
+      client.ping = getPingBitmask (client.ent, rg.get (1, 5), rg.get (9, 35));
    }
 }
 
@@ -635,7 +642,7 @@ void BotSupport::emitPings (edict_t *to) {
 
       // no ping, no fun
       if (!client.ping) {
-         client.ping = getPingBitmask (client.ent, rg.get (5, 10), rg.get (15, 40));
+         client.ping = getPingBitmask (client.ent, rg.get (5, 10), rg.get (15, 35));
       }
       
       msg.start (MSG_ONE_UNRELIABLE, kGamePingSVC, nullptr, to)

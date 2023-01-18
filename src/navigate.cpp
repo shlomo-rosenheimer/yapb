@@ -140,15 +140,16 @@ int Bot::findBestGoal () {
    tacticChoice = backoffDesire;
    tactic = 0;
 
-   if (campDesire > tacticChoice) {
-      tacticChoice = campDesire;
-      tactic = 1;
-   }
+   //qqq
+   // if (campDesire > tacticChoice) {
+   //    tacticChoice = campDesire;
+   //    tactic = 1;
+   // }
 
-   if (forwardDesire > tacticChoice) {
-      tacticChoice = forwardDesire;
-      tactic = 2;
-   }
+   // if (forwardDesire > tacticChoice) {
+   //    tacticChoice = forwardDesire;
+   //    tactic = 2;
+   // }
 
    if (goalDesire > tacticChoice) {
       tactic = 3;
@@ -434,9 +435,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             bits |= CollisionProbe::Strafe;
          }
          else if (isInWater ()) {
-            // qqq
-            //bits |= (CollisionProbe::Jump | CollisionProbe::Strafe);
-            bits |= CollisionProbe::Strafe;
+            bits |= (CollisionProbe::Jump | CollisionProbe::Strafe);
          }
          else {
             // qqq
@@ -678,28 +677,29 @@ bool Bot::updateNavigation () {
 
    float nodeDistance = pev->origin.distance (m_pathOrigin);
 
+// qqq
    // this node has additional travel flags - care about them
-   if (m_currentTravelFlags & PathFlag::Jump) {
+   // if (m_currentTravelFlags & PathFlag::Jump) {
 
-      // bot is not jumped yet?
-      if (!m_jumpFinished) {
+   //    // bot is not jumped yet?
+   //    if (!m_jumpFinished) {
 
-         // if bot's on the ground or on the ladder we're free to jump. actually setting the correct velocity is cheating.
-         // pressing the jump button gives the illusion of the bot actual jumping.
-         // qqq
-         // if (isOnFloor () || isOnLadder ()) {
-         //    pev->velocity = m_desiredVelocity;
-         //    pev->button |= IN_JUMP;
+   //       // if bot's on the ground or on the ladder we're free to jump. actually setting the correct velocity is cheating.
+   //       // pressing the jump button gives the illusion of the bot actual jumping.
+   //       
+   //       // if (isOnFloor () || isOnLadder ()) {
+   //       //    pev->velocity = m_desiredVelocity;
+   //       //    pev->button |= IN_JUMP;
 
-         //    m_jumpFinished = true;
-         //    m_checkTerrain = false;
-         //    m_desiredVelocity = nullptr;
-         // }
-      }
-      else if (!cv_jasonmode.bool_ () && usesKnife () && isOnFloor ()) {
-         selectBestWeapon ();
-      }
-   }
+   //       //    m_jumpFinished = true;
+   //       //    m_checkTerrain = false;
+   //       //    m_desiredVelocity = nullptr;
+   //       // }
+   //    }
+   //    else if (!cv_jasonmode.bool_ () && usesKnife () && isOnFloor ()) {
+   //       selectBestWeapon ();
+   //    }
+   // }
 
    if (m_path->flags & NodeFlag::Ladder) {
       if (m_pathOrigin.z >= (pev->origin.z + 16.0f)) {
@@ -1571,7 +1571,8 @@ bool Bot::findBestNearestNode () {
 
       // skip current and recent previous nodes
       for (int j = 0; j < numToSkip; ++j) {
-         if (at == m_previousNodes[j]) {
+         // qqq
+         if (rg.chance (50) && at == m_previousNodes[j]) {
             skip = true;
             break;
          }
@@ -1598,10 +1599,11 @@ bool Bot::findBestNearestNode () {
       }
 
       // check if node is already used by another bot...
-      if (bots.getRoundStartTime () + 5.0f < game.time () && isOccupiedNode (at)) {
-         busy = at;
-         continue;
-      }
+      //qqq
+      // if (bots.getRoundStartTime () + 5.0f < game.time () && isOccupiedNode (at)) {
+      //    busy = at;
+      //    continue;
+      // }
 
       // if we're still here, find some close nodes
       float distance = pev->origin.distanceSq (graph[at].origin);
@@ -3028,7 +3030,11 @@ bool Bot::isOccupiedNode (int index, bool needZeroVelocity) {
       return true;
    }
 
+   // qqq
+   return false;
+
    for (const auto &client : util.getClients ()) {
+
       if (!(client.flags & (ClientFlags::Used | ClientFlags::Alive)) || client.team != m_team || client.ent == ent ()) {
          continue;
       }

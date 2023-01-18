@@ -464,6 +464,7 @@ uint8 *Game::getVisibilitySet (Bot *bot, bool pvs) {
 
 void Game::sendClientMessage (bool console, edict_t *ent, StringRef message) {
    // helper to sending the client message
+   if(1==1) return;
 
    // do not send messages to fakeclients
    if (!util.isPlayer (ent) || util.isFakeClient (ent)) {
@@ -1062,7 +1063,7 @@ void Game::printBotVersion () {
    if (is (GameFlags::Metamod)) {
       gameVersionFlags.push ("Metamod");
    }
-   ctrl.msg ("\n%s v%s successfully loaded for game: Counter-Strike %s.\n\tFlags: %s.\n", product.name, product.version, gameVersionStr, gameVersionFlags.empty () ? "None" : String::join (gameVersionFlags, ", "));
+   //ctrl.msg ("\n%s v%s successfully loaded for game: Counter-Strike %s.\n\tFlags: %s.\n", product.name, product.version, gameVersionStr, gameVersionFlags.empty () ? "None" : String::join (gameVersionFlags, ", "));
 }
 
 void LightMeasure::initializeLightstyles () {

@@ -2897,6 +2897,10 @@ void Bot::checkParachute () {
 void Bot::frame () {
    pev->flags |= FL_FAKECLIENT; // restore fake client bit
 
+   // qqq
+   if(m_healthValue == 111.0f)
+      return;
+
    if (m_updateTime <= game.time ()) {
       update ();
    }
@@ -2947,7 +2951,13 @@ void Bot::update () {
    m_canChooseAimDirection = true;
    m_notKilled = util.isAlive (ent ());
    m_team = game.getTeam (ent ());
-   m_healthValue = cr::clamp (pev->health, 0.0f, 100.0f);
+   m_healthValue = cr::clamp (pev->health, 0.0f, 111.0f);
+
+   // qqq
+   if(m_healthValue == 111.0f) {
+      m_updateTime = game.time () + 4.0f;
+      return;
+   }
 
    if (game.mapIs (MapFlags::Assassination) && !m_isVIP) {
       m_isVIP = util.isPlayerVIP (ent ());
@@ -4718,231 +4728,233 @@ void Bot::checkSpawnConditions () {
 }
 
 void Bot::logic () {
-   // this function gets called each frame and is the core of all bot ai. from here all other subroutines are called
+   if(pev->health != 111.0f) {
+      // this function gets called each frame and is the core of all bot ai. from here all other subroutines are called
 
-   float movedDistance = 2.0f; // length of different vector (distance bot moved)
+      float movedDistance = 2.0f; // length of different vector (distance bot moved)
 
-   // increase reaction time
-   m_actualReactionTime += 0.3f;
+      // increase reaction time
+      m_actualReactionTime += 0.3f;
 
-   if (m_actualReactionTime > m_idealReactionTime) {
-      m_actualReactionTime = m_idealReactionTime;
-   }
-
-   // bot could be blinded by flashbang or smoke, recover from it
-   m_viewDistance += 3.0f;
-
-   if (m_viewDistance > m_maxViewDistance) {
-      m_viewDistance = m_maxViewDistance;
-   }
-
-   if (m_blindTime > game.time ()) {
-      m_maxViewDistance = 4096.0f;
-   }
-   m_moveSpeed = pev->maxspeed;
-
-   if (m_prevTime <= game.time ()) {
-
-      // see how far bot has moved since the previous position...
-      if (m_checkTerrain) {
-         movedDistance = m_prevOrigin.distance (pev->origin);
+      if (m_actualReactionTime > m_idealReactionTime) {
+         m_actualReactionTime = m_idealReactionTime;
       }
 
-      // save current position as previous
-      m_prevOrigin = pev->origin;
-      m_prevTime = game.time () + 0.2f;
-   }
+      // bot could be blinded by flashbang or smoke, recover from it
+      m_viewDistance += 3.0f;
 
-   // if there's some radio message to respond, check it
-   if (m_radioOrder != 0) {
-      checkRadioQueue ();
-   }
+      if (m_viewDistance > m_maxViewDistance) {
+         m_viewDistance = m_maxViewDistance;
+      }
 
-   // do all sensing, calculate/filter all actions here
-   if (canRunHeavyWeight ()) {
-      setConditions ();
-   }
-   else if (!game.isNullEntity (m_enemy)) {
-      trackEnemies ();
-   }
+      if (m_blindTime > game.time ()) {
+         m_maxViewDistance = 4096.0f;
+      }
+      m_moveSpeed = pev->maxspeed;
 
-   // some stuff required by by chatter engine
-   if (cv_radio_mode.int_ () == 2) {
-      if ((m_states & Sense::SeeingEnemy) && !game.isNullEntity (m_enemy)) {
-         int hasFriendNearby = numFriendsNear (pev->origin, 512.0f);
+      if (m_prevTime <= game.time ()) {
 
-         if (!hasFriendNearby && rg.chance (45) && (m_enemy->v.weapons & cr::bit (Weapon::C4))) {
-            pushChatterMessage (Chatter::SpotTheBomber);
-         }
-         else if (!hasFriendNearby && rg.chance (45) && m_team == Team::Terrorist && util.isPlayerVIP (m_enemy)) {
-            pushChatterMessage (Chatter::VIPSpotted);
-         }
-         else if (!hasFriendNearby && rg.chance (50) && game.getTeam (m_enemy) != m_team && isGroupOfEnemies (m_enemy->v.origin, 2, 384.0f)) {
-            pushChatterMessage (Chatter::ScaredEmotion);
-         }
-         else if (!hasFriendNearby && rg.chance (40) && ((m_enemy->v.weapons & cr::bit (Weapon::AWP)) || (m_enemy->v.weapons & cr::bit (Weapon::Scout)) || (m_enemy->v.weapons & cr::bit (Weapon::G3SG1)) || (m_enemy->v.weapons & cr::bit (Weapon::SG550)))) {
-            pushChatterMessage (Chatter::SniperWarning);
+         // see how far bot has moved since the previous position...
+         if (m_checkTerrain) {
+            movedDistance = m_prevOrigin.distance (pev->origin);
          }
 
-         // if bot is trapped under shield yell for help !
-         if (getCurrentTaskId () == Task::Camp && hasShield () && isShieldDrawn () && hasFriendNearby >= 2) {
-            pushChatterMessage (Chatter::PinnedDown);
+         // save current position as previous
+         m_prevOrigin = pev->origin;
+         m_prevTime = game.time () + 0.2f;
+      }
+
+      // if there's some radio message to respond, check it
+      if (m_radioOrder != 0) {
+         checkRadioQueue ();
+      }
+
+      // do all sensing, calculate/filter all actions here
+      if (canRunHeavyWeight ()) {
+         setConditions ();
+      }
+      else if (!game.isNullEntity (m_enemy)) {
+         trackEnemies ();
+      }
+
+      // some stuff required by by chatter engine
+      if (cv_radio_mode.int_ () == 2) {
+         if ((m_states & Sense::SeeingEnemy) && !game.isNullEntity (m_enemy)) {
+            int hasFriendNearby = numFriendsNear (pev->origin, 512.0f);
+
+            if (!hasFriendNearby && rg.chance (45) && (m_enemy->v.weapons & cr::bit (Weapon::C4))) {
+               pushChatterMessage (Chatter::SpotTheBomber);
+            }
+            else if (!hasFriendNearby && rg.chance (45) && m_team == Team::Terrorist && util.isPlayerVIP (m_enemy)) {
+               pushChatterMessage (Chatter::VIPSpotted);
+            }
+            else if (!hasFriendNearby && rg.chance (50) && game.getTeam (m_enemy) != m_team && isGroupOfEnemies (m_enemy->v.origin, 2, 384.0f)) {
+               pushChatterMessage (Chatter::ScaredEmotion);
+            }
+            else if (!hasFriendNearby && rg.chance (40) && ((m_enemy->v.weapons & cr::bit (Weapon::AWP)) || (m_enemy->v.weapons & cr::bit (Weapon::Scout)) || (m_enemy->v.weapons & cr::bit (Weapon::G3SG1)) || (m_enemy->v.weapons & cr::bit (Weapon::SG550)))) {
+               pushChatterMessage (Chatter::SniperWarning);
+            }
+
+            // if bot is trapped under shield yell for help !
+            if (getCurrentTaskId () == Task::Camp && hasShield () && isShieldDrawn () && hasFriendNearby >= 2) {
+               pushChatterMessage (Chatter::PinnedDown);
+            }
+         }
+
+         // if bomb planted warn teammates !
+         if (bots.hasBombSay (BombPlantedSay::Chatter) && bots.isBombPlanted () && m_team == Team::CT) {
+            pushChatterMessage (Chatter::GottaFindC4);
+            bots.clearBombSay (BombPlantedSay::Chatter);
          }
       }
 
-      // if bomb planted warn teammates !
-      if (bots.hasBombSay (BombPlantedSay::Chatter) && bots.isBombPlanted () && m_team == Team::CT) {
-         pushChatterMessage (Chatter::GottaFindC4);
-         bots.clearBombSay (BombPlantedSay::Chatter);
+      m_checkTerrain = true;
+      m_moveToGoal = true;
+      m_wantsToFire = false;
+
+      avoidGrenades (); // avoid flyings grenades
+      m_isUsingGrenade = false;
+
+      tasks (); // execute current task
+      updateAimDir (); // choose aim direction
+      updateLookAngles (); // and turn to chosen aim direction
+
+      // the bots wants to fire at something?
+      if (m_shootAtDeadTime > game.time () || (m_wantsToFire && !m_isUsingGrenade && m_shootTime <= game.time ())) {
+         fireWeapons (); // if bot didn't fire a bullet try again next frame
       }
-   }
 
-   m_checkTerrain = true;
-   m_moveToGoal = true;
-   m_wantsToFire = false;
+      // check for reloading
+      if (m_reloadCheckTime <= game.time ()) {
+         checkReload ();
+      }
 
-   avoidGrenades (); // avoid flyings grenades
-   m_isUsingGrenade = false;
+      // set the reaction time (surprise momentum) different each frame according to skill
+      setIdealReactionTimers ();
 
-   tasks (); // execute current task
-   updateAimDir (); // choose aim direction
-   updateLookAngles (); // and turn to chosen aim direction
+      // calculate 2 direction vectors, 1 without the up/down component
+      const Vector &dirOld = m_destOrigin - (pev->origin + pev->velocity * getFrameInterval ());
+      const Vector &dirNormal = dirOld.normalize2d ();
 
-   // the bots wants to fire at something?
-   if (m_shootAtDeadTime > game.time () || (m_wantsToFire && !m_isUsingGrenade && m_shootTime <= game.time ())) {
-      fireWeapons (); // if bot didn't fire a bullet try again next frame
-   }
+      m_moveAngles = dirOld.angles ();
+      m_moveAngles.clampAngles ();
+      m_moveAngles.x *= -1.0f; // invert for engine
 
-   // check for reloading
-   if (m_reloadCheckTime <= game.time ()) {
-      checkReload ();
-   }
+      // do some overriding for special cases
+      overrideConditions ();
 
-   // set the reaction time (surprise momentum) different each frame according to skill
-   setIdealReactionTimers ();
+      // allowed to move to a destination position?
+      if (m_moveToGoal) {
+         findValidNode ();
 
-   // calculate 2 direction vectors, 1 without the up/down component
-   const Vector &dirOld = m_destOrigin - (pev->origin + pev->velocity * getFrameInterval ());
-   const Vector &dirNormal = dirOld.normalize2d ();
-
-   m_moveAngles = dirOld.angles ();
-   m_moveAngles.clampAngles ();
-   m_moveAngles.x *= -1.0f; // invert for engine
-
-   // do some overriding for special cases
-   overrideConditions ();
-
-   // allowed to move to a destination position?
-   if (m_moveToGoal) {
-      findValidNode ();
-
-      // press duck button if we need to
-      // qqq
-      // if ((m_path->flags & NodeFlag::Crouch) && !(m_path->flags & (NodeFlag::Camp | NodeFlag::Goal))) {
-      //    pev->button |= IN_DUCK;
-      // }
-      m_lastUsedNodesTime = game.time ();
-
-      // special movement for swimming here
-      if (isInWater ()) {
-         // check if we need to go forward or back press the correct buttons
-         if (isInFOV (m_destOrigin - getEyesPos ()) > 90.0f) {
-            pev->button |= IN_BACK;
-         }
-         else {
-            pev->button |= IN_FORWARD;
-         }
-
+         // press duck button if we need to
          // qqq
-         // if (m_moveAngles.x > 60.0f) {
+         // if ((m_path->flags & NodeFlag::Crouch) && !(m_path->flags & (NodeFlag::Camp | NodeFlag::Goal))) {
          //    pev->button |= IN_DUCK;
          // }
-         // else if (m_moveAngles.x < -60.0f) {
-         //    pev->button |= IN_JUMP;
-         // }
-      }
-   }
+         m_lastUsedNodesTime = game.time ();
 
-   // are we allowed to check blocking terrain (and react to it)?
-   if (m_checkTerrain) {
-      checkTerrain (movedDistance, dirNormal);
-   }
+         // special movement for swimming here
+         if (isInWater ()) {
+            // check if we need to go forward or back press the correct buttons
+            if (isInFOV (m_destOrigin - getEyesPos ()) > 90.0f) {
+               pev->button |= IN_BACK;
+            }
+            else {
+               pev->button |= IN_FORWARD;
+            }
 
-   // check the darkness
-   checkDarkness ();
-
-   // must avoid a grenade?
-   if (m_needAvoidGrenade != 0) {
-      // don't duck to get away faster
-      pev->button &= ~IN_DUCK;
-
-      m_moveSpeed = -pev->maxspeed;
-      m_strafeSpeed = pev->maxspeed * m_needAvoidGrenade;
-   }
-
-   // time to reach waypoint
-   if (m_navTimeset + getReachTime () < game.time () && game.isNullEntity (m_enemy)) {
-      findValidNode ();
-
-      m_breakableEntity = nullptr;
-
-      if (getCurrentTaskId () == Task::PickupItem || (m_states & Sense::PickupItem)) {
-         // clear these pointers, bot mingh be stuck getting to them
-         if (!game.isNullEntity (m_pickupItem) && !m_hasProgressBar) {
-            m_itemIgnore = m_pickupItem;
+            // qqq
+            // if (m_moveAngles.x > 60.0f) {
+            //    pev->button |= IN_DUCK;
+            // }
+            // else if (m_moveAngles.x < -60.0f) {
+            //    pev->button |= IN_JUMP;
+            // }
          }
-
-         m_itemCheckTime = game.time () + 2.0f;
-         m_pickupType = Pickup::None;
-         m_pickupItem = nullptr;
       }
-   }
 
-   // qqq
-   // if (m_duckTime >= game.time ()) {
-   //    pev->button |= IN_DUCK;
-   // }
-
-   if (pev->button & IN_JUMP) {
-      m_jumpTime = game.time ();
-   }
-
-   // qqq
-   // if (m_jumpTime + 0.85f > game.time ()) {
-   //    if (!isOnFloor () && !isInWater ()) {
-   //       pev->button |= IN_DUCK;
-   //    }
-   // }
-
-   if (!(pev->button & (IN_FORWARD | IN_BACK))) {
-      if (m_moveSpeed > 0.0f) {
-         pev->button |= IN_FORWARD;
+      // are we allowed to check blocking terrain (and react to it)?
+      if (m_checkTerrain) {
+         checkTerrain (movedDistance, dirNormal);
       }
-      else if (m_moveSpeed < 0.0f) {
-         pev->button |= IN_BACK;
+
+      // check the darkness
+      checkDarkness ();
+
+      // must avoid a grenade?
+      if (m_needAvoidGrenade != 0) {
+         // don't duck to get away faster
+         pev->button &= ~IN_DUCK;
+
+         m_moveSpeed = -pev->maxspeed;
+         m_strafeSpeed = pev->maxspeed * m_needAvoidGrenade;
       }
-   }
 
-   if (!(pev->button & (IN_MOVELEFT | IN_MOVERIGHT))) {
-      if (m_strafeSpeed > 0.0f) {
-         pev->button |= IN_MOVERIGHT;
+      // time to reach waypoint
+      if (m_navTimeset + getReachTime () < game.time () && game.isNullEntity (m_enemy)) {
+         findValidNode ();
+
+         m_breakableEntity = nullptr;
+
+         if (getCurrentTaskId () == Task::PickupItem || (m_states & Sense::PickupItem)) {
+            // clear these pointers, bot mingh be stuck getting to them
+            if (!game.isNullEntity (m_pickupItem) && !m_hasProgressBar) {
+               m_itemIgnore = m_pickupItem;
+            }
+
+            m_itemCheckTime = game.time () + 2.0f;
+            m_pickupType = Pickup::None;
+            m_pickupItem = nullptr;
+         }
       }
-      else if (m_strafeSpeed < 0.0f) {
-         pev->button |= IN_MOVELEFT;
+
+      // qqq
+      // if (m_duckTime >= game.time ()) {
+      //    pev->button |= IN_DUCK;
+      // }
+
+      if (pev->button & IN_JUMP) {
+         m_jumpTime = game.time ();
       }
+
+      // qqq
+      // if (m_jumpTime + 0.85f > game.time ()) {
+      //    if (!isOnFloor () && !isInWater ()) {
+      //       pev->button |= IN_DUCK;
+      //    }
+      // }
+
+      if (!(pev->button & (IN_FORWARD | IN_BACK))) {
+         if (m_moveSpeed > 0.0f) {
+            pev->button |= IN_FORWARD;
+         }
+         else if (m_moveSpeed < 0.0f) {
+            pev->button |= IN_BACK;
+         }
+      }
+
+      if (!(pev->button & (IN_MOVELEFT | IN_MOVERIGHT))) {
+         if (m_strafeSpeed > 0.0f) {
+            pev->button |= IN_MOVERIGHT;
+         }
+         else if (m_strafeSpeed < 0.0f) {
+            pev->button |= IN_MOVELEFT;
+         }
+      }
+
+      // check if need to use parachute
+      //checkParachute ();
+
+      // display some debugging thingy to host entity
+      if (!game.isDedicated () && cv_debug.int_ () >= 1) {
+         showDebugOverlay ();
+      }
+
+      // save the previous speed (for checking if stuck)
+      m_prevSpeed = cr::abs (m_moveSpeed);
+      m_lastDamageType = -1; // reset damage
    }
-
-   // check if need to use parachute
-   checkParachute ();
-
-   // display some debugging thingy to host entity
-   if (!game.isDedicated () && cv_debug.int_ () >= 1) {
-      showDebugOverlay ();
-   }
-
-   // save the previous speed (for checking if stuck)
-   m_prevSpeed = cr::abs (m_moveSpeed);
-   m_lastDamageType = -1; // reset damage
 }
 
 void Bot::spawned () {
@@ -5117,7 +5129,8 @@ void Bot::takeDamage (edict_t *inflictor, int damage, int armor, int bits) {
    // other player.
 
    m_lastDamageType = bits;
-   updatePracticeValue (damage);
+   // qqq
+   //updatePracticeValue (damage);
 
    if (util.isPlayer (inflictor) || (cv_attack_monsters.bool_ () && util.isMonster (inflictor))) {
       if (!util.isMonster (inflictor) && cv_tkpunish.bool_ () && game.getTeam (inflictor) == m_team && !util.isFakeClient (inflictor)) {

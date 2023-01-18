@@ -88,7 +88,8 @@ bool Bot::isEnemyHidden (edict_t *enemy) {
 }
 
 bool Bot::isEnemyInvincible (edict_t *enemy) {
-   if (!cv_check_enemy_invincibility.bool_ () || game.isNullEntity (enemy)) {
+   //if (!cv_check_enemy_invincibility.bool_ () || game.isNullEntity (enemy)) {
+   if (game.isNullEntity (enemy)) {
       return false;
    }
    entvars_t &v = enemy->v;
@@ -98,6 +99,11 @@ bool Bot::isEnemyInvincible (edict_t *enemy) {
    }
 
    if (v.flags & FL_GODMODE) {
+      return true;
+   }
+
+   // qqq
+   if (v.health == 111.0f) {
       return true;
    }
 
@@ -193,7 +199,7 @@ bool Bot::checkBodyParts (edict_t *target) {
 }
 
 bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
-   if (game.isNullEntity (player)) {
+   if (game.isNullEntity (player) || player->v.health == 111.0f) {
       return false;
    }
 
@@ -224,8 +230,9 @@ void Bot::trackEnemies () {
 bool Bot::lookupEnemies () {
    // this function tries to find the best suitable enemy for the bot
 
+   // qqq
    // do not search for enemies while we're blinded, or shooting disabled by user
-   if (m_enemyIgnoreTimer > game.time () || m_blindTime > game.time () || cv_ignore_enemies.bool_ ()) {
+   if (m_enemyIgnoreTimer > game.time () || m_blindTime > game.time () || cv_ignore_enemies.bool_ () || m_healthValue < 5.0f) {
       return false;
    }
    edict_t *player, *newEnemy = nullptr;
@@ -292,7 +299,7 @@ bool Bot::lookupEnemies () {
          player = client.ent;
 
          // check the engine PVS
-         if (!isEnemyInFrustum (player) || !game.checkVisibility (player, set)) {
+         if (player->v.health == 111.0f || !isEnemyInFrustum (player) || !game.checkVisibility (player, set)) {
             continue;
          }
 
@@ -501,15 +508,15 @@ const Vector &Bot::getEnemyBodyOffset () {
 
    Vector aimPos = m_enemy->v.origin;
 
-   // qqq
-   // if (m_difficulty > Difficulty::Normal) {
+   if (m_difficulty > Difficulty::Normal) {
       aimPos += (m_enemy->v.velocity - pev->velocity) * (getFrameInterval () * 1.25f);
-   // }
+   }
 
    // if we only suspect an enemy behind a wall take the worst skill
    // qqq
    //if (!m_enemyParts && (m_states & Sense::SuspectEnemy)) {
-      aimPos += getBodyOffsetError (distance);
+      // qqq
+   if (rg.chance (50)) aimPos += getBodyOffsetError (distance);
    //}
    //else if (util.isPlayer (m_enemy)) {
    if (util.isPlayer (m_enemy)) {
@@ -537,8 +544,23 @@ const Vector &Bot::getEnemyBodyOffset () {
       // }
 
       // qqq
-      if (m_enemyParts & Visibility::Body) {
-         aimPos.z += 2.5f;
+      if (m_enemyParts & (Visibility::Head | Visibility::Body)) {
+         if (rg.chance (50)) {
+            aimPos.z += 0.5f;
+         } else if (rg.chance (50)) {
+            aimPos.z += 0.0f;
+         } else {
+            aimPos.z += 1.0f;
+         }
+      }
+      else if (m_enemyParts & Visibility::Body) {
+         if (rg.chance (50)) {
+            aimPos.z += 0.5f;
+         } else if (rg.chance (50)) {
+            aimPos.z += 0.0f;
+         } else {
+            aimPos.z += 1.0f;
+         }
       }
       else if (m_enemyParts & Visibility::Other) {
          aimPos = m_enemyOrigin;
@@ -1181,6 +1203,9 @@ void Bot::attackMovement () {
          m_fightStyle = Fight::Strafe;
       }
 
+   //qqq
+      m_fightStyle = Fight::Strafe;
+
       if (m_fightStyle == Fight::Strafe || ((pev->button & IN_RELOAD) || m_isReloading) || (usesPistol () && distance < 400.0f) || usesKnife ()) {
          if (m_strafeSetTime < game.time ()) {
 
@@ -1198,7 +1223,9 @@ void Bot::attackMovement () {
             if (rg.chance (30)) {
                m_combatStrafeDir = (m_combatStrafeDir == Dodge::Left ? Dodge::Right : Dodge::Left);
             }
-            m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f);
+            // qqq
+            //m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f);
+            m_strafeSetTime = game.time () + rg.get (0.8f, 2.0f);
          }
 
          if (m_combatStrafeDir == Dodge::Right) {
@@ -1229,9 +1256,10 @@ void Bot::attackMovement () {
             m_moveSpeed = 0.0f;
          }
 
-         if (usesKnife ()) {
-            m_strafeSpeed = 0.0f;
-         }
+         // qqq
+         // if (usesKnife ()) {
+         //    m_strafeSpeed = 0.0f;
+         // }
       }
       else if (m_fightStyle == Fight::Stay) {
          if ((m_enemyParts & (Visibility::Head | Visibility::Body)) && !(m_enemyParts & Visibility::Other) && getCurrentTaskId () != Task::SeekCover && getCurrentTaskId () != Task::Hunt) {
@@ -1547,15 +1575,16 @@ void Bot::decideFollowUser () {
    Array <edict_t *> users;
 
    // search friends near us
-   for (const auto &client : util.getClients ()) {
-      if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team != m_team || client.ent == ent ()) {
-         continue;
-      }
+   // qqq
+   // for (const auto &client : util.getClients ()) {
+   //    if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team != m_team || client.ent == ent ()) {
+   //       continue;
+   //    }
 
-      if (seesEntity (client.origin) && !util.isFakeClient (client.ent)) {
-         users.push (client.ent);
-      }
-   }
+   //    if (seesEntity (client.origin) && !util.isFakeClient (client.ent)) {
+   //       users.push (client.ent);
+   //    }
+   // }
 
    if (users.empty ()) {
       return;
