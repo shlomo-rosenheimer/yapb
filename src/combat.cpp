@@ -543,23 +543,31 @@ const Vector &Bot::getEnemyBodyOffset () {
       //    aimPos.z = headOffset (m_enemy) + getEnemyBodyOffsetCorrection (distance);
       // }
 
+      // float z1 = 0.5f
+      // float z2 = 0.0f
+      // float z3 = 1.0f
+      
+      float z1 = 2.5f
+      float z2 = 2.0f
+      float z3 = 3.0f
+
       // qqq
       if (m_enemyParts & (Visibility::Head | Visibility::Body)) {
          if (rg.chance (50)) {
-            aimPos.z += 0.5f;
+            aimPos.z += z1;
          } else if (rg.chance (50)) {
-            aimPos.z += 0.0f;
+            aimPos.z += z2;
          } else {
-            aimPos.z += 1.0f;
+            aimPos.z += z3;
          }
       }
       else if (m_enemyParts & Visibility::Body) {
-         if (rg.chance (50)) {
-            aimPos.z += 0.5f;
+          if (rg.chance (50)) {
+            aimPos.z += z1;
          } else if (rg.chance (50)) {
-            aimPos.z += 0.0f;
+            aimPos.z += z2;
          } else {
-            aimPos.z += 1.0f;
+            aimPos.z += z3;
          }
       }
       else if (m_enemyParts & Visibility::Other) {
@@ -1139,19 +1147,34 @@ void Bot::attackMovement () {
       }
 
       // only take cover when bomb is not planted and enemy can see the bot or the bot is VIP
-      if ((m_states & Sense::SeeingEnemy) && approach < 30 && !bots.isBombPlanted () && (isInViewCone (m_enemy->v.origin) || m_isVIP)) {
-         m_moveSpeed = -pev->maxspeed;
-         startTask (Task::SeekCover, TaskPri::SeekCover, kInvalidNodeIndex, 0.0f, true);
-      }
-      else if (approach < 50) {
-         m_moveSpeed = 0.0f;
-      }
-      else {
-         m_moveSpeed = pev->maxspeed;
-      }
+      //qqq
+      // if ((m_states & Sense::SeeingEnemy) && approach < 30 && !bots.isBombPlanted () && (isInViewCone (m_enemy->v.origin) || m_isVIP)) {
+      //    m_moveSpeed = -pev->maxspeed;
+      //    startTask (Task::SeekCover, TaskPri::SeekCover, kInvalidNodeIndex, 0.0f, true);
+      // }
+      // else if (approach < 50) {
+      //    m_moveSpeed = 0.0f;
+      // }
+      // else {
+      //    m_moveSpeed = pev->maxspeed;
+      // }
 
-      if (distance < 96.0f && !usesKnife ()) {
-         m_moveSpeed = -pev->maxspeed;
+      // if (distance < 96.0f && !usesKnife ()) {
+      //    m_moveSpeed = -pev->maxspeed;
+      // }
+
+      if(rg.chance(20)) m_moveSpeed = pev->maxspeed;
+
+      if(rg.chance(50)) {
+         if(rg.chance(50)) {
+            if (!checkWallOnLeft ()) {
+               m_strafeSpeed = -pev->maxspeed;
+            }
+         } else {
+            if (!checkWallOnRight ()) {
+               m_strafeSpeed = pev->maxspeed;
+            }
+         }
       }
 
       // if (usesSniper () || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
@@ -1253,7 +1276,8 @@ void Bot::attackMovement () {
          //    pev->button |= IN_JUMP;
          // }
 
-         if (m_moveSpeed > 0.0f && distance > 100.0f && !usesKnife ()) {
+         //qqq
+         if (rg.chance(50) && m_moveSpeed > 0.0f && distance > 100.0f && !usesKnife ()) {
             m_moveSpeed = 0.0f;
          }
 

@@ -389,7 +389,8 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
 
    // Standing still, no need to check?
    // FIXME: doesn't care for ladder movement (handled separately) should be included in some way
-   if ((m_moveSpeed >= 10.0f || m_strafeSpeed >= 10.0f) && m_lastCollTime < game.time () && m_seeEnemyTime + 0.8f < game.time () && getCurrentTaskId () != Task::Attack) {
+   //qqq was 10.0f
+   if ((m_moveSpeed >= 1.0f || m_strafeSpeed >= 1.0f) && m_lastCollTime < game.time () && m_seeEnemyTime + 0.8f < game.time () && getCurrentTaskId () != Task::Attack) {
 
       // didn't we move enough previously?
       if (movedDistance < 2.0f && m_prevSpeed >= 20.0f) {

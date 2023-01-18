@@ -4789,6 +4789,15 @@ void Bot::logic () {
       }
       m_moveSpeed = pev->maxspeed;
 
+      //qqq
+      if(rg.chance(30)) {
+         if(rg.chance(50)) {
+            m_strafeSpeed = -pev->maxspeed;
+         } else {
+            m_strafeSpeed = pev->maxspeed;
+         }
+      }
+
       if (m_prevTime <= game.time ()) {
 
          // see how far bot has moved since the previous position...
