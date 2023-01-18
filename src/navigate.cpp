@@ -133,7 +133,7 @@ int Bot::findBestGoal () {
    campDesire = rg.get (0.0f, 100.0f) + defensive;
    backoffDesire = rg.get (0.0f, 100.0f) + defensive;
 
-   if (!usesCampGun ()) {
+   if (!usesCampGun () || forwardDesire == 0.0f) {
       campDesire *= 0.5f;
    }
 
