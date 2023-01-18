@@ -2917,7 +2917,8 @@ void Bot::frame () {
    if (m_updateTime <= game.time ()) {
       update ();
    }
-   else if (m_notKilled) {
+   //qqq
+   else if (m_notKilled && m_healthValue > 1.0f) {
       updateLookAngles ();
    }
 
@@ -4933,7 +4934,7 @@ void Bot::logic () {
          // don't duck to get away faster
          pev->button &= ~IN_DUCK;
 
-         m_moveSpeed = -pev->maxspeed;
+         //m_moveSpeed = -pev->maxspeed;
          m_strafeSpeed = pev->maxspeed * m_needAvoidGrenade;
       }
 
@@ -4975,9 +4976,10 @@ void Bot::logic () {
          if (m_moveSpeed > 0.0f) {
             pev->button |= IN_FORWARD;
          }
-         else if (m_moveSpeed < 0.0f) {
-            pev->button |= IN_BACK;
-         }
+         //qqq
+         // else if (m_moveSpeed < 0.0f) {
+         //    pev->button |= IN_BACK;
+         // }
       }
 
       if (!(pev->button & (IN_MOVELEFT | IN_MOVERIGHT))) {

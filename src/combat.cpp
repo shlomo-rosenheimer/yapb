@@ -508,9 +508,10 @@ const Vector &Bot::getEnemyBodyOffset () {
 
    Vector aimPos = m_enemy->v.origin;
 
-   if (m_difficulty > Difficulty::Normal) {
-      aimPos += (m_enemy->v.velocity - pev->velocity) * (getFrameInterval () * 1.25f);
-   }
+   //qqq
+   // if (m_difficulty > Difficulty::Normal) {
+   //    aimPos += (m_enemy->v.velocity - pev->velocity) * (getFrameInterval () * 1.25f);
+   // }
 
    // if we only suspect an enemy behind a wall take the worst skill
    // qqq
@@ -547,9 +548,9 @@ const Vector &Bot::getEnemyBodyOffset () {
       // float z2 = 0.0f
       // float z3 = 1.0f
       
-      float z1 = 2.5f;
-      float z2 = 2.0f;
-      float z3 = 3.0f;
+      float z1 = -2.5f;
+      float z2 = -2.0f;
+      float z3 = -3.0f;
 
       // qqq
       if (m_enemyParts & (Visibility::Head | Visibility::Body)) {
@@ -982,7 +983,7 @@ void Bot::fireWeapons () {
    // }
 
    // qqq knife
-   if (!game.isNullEntity (enemy) && distance < 150.0f) {
+   if (rg.chance (50) && !game.isNullEntity (enemy) && distance < 150.0f) {
       selectWeapons (distance, selectIndex, selectId, choosenWeapon);
       return;
    }
@@ -1165,7 +1166,7 @@ void Bot::attackMovement () {
 
       if(rg.chance(20)) m_moveSpeed = pev->maxspeed;
 
-      if(rg.chance(50)) {
+      if(rg.chance(40)) {
          if(rg.chance(50)) {
             if (!checkWallOnLeft ()) {
                m_strafeSpeed = -pev->maxspeed;
@@ -1313,7 +1314,8 @@ void Bot::attackMovement () {
 
       if (isDeadlyMove (pev->origin + (forward * m_moveSpeed * 0.2f) + (right * m_strafeSpeed * 0.2f) + (pev->velocity * getFrameInterval ()))) {
          m_strafeSpeed = -m_strafeSpeed;
-         m_moveSpeed = -m_moveSpeed;
+         //qqq
+         //m_moveSpeed = -m_moveSpeed;
 
          pev->button &= ~IN_JUMP;
       }
