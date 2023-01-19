@@ -4798,9 +4798,8 @@ void Bot::logic () {
       if (m_blindTime > game.time ()) {
          m_maxViewDistance = 4096.0f;
       }
-      //qqq
-      if(rg.chance(50))
-         m_moveSpeed = pev->maxspeed;
+      
+      m_moveSpeed = pev->maxspeed;
 
       //qqq
       if(rg.chance(20) && m_strafeSpeed == 0.0f) {
