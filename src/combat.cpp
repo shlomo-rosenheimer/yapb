@@ -904,7 +904,7 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
 
    //qqq
    // we're should stand still before firing sniper weapons, else sniping is useless..
-   if ((usesSniper () || rg.chance(5)) && (m_aimFlags & (AimFlags::Enemy | AimFlags::LastEnemy)) && !m_isReloading && pev->velocity.lengthSq () > 0.0f && getCurrentTaskId () != Task::SeekCover) {
+   if (usesSniper () && (m_aimFlags & (AimFlags::Enemy | AimFlags::LastEnemy)) && !m_isReloading && pev->velocity.lengthSq () > 0.0f && getCurrentTaskId () != Task::SeekCover) {
       m_moveSpeed = 0.0f;
       if(rg.chance(30)) m_strafeSpeed = 0.0f;
       m_navTimeset = game.time ();
@@ -1246,7 +1246,7 @@ void Bot::attackMovement () {
       // }
 
       // qqq
-      if ((usesSniper () || rg.chance(5)) || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
+      if (usesSniper ()) || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
          m_fightStyle = Fight::Stay;
          m_lastFightStyleCheck = game.time ();
       }
