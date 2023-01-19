@@ -5004,9 +5004,9 @@ void Bot::logic () {
       }
 
       if(pev->button & IN_BACK) {
-         if(rg.chance(50)) {
-            pev->button &= ~IN_BACK;
-         } else {
+         // if(rg.chance(50)) {
+         //    pev->button &= ~IN_BACK;
+         // } else {
             if (!(pev->button & (IN_MOVERIGHT | IN_MOVELEFT))) {
                if(rg.chance(50)) {
                   m_strafeSpeed = pev->maxspeed;
@@ -5016,7 +5016,7 @@ void Bot::logic () {
                   pev->button |= IN_MOVELEFT;
                }
             }
-         }
+         // }
       }
 
       // check if need to use parachute
