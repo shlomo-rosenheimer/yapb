@@ -497,9 +497,13 @@ const Vector &Bot::getEnemyBodyOffset () {
    // if ((m_enemyParts & Visibility::Body) && !usesSniper () && distance > (m_difficulty > Difficulty::Normal ? 2000.0f : 1000.0f)) {
    //    m_enemyParts &= ~Visibility::Head;
    // }
-   if ((m_enemyParts & Visibility::Body) && distance > 1000.0f) {
+   Vector aimPos = m_enemy->v.origin;
+
+   if ((m_enemyParts & Visibility::Body) && distance > 900.0f) {
       m_enemyParts &= ~Visibility::Head;
       m_enemyParts &= ~Visibility::Body;
+      aimPos.x += 1.5f
+      aimPos.y += 1.5f
    }
 
    // // do not aim at head while close enough to enemy and having sniper
@@ -509,8 +513,6 @@ const Vector &Bot::getEnemyBodyOffset () {
 
    // qqq, always body
    m_enemyParts &= ~Visibility::Head;
-
-   Vector aimPos = m_enemy->v.origin;
 
    //qqq
    // if (m_difficulty > Difficulty::Normal) {
@@ -552,32 +554,34 @@ const Vector &Bot::getEnemyBodyOffset () {
       // float z2 = 0.0f
       // float z3 = 1.0f
       
-      float z1 = 5.5f;
-      float z2 = 6.0f;
-      float z3 = 7.0f;
 
-      // qqq
-      if (m_enemyParts & (Visibility::Head | Visibility::Body)) {
-         if (rg.chance (50)) {
-            aimPos.z += z1;
-         } else if (rg.chance (50)) {
-            aimPos.z += z2;
-         } else {
-            aimPos.z += z3;
-         }
-      }
-      else if (m_enemyParts & Visibility::Body) {
-          if (rg.chance (50)) {
-            aimPos.z += z1;
-         } else if (rg.chance (50)) {
-            aimPos.z += z2;
-         } else {
-            aimPos.z += z3;
-         }
-      }
-      else if (m_enemyParts & Visibility::Other) {
-         aimPos = m_enemyOrigin;
-      }
+
+      // float z1 = 8.5f;
+      // float z2 = 9.0f;
+      // float z3 = 11.0f;
+
+      // // qqq
+      // if (m_enemyParts & (Visibility::Head | Visibility::Body)) {
+      //    if (rg.chance (40)) {
+      //       aimPos.z += z1;
+      //    } else if (rg.chance (50)) {
+      //       aimPos.z += z2;
+      //    } else {
+      //       aimPos.z += z3;
+      //    }
+      // }
+      // else if (m_enemyParts & Visibility::Body) {
+      //     if (rg.chance (40)) {
+      //       aimPos.z += z1;
+      //    } else if (rg.chance (50)) {
+      //       aimPos.z += z2;
+      //    } else {
+      //       aimPos.z += z3;
+      //    }
+      // }
+      // else if (m_enemyParts & Visibility::Other) {
+      //    //aimPos = m_enemyOrigin;
+      // }
    }
 
    m_enemyOrigin = aimPos;

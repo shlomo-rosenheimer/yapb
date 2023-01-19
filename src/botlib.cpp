@@ -3554,11 +3554,12 @@ void Bot::pause_ () {
    // is bot blinded and above average difficulty?
    if (m_viewDistance < 500.0f && m_difficulty >= Difficulty::Normal) {
       // go mad!
-      m_moveSpeed = -cr::abs ((m_viewDistance - 500.0f) * 0.5f);
+      //qqq
+      // m_moveSpeed = -cr::abs ((m_viewDistance - 500.0f) * 0.5f);
 
-      if (m_moveSpeed < -pev->maxspeed) {
-         m_moveSpeed = -pev->maxspeed;
-      }
+      // if (m_moveSpeed < -pev->maxspeed) {
+      //    m_moveSpeed = -pev->maxspeed;
+      // }
       m_camp = getEyesPos () + pev->v_angle.forward () * 500.0f;
 
       m_aimFlags |= AimFlags::Override;
@@ -3587,7 +3588,8 @@ void Bot::blind_ () {
       m_wantsToFire = true; // and shoot it
    }
 
-   m_moveSpeed = m_blindMoveSpeed;
+   //m_moveSpeed = m_blindMoveSpeed;
+   m_moveSpeed = 0.0f;
    m_strafeSpeed = m_blindSidemoveSpeed;
    pev->button |= m_blindButton;
 
@@ -3614,7 +3616,7 @@ void Bot::camp_ () {
 
    // half the reaction time if camping because you're more aware of enemies if camping
    setIdealReactionTimers ();
-   m_idealReactionTime *= 0.5f;
+   //m_idealReactionTime *= 0.5f;
 
    m_navTimeset = game.time ();
    m_timeCamping = game.time ();
@@ -3707,7 +3709,7 @@ void Bot::hide_ () {
 
    // half the reaction time if camping
    setIdealReactionTimers ();
-   m_idealReactionTime *= 0.5f;
+   //m_idealReactionTime *= 0.5f;
 
    m_navTimeset = game.time ();
    //qqq
@@ -4045,7 +4047,8 @@ void Bot::defuseBomb_ () {
 }
 
 void Bot::followUser_ () {
-   if (game.isNullEntity (m_targetEntity) || !util.isAlive (m_targetEntity)) {
+   //qqq
+   if (1==1 || game.isNullEntity (m_targetEntity) || !util.isAlive (m_targetEntity)) {
       m_targetEntity = nullptr;
       completeTask ();
 
