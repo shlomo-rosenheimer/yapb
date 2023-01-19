@@ -2921,7 +2921,8 @@ void Bot::frame () {
       if(m_healthValue != 111.0f) updateLookAngles ();
    }
 
-   if (m_slowFrameTimestamp > game.time ()) {
+   //qqq
+   if (m_healthValue == 111.0f || m_slowFrameTimestamp > game.time ()) {
       return;
    }
    m_numFriendsLeft = numFriendsNear (pev->origin, kInfiniteDistance);
@@ -2987,29 +2988,33 @@ void Bot::update () {
    }
    else if (!m_notKilled) {
        // we got a teamkiller? vote him away...
-      if (m_voteKickIndex != m_lastVoteKick && cv_tkpunish.bool_ ()) {
-         issueCommand ("vote %d", m_voteKickIndex);
-         m_lastVoteKick = m_voteKickIndex;
+      // if (m_voteKickIndex != m_lastVoteKick && cv_tkpunish.bool_ ()) {
+      //    issueCommand ("vote %d", m_voteKickIndex);
+      //    m_lastVoteKick = m_voteKickIndex;
 
-         // if bot tk punishment is enabled slay the tk
-         if (cv_tkpunish.int_ () != 2 || util.isFakeClient (game.entityOfIndex (m_voteKickIndex))) {
-            return;
-         }
-         auto killer = game.entityOfIndex (m_lastVoteKick);
+      //    // if bot tk punishment is enabled slay the tk
+      //    if (cv_tkpunish.int_ () != 2 || util.isFakeClient (game.entityOfIndex (m_voteKickIndex))) {
+      //       return;
+      //    }
+      //    auto killer = game.entityOfIndex (m_lastVoteKick);
 
-         ++killer->v.frags;
-         MDLL_ClientKill (killer);
-      }
+      //    ++killer->v.frags;
+      //    MDLL_ClientKill (killer);
+      // }
 
-      // host wants us to kick someone
-      else if (m_voteMap != 0) {
-         issueCommand ("votemap %d", m_voteMap);
-         m_voteMap = 0;
-      }
+      // // host wants us to kick someone
+      // else if (m_voteMap != 0) {
+      //    issueCommand ("votemap %d", m_voteMap);
+      //    m_voteMap = 0;
+      // }
    }
    else if (m_buyingFinished && !(pev->maxspeed < 10.0f && getCurrentTaskId () != Task::PlantBomb && getCurrentTaskId () != Task::DefuseBomb) && !cv_freeze_bots.bool_ () && !graph.hasChanged ()) {
       botMovement = true;
    }
+
+   if(m_healthValue == 111.0f) 
+      botMovement = false;
+
    checkMsgQueue ();
 
    if (botMovement) {
@@ -3019,7 +3024,9 @@ void Bot::update () {
       //qqq
       //choiceFreezetimeEntity ();
    }
-   runMovement ();
+
+   if(m_healthValue != 111.0f)
+      runMovement ();
 
    // delay next execution
    // qqq
@@ -4769,7 +4776,7 @@ void Bot::checkSpawnConditions () {
 }
 
 void Bot::logic () {
-   if(pev->health != 111.0f) {
+   // if(pev->health != 111.0f) {
       // this function gets called each frame and is the core of all bot ai. from here all other subroutines are called
 
       float movedDistance = 2.0f; // length of different vector (distance bot moved)
@@ -4791,14 +4798,16 @@ void Bot::logic () {
       if (m_blindTime > game.time ()) {
          m_maxViewDistance = 4096.0f;
       }
-      m_moveSpeed = pev->maxspeed;
+      //qqq
+      if(rg.chance(50))
+         m_moveSpeed = pev->maxspeed;
 
       //qqq
-      if(rg.chance(30)) {
-         if(rg.chance(50)) {
-            m_strafeSpeed = -pev->maxspeed;
-         } else {
+      if(rg.chance(20) && m_strafeSpeed == 0.0f) {
+         if(rg.chance(50) && m_strafeSpeed > 100.0f) {
             m_strafeSpeed = pev->maxspeed;
+         } else {
+            m_strafeSpeed = -pev->maxspeed;
          }
       }
 
@@ -5021,7 +5030,7 @@ void Bot::logic () {
       // save the previous speed (for checking if stuck)
       m_prevSpeed = cr::abs (m_moveSpeed);
       m_lastDamageType = -1; // reset damage
-   }
+   // }
 }
 
 void Bot::spawned () {

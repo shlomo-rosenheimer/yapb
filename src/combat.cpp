@@ -539,7 +539,7 @@ const Vector &Bot::getEnemyBodyOffset () {
             aimPos.y += 1.1f;
          } 
 
-         float z1 = 0.9f;
+         float z1 = 0.6f;
          float z2 = -0.3f;
          float z3 = 0.3f;
 
@@ -910,7 +910,7 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
    }
 
    // we're should stand still before firing sniper weapons, else sniping is useless..
-   if (usesSniper () && (m_aimFlags & (AimFlags::Enemy | AimFlags::LastEnemy)) && !m_isReloading && pev->velocity.lengthSq () > 0.0f && getCurrentTaskId () != Task::SeekCover) {
+   if ((usesSniper () || rg.chance(50)) && (m_aimFlags & (AimFlags::Enemy | AimFlags::LastEnemy)) && !m_isReloading && pev->velocity.lengthSq () > 0.0f && getCurrentTaskId () != Task::SeekCover) {
       m_moveSpeed = 0.0f;
       //qqq
       //m_strafeSpeed = 0.0f;
@@ -1265,7 +1265,7 @@ void Bot::attackMovement () {
       }
       else {
          m_fightStyle = Fight::Strafe;
-         if (rg.chance (30)) m_fightStyle = Fight::Stay;
+         if (rg.chance (70)) m_fightStyle = Fight::Stay;
       }
 
    //qqq
