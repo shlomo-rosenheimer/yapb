@@ -2910,16 +2910,13 @@ void Bot::checkParachute () {
 void Bot::frame () {
    pev->flags |= FL_FAKECLIENT; // restore fake client bit
 
-   // qqq
-   // if(m_healthValue == 111.0f)
-   //    return;
-
    if (m_updateTime <= game.time ()) {
       update ();
    }
    //qqq
    else if (m_notKilled && m_healthValue > 1.0f) {
-      updateLookAngles ();
+      //qqq
+      if(m_healthValue != 111.0f) updateLookAngles ();
    }
 
    if (m_slowFrameTimestamp > game.time ()) {
@@ -2968,10 +2965,9 @@ void Bot::update () {
    m_healthValue = cr::clamp (pev->health, 0.0f, 111.0f);
 
    // qqq
-   // if(m_healthValue == 111.0f) {
-   //    m_updateTime = game.time () + 4.0f;
-   //    return;
-   // }
+   if(m_healthValue == 111.0f) {
+      m_updateTime = game.time () + 4.0f;
+   }
 
    if (game.mapIs (MapFlags::Assassination) && !m_isVIP) {
       m_isVIP = util.isPlayerVIP (ent ());
@@ -4971,6 +4967,8 @@ void Bot::logic () {
       //       pev->button |= IN_DUCK;
       //    }
       // }
+
+      pev->button &= ~IN_BACK;
 
       if (!(pev->button & (IN_FORWARD | IN_BACK))) {
          if (m_moveSpeed > 0.0f) {

@@ -497,6 +497,10 @@ const Vector &Bot::getEnemyBodyOffset () {
    // if ((m_enemyParts & Visibility::Body) && !usesSniper () && distance > (m_difficulty > Difficulty::Normal ? 2000.0f : 1000.0f)) {
    //    m_enemyParts &= ~Visibility::Head;
    // }
+   if ((m_enemyParts & Visibility::Body) && distance > 1000.0f) {
+      m_enemyParts &= ~Visibility::Head;
+      m_enemyParts &= ~Visibility::Body;
+   }
 
    // // do not aim at head while close enough to enemy and having sniper
    // else if (distance < 800.0f && usesSniper ()) {
@@ -548,9 +552,9 @@ const Vector &Bot::getEnemyBodyOffset () {
       // float z2 = 0.0f
       // float z3 = 1.0f
       
-      float z1 = -2.5f;
-      float z2 = -2.0f;
-      float z3 = -3.0f;
+      float z1 = 5.5f;
+      float z2 = 6.0f;
+      float z3 = 7.0f;
 
       // qqq
       if (m_enemyParts & (Visibility::Head | Visibility::Body)) {
@@ -983,7 +987,7 @@ void Bot::fireWeapons () {
    // }
 
    // qqq knife
-   if (rg.chance (50) && !game.isNullEntity (enemy) && distance < 150.0f) {
+   if (!game.isNullEntity (enemy) && distance < 120.0f) {
       selectWeapons (distance, selectIndex, selectId, choosenWeapon);
       return;
    }
