@@ -1170,19 +1170,20 @@ void Bot::attackMovement () {
          // qqq
          approach = 150;
       }
-      else if ((m_states & Sense::SuspectEnemy) && !(m_states & Sense::SeeingEnemy)) {
-         approach = 49;
-      }
-      else if (m_isReloading || m_isVIP) {
-         approach = 29;
-      }
-      else {
-         approach = static_cast <int> (m_healthValue * m_agressionLevel);
+      //qqq
+      // else if ((m_states & Sense::SuspectEnemy) && !(m_states & Sense::SeeingEnemy)) {
+      //    approach = 49;
+      // }
+      // else if (m_isReloading || m_isVIP) {
+      //    approach = 29;
+      // }
+      // else {
+      //    approach = static_cast <int> (m_healthValue * m_agressionLevel);
 
-         if (usesSniper () && approach > 49) {
-            approach = 49;
-         }
-      }
+      //    if (usesSniper () && approach > 49) {
+      //       approach = 49;
+      //    }
+      // }
 
       // only take cover when bomb is not planted and enemy can see the bot or the bot is VIP
       //qqq
@@ -1201,9 +1202,9 @@ void Bot::attackMovement () {
       //    m_moveSpeed = -pev->maxspeed;
       // }
 
-      if(rg.chance(20)) m_moveSpeed = pev->maxspeed;
+      //if(rg.chance(20)) m_moveSpeed = pev->maxspeed;
 
-      if(rg.chance(20)) {
+      if(rg.chance(10)) {
          if(rg.chance(50)) {
             if (!checkWallOnLeft ()) {
                m_strafeSpeed = -pev->maxspeed;
@@ -1251,8 +1252,7 @@ void Bot::attackMovement () {
 
       // qqq
       if (usesSniper () || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
-         //m_fightStyle = Fight::Stay;
-         m_fightStyle = Fight::Strafe;
+         m_fightStyle = Fight::Stay;
          m_lastFightStyleCheck = game.time ();
       }
       else if (usesRifle () || usesSubmachine ()) {
@@ -1263,6 +1263,7 @@ void Bot::attackMovement () {
       }
       else {
          m_fightStyle = Fight::Strafe;
+         if (rg.chance (30)) m_fightStyle = Fight::Stay;
       }
 
    //qqq
@@ -1282,12 +1283,12 @@ void Bot::attackMovement () {
                m_combatStrafeDir = Dodge::Right;
             }
 
-            if (rg.chance (50)) { //qqq was 30
+            if (rg.chance (30)) { //qqq was 30
                m_combatStrafeDir = (m_combatStrafeDir == Dodge::Left ? Dodge::Right : Dodge::Left);
             }
             // qqq
             //m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f);
-            m_strafeSetTime = game.time () + rg.get (0.5f, 4.0f);
+            m_strafeSetTime = game.time () + rg.get (0.5f, 2.0f);
          }
 
          if (m_combatStrafeDir == Dodge::Right) {
@@ -1296,7 +1297,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Left;
-               m_strafeSetTime = game.time () + rg.get (0.8f, 2.1f); // qqq was 1.1
+               m_strafeSetTime = game.time () + rg.get (0.4f, 0.9f); // qqq was 0.8 - 1.1
             }
          }
          else {
@@ -1305,7 +1306,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Right;
-               m_strafeSetTime = game.time () + rg.get (0.8f, 2.1f);
+               m_strafeSetTime = game.time () + rg.get (0.4f, 0.9f);
             }
          }
 
@@ -1315,12 +1316,12 @@ void Bot::attackMovement () {
          // }
 
          //qqq
-         if (rg.chance(70) && m_moveSpeed > 0.0f && distance > 100.0f && !usesKnife ()) {
+         if (m_moveSpeed > 0.0f && rg.chance(90) && distance > 100.0f && !usesKnife ()) {
             m_moveSpeed = 0.0f;
          }
 
          // qqq
-         if (rg.chance(30)) {
+         if (rg.chance(10)) {
             m_strafeSpeed = 0.0f;
          }
          // if (usesKnife ()) {
@@ -1337,7 +1338,7 @@ void Bot::attackMovement () {
          }
          m_moveSpeed = 0.0f;
          //qqq
-         //m_strafeSpeed = 0.0f;
+         if (rg.chance(30)) m_strafeSpeed = 0.0f;
          m_navTimeset = game.time ();
       }
    }
