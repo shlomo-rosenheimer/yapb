@@ -393,12 +393,12 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
    if ((m_moveSpeed >= 1.0f || m_strafeSpeed >= 1.0f) && m_lastCollTime < game.time () && m_seeEnemyTime + 0.8f < game.time () && getCurrentTaskId () != Task::Attack) {
 
       // didn't we move enough previously?
-      if (movedDistance < 2.0f && m_prevSpeed >= 20.0f) {
+      if (movedDistance < 2.0f && m_prevSpeed >= 100.0f) { // was 20.0
          m_prevTime = game.time (); // then consider being stuck
          m_isStuck = true;
 
          if (cr::fzero (m_firstCollideTime)) {
-            m_firstCollideTime = game.time () + 0.2f;
+            m_firstCollideTime = game.time () + 0.5f; // qqq was 0.2
          }
       }
       // not stuck yet
@@ -406,7 +406,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
          // test if there's something ahead blocking the way
          if (cantMoveForward (dirNormal, &tr) && !isOnLadder ()) {
             if (cr::fzero (m_firstCollideTime)) {
-               m_firstCollideTime = game.time () + 0.2f;
+               m_firstCollideTime = game.time () + 0.5f; // qqq was 0.2
             }
             else if (m_firstCollideTime <= game.time ()) {
                m_isStuck = true;
@@ -642,6 +642,9 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                //    pev->button |= IN_JUMP;
                // }
                setStrafeSpeed (dirNormal, -pev->maxspeed);
+               if(rg.chance(70)) {
+                  m_moveSpeed = -pev->maxspeed;
+               }
                break;
 
             case CollisionState::Duck:
@@ -650,6 +653,9 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                //    pev->button |= IN_DUCK;
                // }
                setStrafeSpeed (dirNormal, pev->maxspeed);
+               if(rg.chance(70)) {
+                  m_moveSpeed = -pev->maxspeed;
+               }
                break;
 
             case CollisionState::StrafeLeft:
@@ -808,7 +814,8 @@ bool Bot::updateNavigation () {
       desiredDistance = 15.0f;
    }
    else if (m_currentTravelFlags & PathFlag::Jump) {
-      desiredDistance = 0.0f;
+      //qqq
+      //desiredDistance = 0.0f;
    }
    else {
       desiredDistance = m_path->radius;

@@ -2966,11 +2966,6 @@ void Bot::update () {
    m_team = game.getTeam (ent ());
    m_healthValue = cr::clamp (pev->health, 0.0f, 111.0f);
 
-   // qqq
-   if(m_healthValue == 111.0f) {
-      m_updateTime = game.time () + 4.0f;
-   }
-
    if (game.mapIs (MapFlags::Assassination) && !m_isVIP) {
       m_isVIP = util.isPlayerVIP (ent ());
    }
@@ -3027,7 +3022,13 @@ void Bot::update () {
    runMovement ();
 
    // delay next execution
-   m_updateTime = game.time () + m_updateInterval;
+   // qqq
+   if(m_healthValue == 111.0f) {
+      m_updateTime = game.time () + 1.0f / 30.0f;
+   } else {
+      m_updateTime = game.time () + m_updateInterval;
+   }
+   
 }
 
 void Bot::choiceFreezetimeEntity () {
@@ -4974,16 +4975,14 @@ void Bot::logic () {
       //    }
       // }
 
-      pev->button &= ~IN_BACK;
 
       if (!(pev->button & (IN_FORWARD | IN_BACK))) {
          if (m_moveSpeed > 0.0f) {
             pev->button |= IN_FORWARD;
          }
-         //qqq
-         // else if (m_moveSpeed < 0.0f) {
-         //    pev->button |= IN_BACK;
-         // }
+         else if (m_moveSpeed < 0.0f) {
+            pev->button |= IN_BACK;
+         }
       }
 
       if (!(pev->button & (IN_MOVELEFT | IN_MOVERIGHT))) {
@@ -4992,6 +4991,22 @@ void Bot::logic () {
          }
          else if (m_strafeSpeed < 0.0f) {
             pev->button |= IN_MOVELEFT;
+         }
+      }
+
+      if(pev->button & IN_BACK) {
+         if(rg.chance(50)) {
+            pev->button &= ~IN_BACK;
+         } else {
+            if (!(pev->button & (IN_MOVERIGHT | IN_MOVELEFT))) {
+               if(rg.chance(50)) {
+                  m_strafeSpeed = pev->maxspeed
+                  pev->button |= IN_MOVERIGHT;
+               } else {
+                  m_strafeSpeed = -pev->maxspeed
+                  pev->button |= IN_MOVELEFT;
+               }
+            }
          }
       }
 
