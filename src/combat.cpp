@@ -917,7 +917,7 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
       m_navTimeset = game.time ();
 
       if (cr::abs (pev->velocity.x) > 5.0f || cr::abs (pev->velocity.y) > 5.0f || cr::abs (pev->velocity.z) > 5.0f) {
-         m_sniperStopTime = game.time () + 2.0f
+         m_sniperStopTime = game.time () + 2.0f;
          return;
       }
    }
