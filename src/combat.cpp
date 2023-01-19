@@ -913,11 +913,11 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
    if ((usesSniper () || rg.chance(50)) && (m_aimFlags & (AimFlags::Enemy | AimFlags::LastEnemy)) && !m_isReloading && pev->velocity.lengthSq () > 0.0f && getCurrentTaskId () != Task::SeekCover) {
       m_moveSpeed = 0.0f;
       //qqq
-      if(rg.chance(80)) m_strafeSpeed = 0.0f;
+      //m_strafeSpeed = 0.0f;
       m_navTimeset = game.time ();
 
       if (cr::abs (pev->velocity.x) > 5.0f || cr::abs (pev->velocity.y) > 5.0f || cr::abs (pev->velocity.z) > 5.0f) {
-         m_sniperStopTime = game.time () + rg.get (1.0f, 3.0f); // was 2.0
+         m_sniperStopTime = game.time () + 2.0f
          return;
       }
    }
