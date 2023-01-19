@@ -1334,8 +1334,7 @@ void Bot::attackMovement () {
             }
          }
          m_moveSpeed = 0.0f;
-         //qqq
-         if (rg.chance(30)) m_strafeSpeed = 0.0f;
+         m_strafeSpeed = 0.0f;
          m_navTimeset = game.time ();
       }
    }

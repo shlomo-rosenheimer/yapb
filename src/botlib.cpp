@@ -5002,7 +5002,7 @@ void Bot::logic () {
          }
       }
 
-      if(pev->button & IN_BACK) {
+      if(pev->button & (IN_FORWARD | IN_BACK)) {
          // if(rg.chance(50)) {
          //    pev->button &= ~IN_BACK;
          // } else {

@@ -642,7 +642,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                //    pev->button |= IN_JUMP;
                // }
                setStrafeSpeed (dirNormal, -pev->maxspeed);
-               if(rg.chance(70)) {
+               if(rg.chance(30)) {
                   m_moveSpeed = -pev->maxspeed;
                }
                break;
@@ -653,7 +653,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                //    pev->button |= IN_DUCK;
                // }
                setStrafeSpeed (dirNormal, pev->maxspeed);
-               if(rg.chance(70)) {
+               if(rg.chance(30)) {
                   m_moveSpeed = -pev->maxspeed;
                }
                break;
