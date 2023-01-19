@@ -1291,7 +1291,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Left;
-               m_strafeSetTime = game.time () + rg.get (0.8f, 1.1f);
+               m_strafeSetTime = game.time () + rg.get (0.8f, 2.1f); // was 1.1
             }
          }
          else {
@@ -1300,8 +1300,14 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Right;
-               m_strafeSetTime = game.time () + rg.get (0.8f, 1.1f);
+               m_strafeSetTime = game.time () + rg.get (0.8f, 2.1f);
             }
+         }
+
+      //qqq
+         if(m_strafeSpeed == 0.0f) {
+            m_strafeSpeed = pev->maxspeed;
+            m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f);
          }
 
          // qqq
