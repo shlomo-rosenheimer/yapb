@@ -5000,10 +5000,10 @@ void Bot::logic () {
          } else {
             if (!(pev->button & (IN_MOVERIGHT | IN_MOVELEFT))) {
                if(rg.chance(50)) {
-                  m_strafeSpeed = pev->maxspeed
+                  m_strafeSpeed = pev->maxspeed;
                   pev->button |= IN_MOVERIGHT;
                } else {
-                  m_strafeSpeed = -pev->maxspeed
+                  m_strafeSpeed = -pev->maxspeed;
                   pev->button |= IN_MOVELEFT;
                }
             }
