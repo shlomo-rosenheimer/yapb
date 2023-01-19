@@ -1733,7 +1733,7 @@ void Bot::overrideConditions () {
    // special handling for sniping
    if (usesSniper () && (m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy)) && m_sniperStopTime > game.time () && getCurrentTaskId () != Task::SeekCover) {
       m_moveSpeed = 0.0f;
-      m_strafeSpeed = 0.0f;
+      if(rg.chance(30)) m_strafeSpeed = 0.0f;
 
       m_navTimeset = game.time ();
    }
@@ -3497,8 +3497,8 @@ void Bot::seekCover_ () {
          m_reloadState = Reload::Primary;
       }
       //qqq
-      //m_moveSpeed = 0.0f;
-      m_strafeSpeed = 0.0f;
+      m_moveSpeed = 0.0f;
+      //m_strafeSpeed = 0.0f;
 
       m_moveToGoal = false;
       m_checkTerrain = false;
@@ -3557,7 +3557,7 @@ void Bot::pause_ () {
 
    m_navTimeset = game.time ();
    //qqq
-   //m_moveSpeed = 0.0f;
+   m_moveSpeed = 0.0f;
    //m_strafeSpeed = 0.0f;
 
    m_aimFlags |= AimFlags::Nav;
@@ -3724,7 +3724,7 @@ void Bot::hide_ () {
 
    m_navTimeset = game.time ();
    //qqq
-   //m_moveSpeed = 0.0f;
+   m_moveSpeed = 0.0f;
    //m_strafeSpeed = 0.0f;
 
    findValidNode ();

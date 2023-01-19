@@ -1211,6 +1211,9 @@ void Bot::attackMovement () {
          }
       }
 
+   //qqq
+      if(m_strafeSpeed == 0.0f) m_strafeSpeed = pev->maxspeed;
+
       // if (usesSniper () || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
       //    m_fightStyle = Fight::Stay;
       //    m_lastFightStyleCheck = game.time ();
@@ -1244,6 +1247,8 @@ void Bot::attackMovement () {
       // else {
       //    m_fightStyle = Fight::Strafe;
       // }
+
+      m_fightStyle = Fight::Strafe;
 
       // qqq
       if (usesSniper () || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
