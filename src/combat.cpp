@@ -1164,14 +1164,14 @@ void Bot::attackMovement () {
    float distance = m_lookAt.distance2d (getEyesPos ()); // how far away is the enemy scum?
 
    if (m_lastUsedNodesTime + getFrameInterval () + 0.5f < game.time ()) {
-      int approach;
+      // int approach;
 
-      approach = 29;
-
-      if (usesKnife ()) {
-         // qqq
-         approach = 150;
-      }
+      // if (usesKnife ()) {
+      //    // qqq
+      //    approach = 150;
+      // } else {
+      //    approach = 29;
+      // }
       //qqq
       // else if ((m_states & Sense::SuspectEnemy) && !(m_states & Sense::SeeingEnemy)) {
       //    approach = 49;
