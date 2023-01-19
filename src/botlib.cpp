@@ -3027,7 +3027,9 @@ void Bot::update () {
    runMovement ();
 
    // delay next execution
-   m_updateTime = game.time () + m_updateInterval;
+   //qqq
+   //m_updateTime = game.time () + m_updateInterval;
+   m_updateTime = game.time () + m_updateInterval + 1.0f;
 }
 
 void Bot::choiceFreezetimeEntity () {
