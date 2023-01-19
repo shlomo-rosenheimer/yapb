@@ -502,8 +502,8 @@ const Vector &Bot::getEnemyBodyOffset () {
    if ((m_enemyParts & Visibility::Body) && distance > 900.0f) {
       m_enemyParts &= ~Visibility::Head;
       m_enemyParts &= ~Visibility::Body;
-      aimPos.x += 1.5f
-      aimPos.y += 1.5f
+      aimPos.x += 1.5f;
+      aimPos.y += 1.5f;
    }
 
    // // do not aim at head while close enough to enemy and having sniper
