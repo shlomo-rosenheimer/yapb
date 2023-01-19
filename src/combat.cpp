@@ -509,7 +509,7 @@ const Vector &Bot::getEnemyBodyOffset () {
    // }
 
    // qqq, always body
-   m_enemyParts &= ~Visibility::Head;
+   //m_enemyParts &= ~Visibility::Head;
 
    //qqq
    // if (m_difficulty > Difficulty::Normal) {
@@ -524,12 +524,9 @@ const Vector &Bot::getEnemyBodyOffset () {
    //else if (util.isPlayer (m_enemy)) {
    if (util.isPlayer (m_enemy)) {
       // qqq, always body
-      m_enemyParts &= ~Visibility::Head;
 
 
       if ((m_enemyParts & Visibility::Body)) {
-         if (rg.chance (50)) aimPos += getBodyOffsetError (distance);
-
          if (distance > 800.0f) {
             aimPos.x += 0.3f;
             aimPos.y += 0.4f;
@@ -539,21 +536,16 @@ const Vector &Bot::getEnemyBodyOffset () {
             aimPos.y += 1.1f;
          } 
 
-         float z1 = 0.6f;
-         float z2 = -0.3f;
-         float z3 = 0.3f;
-
-         if (rg.chance (40)) {
-            aimPos.z += z1;
-         } else if (rg.chance (50)) {
-            aimPos.z += z2;
-         } else {
-            aimPos.z += z3;
-         }
-      } else {
-         aimPos.x += 1.2f;
-         aimPos.y += 1.1f;
+         aimPos.z += rg.get (-3.5f, 3.5f);
+      } 
+      
+      if ((m_enemyParts & Visibility::Head) && !(m_enemyParts & Visibility::Body)) {
+         aimPos.x += rg.get (-3.5f, 3.5f);
+         aimPos.y += rg.get (-3.5f, 3.5f);
       }
+
+      m_enemyParts &= ~Visibility::Head;
+
 
       //const float highOffset = m_difficulty > Difficulty::Normal ? 1.5f : 0.0f;
 
@@ -910,7 +902,7 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
    }
 
    // we're should stand still before firing sniper weapons, else sniping is useless..
-   if ((usesSniper () || rg.chance(50)) && (m_aimFlags & (AimFlags::Enemy | AimFlags::LastEnemy)) && !m_isReloading && pev->velocity.lengthSq () > 0.0f && getCurrentTaskId () != Task::SeekCover) {
+   if ((usesSniper () || rg.chance(20)) && (m_aimFlags & (AimFlags::Enemy | AimFlags::LastEnemy)) && !m_isReloading && pev->velocity.lengthSq () > 0.0f && getCurrentTaskId () != Task::SeekCover) {
       m_moveSpeed = 0.0f;
       m_strafeSpeed = 0.0f;
       m_navTimeset = game.time ();
@@ -1252,7 +1244,7 @@ void Bot::attackMovement () {
       // }
 
       // qqq
-      if ((usesSniper () || rg.chance(50)) || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
+      if ((usesSniper () || rg.chance(20)) || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
          m_fightStyle = Fight::Stay;
          m_lastFightStyleCheck = game.time ();
       }
