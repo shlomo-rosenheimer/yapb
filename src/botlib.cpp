@@ -2812,7 +2812,7 @@ void Bot::updateAimDir () {
          if (radius > 0.0f) {
             //qqq
             //return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f);
-            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-45.0f, 45.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f);
+            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-35.0f, 35.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f);
          }
          return nullptr;
       };

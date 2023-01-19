@@ -913,11 +913,11 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
    if ((usesSniper () || rg.chance(50)) && (m_aimFlags & (AimFlags::Enemy | AimFlags::LastEnemy)) && !m_isReloading && pev->velocity.lengthSq () > 0.0f && getCurrentTaskId () != Task::SeekCover) {
       m_moveSpeed = 0.0f;
       //qqq
-      //m_strafeSpeed = 0.0f;
+      if(rg.chance(80)) m_strafeSpeed = 0.0f;
       m_navTimeset = game.time ();
 
       if (cr::abs (pev->velocity.x) > 5.0f || cr::abs (pev->velocity.y) > 5.0f || cr::abs (pev->velocity.z) > 5.0f) {
-         m_sniperStopTime = game.time () + 2.0f;
+         m_sniperStopTime = game.time () + rg.get (1.0f, 3.0f); // was 2.0
          return;
       }
    }
@@ -1094,7 +1094,7 @@ bool Bot::isWeaponBadAtDistance (int weaponIndex, float distance) {
    }
 
    // better use pistol in short range distances, when using sniper weapons
-   if (weaponType == WeaponType::Sniper && distance < 450.0f) {
+   if (weaponType == WeaponType::Sniper && distance < 350.0f) {
       return true;
    }
 
@@ -1120,7 +1120,7 @@ void Bot::focusEnemy () {
 
    if (distance < 128.0f && !usesSniper ()) {
       if (usesKnife ()) {
-         if (distance < 80.0f) {
+         if (distance < 100.0f) {
             m_wantsToFire = true;
          }
          else if (distance > 120.0f) {
@@ -1253,7 +1253,7 @@ void Bot::attackMovement () {
       // }
 
       // qqq
-      if (usesSniper () || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
+      if ((usesSniper () || rg.chance (30)) || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
          m_fightStyle = Fight::Stay;
          m_lastFightStyleCheck = game.time ();
       }
