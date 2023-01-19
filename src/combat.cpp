@@ -499,12 +499,9 @@ const Vector &Bot::getEnemyBodyOffset () {
    // }
    Vector aimPos = m_enemy->v.origin;
 
-   if ((m_enemyParts & Visibility::Body) && distance > 900.0f) {
-      m_enemyParts &= ~Visibility::Head;
-      m_enemyParts &= ~Visibility::Body;
-      aimPos.x += 1.5f;
-      aimPos.y += 1.5f;
-   }
+   
+
+
 
    // // do not aim at head while close enough to enemy and having sniper
    // else if (distance < 800.0f && usesSniper ()) {
@@ -523,10 +520,41 @@ const Vector &Bot::getEnemyBodyOffset () {
    // qqq
    //if (!m_enemyParts && (m_states & Sense::SuspectEnemy)) {
       // qqq
-   if (rg.chance (50)) aimPos += getBodyOffsetError (distance);
    //}
    //else if (util.isPlayer (m_enemy)) {
    if (util.isPlayer (m_enemy)) {
+      // qqq, always body
+      m_enemyParts &= ~Visibility::Head;
+
+
+      if ((m_enemyParts & Visibility::Body)) {
+         if (rg.chance (50)) aimPos += getBodyOffsetError (distance);
+
+         if (distance > 800.0f) {
+            aimPos.x += 0.3f;
+            aimPos.y += 0.4f;
+         } 
+         if (distance > 1200.0f) {
+            aimPos.x += 1.2f;
+            aimPos.y += 1.1f;
+         } 
+
+         float z1 = 0.9f;
+         float z2 = -0.3f;
+         float z3 = 0.3f;
+
+         if (rg.chance (40)) {
+            aimPos.z += z1;
+         } else if (rg.chance (50)) {
+            aimPos.z += z2;
+         } else {
+            aimPos.z += z3;
+         }
+      } else {
+         aimPos.x += 1.2f;
+         aimPos.y += 1.1f;
+      }
+
       //const float highOffset = m_difficulty > Difficulty::Normal ? 1.5f : 0.0f;
 
       // now take in account different parts of enemy body
@@ -590,8 +618,9 @@ const Vector &Bot::getEnemyBodyOffset () {
    // add some error to unskilled bots
    // qqq
    //if (m_difficulty < Difficulty::Hard) {
+   if(rg.chance(50)) {
       m_enemyOrigin += getBodyOffsetError (distance);
-   //}
+   }
    return m_enemyOrigin;
 }
 
