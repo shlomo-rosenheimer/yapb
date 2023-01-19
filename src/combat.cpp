@@ -1253,7 +1253,7 @@ void Bot::attackMovement () {
       // }
 
       // qqq
-      if ((usesSniper () || rg.chance (30)) || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
+      if (usesSniper () || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
          m_fightStyle = Fight::Stay;
          m_lastFightStyleCheck = game.time ();
       }
