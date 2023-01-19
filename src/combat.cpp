@@ -1166,6 +1166,8 @@ void Bot::attackMovement () {
    if (m_lastUsedNodesTime + getFrameInterval () + 0.5f < game.time ()) {
       int approach;
 
+      approach = 29;
+
       if (usesKnife ()) {
          // qqq
          approach = 150;
