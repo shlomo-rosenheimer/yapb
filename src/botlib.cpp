@@ -2810,7 +2810,9 @@ void Bot::updateAimDir () {
          auto radius = graph[index].radius;
 
          if (radius > 0.0f) {
-            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f);
+            //qqq
+            //return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f);
+            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-45.0f, 45.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f);
          }
          return nullptr;
       };
@@ -3019,7 +3021,8 @@ void Bot::update () {
       logic (); // execute main code
    }
    else if (pev->maxspeed < 10.0f) {
-      choiceFreezetimeEntity ();
+      //qqq
+      //choiceFreezetimeEntity ();
    }
    runMovement ();
 

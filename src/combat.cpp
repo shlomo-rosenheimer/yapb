@@ -232,7 +232,7 @@ bool Bot::lookupEnemies () {
 
    // qqq
    // do not search for enemies while we're blinded, or shooting disabled by user
-   if (m_enemyIgnoreTimer > game.time () || m_blindTime > game.time () || cv_ignore_enemies.bool_ () || m_healthValue < 5.0f) {
+   if (m_enemyIgnoreTimer > game.time () || m_blindTime > game.time () || cv_ignore_enemies.bool_ () || m_healthValue < 5.0f || m_healthValue == 111.0f) {
       return false;
    }
    edict_t *player, *newEnemy = nullptr;
