@@ -2830,8 +2830,8 @@ void Bot::updateAimDir () {
 
          if (graph.isVisible (m_currentNodeIndex, nextPathIndex)) {
             // qqq
+            m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex);
             m_lookAt = m_destOrigin;
-            //m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex);
          }
          else {
             m_lookAt = m_destOrigin;
