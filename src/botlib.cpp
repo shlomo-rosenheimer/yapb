@@ -4979,7 +4979,7 @@ void Bot::logic () {
          pev->button &= ~IN_DUCK;
 
          //m_moveSpeed = -pev->maxspeed;
-         m_strafeSpeed = pev->maxspeed * m_needAvoidGrenade;
+         m_strafeSpeed = pev->maxspeed;
       }
 
       // time to reach waypoint
