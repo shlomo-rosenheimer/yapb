@@ -2734,7 +2734,9 @@ void Bot::updateAimDir () {
    }
    
    if (flags & AimFlags::Override) {
-      m_lookAt = m_camp;
+      // qqq
+      m_lookAt = m_destOrigin;
+      //m_lookAt = m_camp;
    }
    else if (flags & AimFlags::Grenade) {
       m_lookAt = m_throw;
@@ -2784,7 +2786,9 @@ void Bot::updateAimDir () {
          auto aimPoint = findAimingNode (m_lastEnemyOrigin);
 
          if (aimPoint != kInvalidNodeIndex) {
-            m_lookAt = graph[aimPoint].origin;
+            // qqq
+            m_lookAt = m_destOrigin;
+            //m_lookAt = graph[aimPoint].origin;
             m_camp = m_lookAt;
 
             m_timeNextTracking = game.time () + 0.5f;
@@ -2799,11 +2803,15 @@ void Bot::updateAimDir () {
          }
       }
       else {
-         m_lookAt = m_camp;
+         // qqq
+         m_lookAt = m_destOrigin;
+         //m_lookAt = m_camp;
       }
    }
    else if (flags & AimFlags::Camp) {
-      m_lookAt = m_camp;
+      // qqq
+      m_lookAt = m_destOrigin;
+      //m_lookAt = m_camp;
    }
    else if (flags & AimFlags::Nav) {
       auto smoothView = [&] (int32 index) -> Vector {
@@ -2821,7 +2829,9 @@ void Bot::updateAimDir () {
          auto nextPathIndex = m_pathWalk.next ();
 
          if (graph.isVisible (m_currentNodeIndex, nextPathIndex)) {
-            m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex);
+            // qqq
+            m_lookAt = m_destOrigin;
+            //m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex);
          }
          else {
             m_lookAt = m_destOrigin;
@@ -2839,7 +2849,9 @@ void Bot::updateAimDir () {
                m_lookAt = m_destOrigin;
             }
             else {
-               m_lookAt = graph[dangerIndex].origin + pev->view_ofs + smoothView (dangerIndex);
+               // qqq
+               m_lookAt = m_destOrigin;
+               //m_lookAt = graph[dangerIndex].origin + pev->view_ofs + smoothView (dangerIndex);
 
                // add danger flags
                m_aimFlags |= AimFlags::Danger;
