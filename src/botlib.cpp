@@ -1058,7 +1058,7 @@ void Bot::checkMsgQueue () {
       // if fun-mode no need to buy
       if (cv_jasonmode.bool_ ()) {
          m_buyState = BuyState::Done;
-         selectWeaponByName ("weapon_knife");
+         //selectWeaponByName ("weapon_knife");
       }
 
       // prevent vip from buying
@@ -1812,7 +1812,7 @@ void Bot::setConditions () {
 
          // if no more enemies found AND bomb planted, switch to knife to get to bombplace faster
          if (m_team == Team::CT && !usesKnife () && m_numEnemiesLeft == 0 && bots.isBombPlanted ()) {
-            selectWeaponByName ("weapon_knife");
+            //selectWeaponByName ("weapon_knife");
             m_plantedBombNodeIndex = getNearestToPlantedBomb ();
 
             if (isOccupiedNode (m_plantedBombNodeIndex)) {
@@ -2435,7 +2435,7 @@ void Bot::checkRadioQueue () {
    case Radio::RegroupTeam:
       // if no more enemies found AND bomb planted, switch to knife to get to bombplace faster
       if (m_team == Team::CT && !usesKnife () && m_numEnemiesLeft == 0 && bots.isBombPlanted () && getCurrentTaskId () != Task::DefuseBomb) {
-         selectWeaponByName ("weapon_knife");
+         //selectWeaponByName ("weapon_knife");
 
          clearSearchNodes ();
 
@@ -3101,14 +3101,16 @@ void Bot::normal_ () {
    }
 
    // bots rushing with knife, when have no enemy (thanks for idea to nicebot project)
-   if (usesKnife () && (game.isNullEntity (m_lastEnemy) || !util.isAlive (m_lastEnemy)) && game.isNullEntity (m_enemy) && m_knifeAttackTime < game.time () && !hasShield () && numFriendsNear (pev->origin, 96.0f) == 0) {
+   //qqq
+   //if (usesKnife () && (game.isNullEntity (m_lastEnemy) || !util.isAlive (m_lastEnemy)) && game.isNullEntity (m_enemy) && m_knifeAttackTime < game.time () && !hasShield () && numFriendsNear (pev->origin, 96.0f) == 0) {
+   if (usesKnife () && (game.isNullEntity (m_lastEnemy) || !util.isAlive (m_lastEnemy)) && game.isNullEntity (m_enemy) && m_knifeAttackTime < game.time () && !hasShield ()) {
       if (rg.chance (40)) {
          pev->button |= IN_ATTACK;
       }
       else {
          pev->button |= IN_ATTACK2;
       }
-      m_knifeAttackTime = game.time () + rg.get (2.5f, 6.0f);
+      m_knifeAttackTime = game.time () + rg.get (4.5f, 8.0f); // was 2.5 - 6.0
    }
    const auto &prop = conf.getWeaponProp (m_currentWeapon);
 
@@ -3978,7 +3980,7 @@ void Bot::defuseBomb_ () {
          int weaponIndex = bestWeaponCarried ();
 
          // just select knife and then select weapon
-         selectWeaponByName ("weapon_knife");
+         //selectWeaponByName ("weapon_knife");
 
          if (weaponIndex > 0 && weaponIndex < kNumWeapons) {
             selectWeaponById (weaponIndex);
@@ -4440,7 +4442,7 @@ void Bot::escapeFromBomb_ () {
    }
 
    if (!usesKnife () && m_numEnemiesLeft == 0) {
-      selectWeaponByName ("weapon_knife");
+      //selectWeaponByName ("weapon_knife");
    }
 
    // reached destination?
@@ -4752,6 +4754,8 @@ void Bot::checkSpawnConditions () {
             selectWeaponByName ("weapon_knife");
          }
       }
+      //qqq
+      selectWeaponByName ("weapon_knife");
       m_checkKnifeSwitch = false;
 
       if (rg.chance (cv_user_follow_percent.int_ ()) && game.isNullEntity (m_targetEntity) && !m_isLeader && !m_hasC4 && rg.chance (50)) {

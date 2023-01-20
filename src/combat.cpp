@@ -1543,7 +1543,7 @@ void Bot::selectBestWeapon () {
 
    if (cv_jasonmode.bool_ ()) {
       // if knife mode activated, force bot to use knife
-      selectWeaponByName ("weapon_knife");
+      //selectWeaponByName ("weapon_knife");
       return;
    }
 

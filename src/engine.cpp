@@ -149,7 +149,10 @@ void Game::levelInitialize (edict_t *entities, int max) {
    }
 
    // next maps doesn't have map-specific entities, so determine it by name
-   if (strncmp (getMapName (), "fy_", 3) == 0) {
+   if (strncmp (getMapName (), "fy_", 3) == 0
+   || strncmp (getMapName (), "gg_", 3) == 0
+   || strncmp (getMapName (), "awp_", 3) == 0
+   || strncmp (getMapName (), "aim_", 3) == 0) {
       m_mapFlags |= MapFlags::Fun;
    }
    else if (strncmp (getMapName (), "ka_", 3) == 0) {
