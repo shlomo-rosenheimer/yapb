@@ -2735,8 +2735,8 @@ void Bot::updateAimDir () {
    
    if (flags & AimFlags::Override) {
       // qqq
-      m_lookAt = m_destOrigin;
-      //m_lookAt = m_camp;
+      //m_lookAt = m_destOrigin;
+      m_lookAt = m_camp;
    }
    else if (flags & AimFlags::Grenade) {
       m_lookAt = m_throw;
@@ -2804,14 +2804,14 @@ void Bot::updateAimDir () {
       }
       else {
          // qqq
-         m_lookAt = m_destOrigin;
-         //m_lookAt = m_camp;
+         //m_lookAt = m_destOrigin;
+         m_lookAt = m_camp;
       }
    }
    else if (flags & AimFlags::Camp) {
       // qqq
-      m_lookAt = m_destOrigin;
-      //m_lookAt = m_camp;
+      //m_lookAt = m_destOrigin;
+      m_lookAt = m_camp;
    }
    else if (flags & AimFlags::Nav) {
       auto smoothView = [&] (int32 index) -> Vector {
