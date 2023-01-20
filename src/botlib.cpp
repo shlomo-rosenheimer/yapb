@@ -2834,13 +2834,17 @@ void Bot::updateAimDir () {
          return nullptr;
       };
 
-      if (m_moveToGoal && !m_isStuck && m_moveSpeed > getShiftSpeed () && !(pev->button & IN_DUCK) && m_currentNodeIndex != kInvalidNodeIndex && !(m_path->flags & (NodeFlag::Ladder | NodeFlag::Crouch)) && m_pathWalk.hasNext () && pev->origin.distanceSq (m_destOrigin) < cr::square (160.0f)) {
+      if (m_moveToGoal && !m_isStuck && !(pev->button & IN_DUCK) && m_currentNodeIndex != kInvalidNodeIndex && !(m_path->flags & (NodeFlag::Ladder | NodeFlag::Crouch)) && m_pathWalk.hasNext () && pev->origin.distanceSq (m_destOrigin) < cr::square (160.0f)) {
          auto nextPathIndex = m_pathWalk.next ();
 
          if (graph.isVisible (m_currentNodeIndex, nextPathIndex)) {
             // qqq
             m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex); // orig
             m_lookAt = m_destOrigin; // new
+            //qqq
+            if(!(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+               selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
+            }
          }
          else {
             m_lookAt = m_destOrigin;
@@ -2860,6 +2864,10 @@ void Bot::updateAimDir () {
             else {
                // qqq
                m_lookAt = m_destOrigin; // new
+               //qqq
+               if(!(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+                  selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
+               }
                //m_lookAt = graph[dangerIndex].origin + pev->view_ofs + smoothView (dangerIndex); // orig
 
                // add danger flags
@@ -3144,11 +3152,11 @@ void Bot::normal_ () {
       m_prevGoalIndex = kInvalidNodeIndex;
       
       // spray logo sometimes if allowed to do so
-      if (!(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy)) && m_seeEnemyTime + 5.0f < game.time () && !m_reloadState && m_timeLogoSpray < game.time () && cv_spraypaints.bool_ () && rg.chance (50) && m_moveSpeed > getShiftSpeed () && game.isNullEntity (m_pickupItem)) {
-         if (!(game.mapIs (MapFlags::Demolition) && bots.isBombPlanted () && m_team == Team::CT)) {
-            startTask (Task::Spraypaint, TaskPri::Spraypaint, kInvalidNodeIndex, game.time () + 1.0f, false);
-         }
-      }
+      // if (!(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy)) && m_seeEnemyTime + 5.0f < game.time () && !m_reloadState && m_timeLogoSpray < game.time () && cv_spraypaints.bool_ () && rg.chance (50) && m_moveSpeed > getShiftSpeed () && game.isNullEntity (m_pickupItem)) {
+      //    if (!(game.mapIs (MapFlags::Demolition) && bots.isBombPlanted () && m_team == Team::CT)) {
+      //       startTask (Task::Spraypaint, TaskPri::Spraypaint, kInvalidNodeIndex, game.time () + 1.0f, false);
+      //    }
+      // }
 
       // reached waypoint is a camp waypoint
       //qqq
@@ -5979,8 +5987,8 @@ bool Bot::isBombDefusing (const Vector &bombOrigin) {
 
 float Bot::getShiftSpeed () {
    //qqq
-   return pev->maxspeed;
-   
+   return static_cast <float> (pev->maxspeed * 0.1f);
+
    if (getCurrentTaskId () == Task::SeekCover || (pev->flags & FL_DUCKING) || (pev->button & IN_DUCK) || (m_oldButtons & IN_DUCK) || (m_currentTravelFlags & PathFlag::Jump) || (m_path != nullptr && m_path->flags & NodeFlag::Ladder) || isOnLadder () || isInWater () || m_isStuck) {
       return pev->maxspeed;
    }
