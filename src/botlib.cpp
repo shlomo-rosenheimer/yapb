@@ -2804,8 +2804,8 @@ void Bot::updateAimDir () {
       }
       else {
          // qqq 2
-         //m_lookAt = m_destOrigin;
-         m_lookAt = m_camp;
+         m_lookAt = m_destOrigin; // new
+         //m_lookAt = m_camp;
       }
    }
    else if (flags & AimFlags::Camp) {
