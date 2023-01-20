@@ -193,7 +193,10 @@ BotCreateResult BotManager::create (StringRef name, int difficulty, int personal
       }
    }
    // qqq
-   personality = Personality::Careful;
+   
+   //personality = Personality::Careful;
+   personality = Personality::Rusher;
+   
    BotName *botName = nullptr;
 
    // setup name

@@ -2736,7 +2736,7 @@ void Bot::updateAimDir () {
    if (flags & AimFlags::Override) {
       // qqq 1
       //m_lookAt = m_destOrigin;
-      m_lookAt = m_camp;
+      m_lookAt = m_camp; // orig
    }
    else if (flags & AimFlags::Grenade) {
       m_lookAt = m_throw;
@@ -2767,7 +2767,8 @@ void Bot::updateAimDir () {
       m_lookAt = m_lastEnemyOrigin;
 
       // did bot just see enemy and is quite aggressive?
-      if (m_seeEnemyTime + 1.0f - m_actualReactionTime + m_baseAgressionLevel > game.time ()) {
+      //qqq
+      if (rg.chance(30) || (m_seeEnemyTime + 1.0f - m_actualReactionTime + m_baseAgressionLevel > game.time ())) {
 
          // feel free to fire if shootable
          if (!usesSniper () && lastEnemyShootable ()) {
@@ -2786,9 +2787,9 @@ void Bot::updateAimDir () {
          auto aimPoint = findAimingNode (m_lastEnemyOrigin);
 
          if (aimPoint != kInvalidNodeIndex) {
-            // qqq
-            m_lookAt = m_destOrigin;
-            //m_lookAt = graph[aimPoint].origin;
+            // qqq 4
+            m_lookAt = m_destOrigin; // new
+            //m_lookAt = graph[aimPoint].origin; // orig
             m_camp = m_lookAt;
 
             m_timeNextTracking = game.time () + 0.5f;
@@ -2805,13 +2806,13 @@ void Bot::updateAimDir () {
       else {
          // qqq 2
          m_lookAt = m_destOrigin; // new
-         //m_lookAt = m_camp;
+         //m_lookAt = m_camp; // orig
       }
    }
    else if (flags & AimFlags::Camp) {
       // qqq 3
       m_lookAt = m_destOrigin; // new
-      //m_lookAt = m_camp;
+      //m_lookAt = m_camp; // orig
    }
    else if (flags & AimFlags::Nav) {
       auto smoothView = [&] (int32 index) -> Vector {
@@ -2820,7 +2821,7 @@ void Bot::updateAimDir () {
          if (radius > 0.0f) {
             //qqq
             //return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f);
-            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-35.0f, 35.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f);
+            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-55.0f, 55.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f);
          }
          return nullptr;
       };
@@ -2830,8 +2831,8 @@ void Bot::updateAimDir () {
 
          if (graph.isVisible (m_currentNodeIndex, nextPathIndex)) {
             // qqq
-            m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex);
-            m_lookAt = m_destOrigin;
+            m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex); // orig
+            m_lookAt = m_destOrigin; // new
          }
          else {
             m_lookAt = m_destOrigin;
@@ -2850,8 +2851,8 @@ void Bot::updateAimDir () {
             }
             else {
                // qqq
-               m_lookAt = m_destOrigin;
-               //m_lookAt = graph[dangerIndex].origin + pev->view_ofs + smoothView (dangerIndex);
+               m_lookAt = m_destOrigin; // new
+               //m_lookAt = graph[dangerIndex].origin + pev->view_ofs + smoothView (dangerIndex); // orig
 
                // add danger flags
                m_aimFlags |= AimFlags::Danger;
