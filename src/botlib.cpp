@@ -2806,12 +2806,20 @@ void Bot::updateAimDir () {
       else {
          // qqq 2
          m_lookAt = m_destOrigin; // new
+         //qqq
+      if(!(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+         selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
+      }
          //m_lookAt = m_camp; // orig
       }
    }
    else if (flags & AimFlags::Camp) {
       // qqq 3
       m_lookAt = m_destOrigin; // new
+      //qqq
+      if(!(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+         selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
+      }
       //m_lookAt = m_camp; // orig
    }
    else if (flags & AimFlags::Nav) {
