@@ -2231,9 +2231,9 @@ bool Bot::advanceMovement () {
                selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
                if(rg.chance(40)) {
                   if(rg.chance(50)) {
-                     m_strafeSpeed = -pev->maxspeed
+                     m_strafeSpeed = -pev->maxspeed;
                   } else {
-                     m_strafeSpeed = pev->maxspeed
+                     m_strafeSpeed = pev->maxspeed;
                   }
                }
             }
