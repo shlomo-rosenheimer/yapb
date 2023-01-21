@@ -680,10 +680,9 @@ bool Bot::updateNavigation () {
       m_pathOrigin = m_path->origin;
       
       // if graph node radius non zero vary origin a bit depending on the body angles
-      // qqq
-      // if (m_path->radius > 0.0f) {
-      //    m_pathOrigin += Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (0.0f, m_path->radius);
-      // }
+      if (m_path->radius > 0.0f) {
+         m_pathOrigin += Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (0.0f, m_path->radius);
+      }
       m_navTimeset = game.time ();
    }
    // qqq this is where they aim while walking, and no enemy there

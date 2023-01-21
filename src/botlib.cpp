@@ -2735,8 +2735,8 @@ void Bot::updateAimDir () {
    
    if (flags & AimFlags::Override) {
       // qqq 1
-      m_lookAt = m_destOrigin; // new
-      //m_lookAt = m_camp; // orig
+      //m_lookAt = m_destOrigin; // new
+      m_lookAt = m_camp; // orig
    }
    else if (flags & AimFlags::Grenade) {
       m_lookAt = m_throw;
@@ -2766,8 +2766,8 @@ void Bot::updateAimDir () {
    }
    else if (flags & AimFlags::LastEnemy) {
       //qqq
-      //m_lookAt = m_lastEnemyOrigin;
-      m_lookAt = m_destOrigin;
+      m_lookAt = m_lastEnemyOrigin; // orig
+      //m_lookAt = m_destOrigin; // new
 
       // did bot just see enemy and is quite aggressive?
       //qqq
@@ -2812,13 +2812,13 @@ void Bot::updateAimDir () {
          //qqq
          if(rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
             selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
-            // if(rg.chance(40)) {
-            //    if(rg.chance(50)) {
-            //       m_strafeSpeed = -pev->maxspeed;
-            //    } else {
-            //       m_strafeSpeed = pev->maxspeed;
-            //    }
-            // }
+            if(rg.chance(40)) {
+               if(rg.chance(50)) {
+                  m_strafeSpeed = -pev->maxspeed;
+               } else {
+                  m_strafeSpeed = pev->maxspeed;
+               }
+            }
          }
          //m_lookAt = m_camp; // orig
       }
@@ -2830,13 +2830,13 @@ void Bot::updateAimDir () {
       if(rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
          selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
 
-         // if(rg.chance(40)) {
-         //    if(rg.chance(50)) {
-         //       m_strafeSpeed = -pev->maxspeed;
-         //    } else {
-         //       m_strafeSpeed = pev->maxspeed;
-         //    }
-         // }
+         if(rg.chance(40)) {
+            if(rg.chance(50)) {
+               m_strafeSpeed = -pev->maxspeed;
+            } else {
+               m_strafeSpeed = pev->maxspeed;
+            }
+         }
       }
       //m_lookAt = m_camp; // orig
    }
@@ -2862,13 +2862,13 @@ void Bot::updateAimDir () {
             //qqq
             if(rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
-               // if(rg.chance(40)) {
-               //    if(rg.chance(50)) {
-               //       m_strafeSpeed = -pev->maxspeed;
-               //    } else {
-               //       m_strafeSpeed = pev->maxspeed;
-               //    }
-               // }
+               if(rg.chance(40)) {
+                  if(rg.chance(50)) {
+                     m_strafeSpeed = -pev->maxspeed;
+                  } else {
+                     m_strafeSpeed = pev->maxspeed;
+                  }
+               }
             }
          }
          else {
@@ -2893,13 +2893,13 @@ void Bot::updateAimDir () {
                if(rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                   selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
 
-                  // if(rg.chance(40)) {
-                  //    if(rg.chance(50)) {
-                  //       m_strafeSpeed = -pev->maxspeed;
-                  //    } else {
-                  //       m_strafeSpeed = pev->maxspeed;
-                  //    }
-                  // }
+                  if(rg.chance(40)) {
+                     if(rg.chance(50)) {
+                        m_strafeSpeed = -pev->maxspeed;
+                     } else {
+                        m_strafeSpeed = pev->maxspeed;
+                     }
+                  }
                }
                //m_lookAt = graph[dangerIndex].origin + pev->view_ofs + smoothView (dangerIndex); // orig
 
