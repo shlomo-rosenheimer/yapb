@@ -721,7 +721,8 @@ bool Bot::updateNavigation () {
          m_moveSpeed = nodeDistance;
 
          if (m_moveSpeed < 150.0f) {
-            m_moveSpeed = 150.0f;
+            //qqq
+            m_moveSpeed = pev->maxspeed;
          }
          else if (m_moveSpeed > pev->maxspeed) {
             m_moveSpeed = pev->maxspeed;

@@ -2807,7 +2807,7 @@ void Bot::updateAimDir () {
          // qqq 2
          m_lookAt = m_destOrigin; // new
          //qqq
-      if(!(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+      if(rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
          selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
       }
          //m_lookAt = m_camp; // orig
@@ -2817,7 +2817,7 @@ void Bot::updateAimDir () {
       // qqq 3
       m_lookAt = m_destOrigin; // new
       //qqq
-      if(!(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+      if(rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
          selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
       }
       //m_lookAt = m_camp; // orig
@@ -2842,7 +2842,7 @@ void Bot::updateAimDir () {
             m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex); // orig
             m_lookAt = m_destOrigin; // new
             //qqq
-            if(!(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+            if(rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
             }
          }
@@ -2865,7 +2865,7 @@ void Bot::updateAimDir () {
                // qqq
                m_lookAt = m_destOrigin; // new
                //qqq
-               if(!(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+               if(rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                   selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
                }
                //m_lookAt = graph[dangerIndex].origin + pev->view_ofs + smoothView (dangerIndex); // orig
@@ -3333,8 +3333,10 @@ void Bot::normal_ () {
       }
    }
    else {
-      if (!(pev->flags & FL_DUCKING) && !cr::fequal (m_minSpeed, pev->maxspeed) && m_minSpeed > 1.0f) {
-         m_moveSpeed = m_minSpeed;
+      //if (!(pev->flags & FL_DUCKING) && !cr::fequal (m_minSpeed, pev->maxspeed) && m_minSpeed > 1.0f) {
+      if (!(pev->flags & FL_DUCKING)) {
+         //qqq
+         m_moveSpeed = pev->maxspeed;
       }
    }
    // qqq
@@ -3632,7 +3634,8 @@ void Bot::blind_ () {
 
    //m_moveSpeed = m_blindMoveSpeed;
    m_moveSpeed = 0.0f;
-   m_strafeSpeed = m_blindSidemoveSpeed;
+   //qqq
+   m_strafeSpeed = pev->maxspeed;
    pev->button |= m_blindButton;
 
    if (m_blindTime < game.time ()) {
@@ -4836,7 +4839,7 @@ void Bot::logic () {
 
       //qqq
       if(rg.chance(20) && m_strafeSpeed == 0.0f) {
-         if(rg.chance(50) && m_strafeSpeed > 100.0f) {
+         if(rg.chance(50) && m_strafeSpeed > 50.0f) {
             m_strafeSpeed = pev->maxspeed;
          } else {
             m_strafeSpeed = -pev->maxspeed;
@@ -5987,12 +5990,12 @@ bool Bot::isBombDefusing (const Vector &bombOrigin) {
 
 float Bot::getShiftSpeed () {
    //qqq
-   return static_cast <float> (pev->maxspeed * 0.1f);
+   return pev->maxspeed;
 
-   if (getCurrentTaskId () == Task::SeekCover || (pev->flags & FL_DUCKING) || (pev->button & IN_DUCK) || (m_oldButtons & IN_DUCK) || (m_currentTravelFlags & PathFlag::Jump) || (m_path != nullptr && m_path->flags & NodeFlag::Ladder) || isOnLadder () || isInWater () || m_isStuck) {
-      return pev->maxspeed;
-   }
-   return static_cast <float> (pev->maxspeed * 0.4f);
+   // if (getCurrentTaskId () == Task::SeekCover || (pev->flags & FL_DUCKING) || (pev->button & IN_DUCK) || (m_oldButtons & IN_DUCK) || (m_currentTravelFlags & PathFlag::Jump) || (m_path != nullptr && m_path->flags & NodeFlag::Ladder) || isOnLadder () || isInWater () || m_isStuck) {
+   //    return pev->maxspeed;
+   // }
+   // return static_cast <float> (pev->maxspeed * 0.4f);
 }
 
 void Bot::calculateFrustum () {

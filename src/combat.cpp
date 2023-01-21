@@ -1013,7 +1013,7 @@ void Bot::fireWeapons () {
    // }
 
    // qqq knife
-   if (!game.isNullEntity (enemy) && distance < 120.0f) {
+   if (!game.isNullEntity (enemy) && (distance < 90.0f || (rg.chance(40) && distance < 120.0f))) {
       selectWeapons (distance, selectIndex, selectId, choosenWeapon);
       return;
    }
@@ -1113,7 +1113,7 @@ void Bot::focusEnemy () {
 
    if (distance < 128.0f && !usesSniper ()) {
       if (usesKnife ()) {
-         if (distance < 100.0f) {
+         if (distance < 110.0f) {
             m_wantsToFire = true;
          }
          else if (distance > 120.0f) {
@@ -1282,7 +1282,7 @@ void Bot::attackMovement () {
             if (rg.chance (30)) {
                m_combatStrafeDir = (m_combatStrafeDir == Dodge::Left ? Dodge::Right : Dodge::Left);
             }
-            m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f);
+            m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f); //was 0.5 - 3.0
          }
 
          if (m_combatStrafeDir == Dodge::Right) {
@@ -1291,7 +1291,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Left;
-               m_strafeSetTime = game.time () + rg.get (0.8f, 3.1f); // was 1.1
+               m_strafeSetTime = game.time () + rg.get (1.8f, 3.1f); // was 0.8 - 1.1
             }
          }
          else {
@@ -1300,14 +1300,14 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Right;
-               m_strafeSetTime = game.time () + rg.get (0.8f, 3.1f);
+               m_strafeSetTime = game.time () + rg.get (1.8f, 3.1f); // was 0.8 - 1.1
             }
          }
 
       //qqq
          if(m_strafeSpeed == 0.0f) {
             m_strafeSpeed = pev->maxspeed;
-            m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f); //was 3.0
+            m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f); //was 0.5 - 3.0
          }
 
          // qqq
