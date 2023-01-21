@@ -195,7 +195,19 @@ BotCreateResult BotManager::create (StringRef name, int difficulty, int personal
    // qqq
    
    //personality = Personality::Careful;
-   personality = Personality::Rusher;
+   //personality = Personality::Rusher;
+
+   if (rg.chance (50)) {
+      personality = Personality::Normal;
+   }
+   else {
+      if (rg.chance (50)) {
+         personality = Personality::Rusher;
+      }
+      else {
+         personality = Personality::Careful;
+      }
+   }
    
    BotName *botName = nullptr;
 
@@ -1234,7 +1246,9 @@ void Bot::newRound () {
 
    m_timeTeamOrder = 0.0f;
    m_askCheckTime = rg.get (30.0f, 90.0f);
-   m_minSpeed = 260.0f;
+   //qqq
+   //m_minSpeed = 260.0f;
+   m_minSpeed = 310.0f;
    m_prevSpeed = 0.0f;
    m_prevOrigin = Vector (kInfiniteDistance, kInfiniteDistance, kInfiniteDistance);
    m_prevTime = game.time ();
@@ -1395,9 +1409,9 @@ void Bot::newRound () {
    // restore fake client bit, just in case
    pev->flags |= FL_FAKECLIENT;
 
-   if (rg.chance (50)) {
-      pushChatterMessage (Chatter::NewRound);
-   }
+   // if (rg.chance (50)) {
+   //    pushChatterMessage (Chatter::NewRound);
+   // }
    m_updateInterval = game.is (GameFlags::Legacy | GameFlags::Xash3D) ? 0.0f : (1.0f / cr::clamp (cv_think_fps.float_ (), 30.0f, 60.0f));
 }
 
