@@ -685,7 +685,8 @@ bool Bot::updateNavigation () {
       }
       m_navTimeset = game.time ();
    }
-   m_destOrigin = m_pathOrigin + pev->view_ofs;
+   // qqq
+   //m_destOrigin = m_pathOrigin + pev->view_ofs;
 
    float nodeDistance = pev->origin.distance (m_pathOrigin);
 

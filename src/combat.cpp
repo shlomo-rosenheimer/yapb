@@ -364,9 +364,10 @@ bool Bot::lookupEnemies () {
             m_enemySurpriseTime = m_actualReactionTime;
          }
 
-         if (usesSniper ()) {
-            m_enemySurpriseTime *= 0.5f;
-         }
+         //qqq
+         // if (usesSniper ()) {
+         //    m_enemySurpriseTime *= 0.5f;
+         // }
          m_enemySurpriseTime += game.time ();
 
          // zero out reaction time
@@ -410,7 +411,8 @@ bool Bot::lookupEnemies () {
          // shoot at dying players if no new enemy to give some more human-like illusion
          if (m_seeEnemyTime + 0.1f > game.time ()) {
             if (!usesSniper ()) {
-               m_shootAtDeadTime = game.time () + cr::clamp (m_agressionLevel * 1.25f, 0.45f, 0.60f);
+               //qqq
+               m_shootAtDeadTime = game.time () + cr::clamp (m_agressionLevel * 1.25f, 0.75f, 0.90f); //0.45f, 0.60f
                m_actualReactionTime = 0.0f;
                m_states |= Sense::SuspectEnemy;
 
