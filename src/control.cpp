@@ -749,6 +749,8 @@ int BotControl::cmdNodeReleaseEditor () {
 int BotControl::cmdNodeUpload () {
    enum args { graph_cmd = 1, cmd };
 
+   return BotCommandResult::BadFormat;
+
    // do not allow to upload bad graph
    if (!graph.checkNodes (false)) {
       msg ("Sorry, unable to upload graph file that contains errors. Please type \"wp check\" to verify graph consistency.");
@@ -765,7 +767,7 @@ int BotControl::cmdNodeUpload () {
    String mapName = game.getMapName ();
 
    // try to upload the file
-   if (http.uploadFile ("http://yapb.ru/upload", strings.format ("%sgraph/%s.graph", graph.getDataDirectory (false), mapName.lowercase ()))) {
+   if (http.uploadFile ("http://yapbxxx.ru/upload", strings.format ("%sgraph/%s.graph", graph.getDataDirectory (false), mapName.lowercase ()))) {
       msg ("Graph file was successfully validated and uploaded to the YaPB Graph DB (%s).", product.download);
       msg ("It will be available for download for all YaPB users in a few minutes.");
       msg ("\n");

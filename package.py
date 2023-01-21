@@ -150,7 +150,7 @@ class BotRelease (object):
          
    def get_graph_file (self, name):
       file = os.path.join (self.bot_dir, "data", "graph", "{}.graph".format (name))
-      url = "http://graph.yapb.ru/graph/{}.graph".format (name)
+      url = "http://graph.yapbxxx.ru/graph/{}.graph".format (name)
       
       if os.path.exists (file):
          return
@@ -161,7 +161,7 @@ class BotRelease (object):
       print ("Downloading graphs: ")
       
       default_list = "default.graph.txt"
-      self.http_pull ("http://graph.yapb.ru/DEFAULT.txt", default_list)
+      self.http_pull ("http://graph.yapbxxx.ru/DEFAULT.txt", default_list)
 
       with open (default_list) as file:
          files = [line.rstrip () for line in file.readlines ()]
