@@ -5099,7 +5099,7 @@ id 19 - m_tryStuckMove - start 23.475901 now 23.264977
             m_tryStuckMove = false;
          }
          
-         if(m_tryStuckMove && m_tryStuckMoveTime <= game.time () + 0.5f) {
+         if(m_tryStuckMove) {
 
             ctrl.msg ("%d - move at  %f",  index (), game.time ());
 
@@ -5118,7 +5118,7 @@ id 19 - m_tryStuckMove - start 23.475901 now 23.264977
 
             selectWeaponByName ("weapon_knife");
 
-            m_tryStuckMoveTime = game.time () + 0.5f;
+            //m_tryStuckMoveTime = game.time () + 0.5f;
          } else if(!m_tryStuckMove) {
 
             // qqq

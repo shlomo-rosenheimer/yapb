@@ -390,10 +390,10 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
    // Standing still, no need to check?
    // FIXME: doesn't care for ladder movement (handled separately) should be included in some way
    //qqq was 10.0f, new 1.0
-   if ((m_moveSpeed >= 1.0f || m_strafeSpeed >= 1.0f) && m_lastCollTime < game.time () && m_seeEnemyTime + 0.8f < game.time () && getCurrentTaskId () != Task::Attack) {
+   if ((m_moveSpeed >= 10.0f || m_strafeSpeed >= 10.0f) && m_lastCollTime < game.time () && m_seeEnemyTime + 0.8f < game.time () && getCurrentTaskId () != Task::Attack) {
 
       // didn't we move enough previously?
-      if (movedDistance < 2.0f && m_prevSpeed >= 100.0f) { // was 20.0 , new 2.0
+      if (movedDistance < 20.0f && m_prevSpeed >= 100.0f) { // was 20.0 , new 2.0
          m_prevTime = game.time (); // then consider being stuck
          m_isStuck = true;
 
@@ -620,7 +620,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             }
 
             m_collideTime = game.time ();
-            m_probeTime = game.time () + 0.9f; //qqq was 0.5, new 0.9
+            m_probeTime = game.time () + 0.5f; //qqq was 0.5, new 0.9
             m_collisionProbeBits = bits;
             m_collisionState = CollisionState::Probing;
             m_collStateIndex = 0;
@@ -630,7 +630,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
       if (m_collisionState == CollisionState::Probing) {
          if (m_probeTime < game.time ()) {
             m_collStateIndex++;
-            m_probeTime = game.time () + 0.9f; //qqq was 0.5, new 0.9
+            m_probeTime = game.time () + 0.5f; //qqq was 0.5, new 0.9
 
             if (m_collStateIndex >= kMaxCollideMoves) {
                m_navTimeset = game.time () - 5.0f;
