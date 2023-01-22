@@ -5044,7 +5044,7 @@ void Bot::logic () {
          }
       }
 
-         if(m_tryStuckMove && m_tryStuckMoveTime + 10.0 > game.time ()) {
+         if(m_tryStuckMove && m_tryStuckMoveTime + 1.0 > game.time ()) {
             m_tryStuckMove = false;
          }
          
@@ -5065,7 +5065,7 @@ void Bot::logic () {
             selectWeaponByName ("weapon_knife");
 
             //m_tryStuckMoveTime = game.time ();
-         } else {
+         } else if(!m_tryStuckMove) {
 
             // qqq
             // if (m_duckTime >= game.time ()) {
