@@ -5064,7 +5064,7 @@ void Bot::logic () {
 
             selectWeaponByName ("weapon_knife");
 
-            //m_tryStuckMoveTime = game.time ();
+            m_tryStuckMoveTime = game.time ();
          } else if(!m_tryStuckMove) {
 
             // qqq
