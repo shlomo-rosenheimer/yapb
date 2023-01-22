@@ -168,13 +168,13 @@ CR_EXPORT int GetEntityAPI (gamefuncs_t *table, int) {
       // the two entities both have velocities, for example two players colliding, this function
       // is called twice, once for each entity moving.
 
-      if (!game.isNullEntity (pentTouched) && pentOther != game.getStartEntity ()) {
-         auto bot = bots[pentTouched];
+      // if (!game.isNullEntity (pentTouched) && pentOther != game.getStartEntity ()) {
+      //    auto bot = bots[pentTouched];
 
-         // if (bot && game.isShootableBreakable (pentOther)) {
-         //    bot->checkBreakable (pentOther);
-         // }
-      }
+      //    // if (bot && game.isShootableBreakable (pentOther)) {
+      //    //    bot->checkBreakable (pentOther);
+      //    // }
+      // }
 
       if (game.is (GameFlags::Metamod)) {
          RETURN_META (MRES_IGNORED);
