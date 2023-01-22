@@ -666,7 +666,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                break;
 
             case CollisionState::StrafeLeft:
-               setStrafeSpeed (dirNormal, -pev->maxspeed);^
+               setStrafeSpeed (dirNormal, -pev->maxspeed);
                m_tryStuckMove = true;
                break;
 
