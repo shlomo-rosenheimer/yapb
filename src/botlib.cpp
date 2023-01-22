@@ -5054,12 +5054,11 @@ void Bot::logic () {
                m_jumpTime = game.time ();
             }
 
-            // qqq
-            // if (m_jumpTime + 0.85f > game.time ()) {
-            //    if (!isOnFloor () && !isInWater ()) {
-            //       pev->button |= IN_DUCK;
-            //    }
-            // }
+            if (m_jumpTime + 0.85f > game.time ()) {
+               if (!isOnFloor () && !isInWater ()) {
+                  pev->button |= IN_DUCK;
+               }
+            }
 
 
             if (!(pev->button & (IN_FORWARD | IN_BACK))) {
