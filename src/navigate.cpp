@@ -413,6 +413,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             }
 
             m_tryStuckMove = true;
+            m_tryStuckMoveTime = game.time ();
          }
          else {
             m_firstCollideTime = 0.0f;
