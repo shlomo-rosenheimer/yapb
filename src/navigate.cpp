@@ -644,11 +644,12 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             switch (m_collideMoves[m_collStateIndex]) {
             case CollisionState::Jump:
                // qqq
-               //if(rg.chance(30)) {
+               if(rg.chance(10)) {
                   if (isOnFloor () || isInWater ()) {
                      pev->button |= IN_JUMP;
                   }
-               // } else {
+                } 
+               //  else {
                //    //qqq
                //    pev->button |= IN_BACK;
                //    m_moveSpeed = -pev->maxspeed;
