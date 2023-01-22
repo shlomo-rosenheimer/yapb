@@ -641,6 +641,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                if(rg.chance(1)) {
                   if (isOnFloor () || isInWater ()) {
                      pev->button |= IN_JUMP;
+                     m_tryStuckMove = true;
                   }
                } else {
                   //qqq

@@ -5044,6 +5044,11 @@ void Bot::logic () {
          }
       }
 
+
+         if(m_tryStuckMove) {
+            ctrl.msg ("%d - is stuck at %f", index (), game.time ());
+         }
+
          if(m_tryStuckMove && m_tryStuckMoveTime + 3.0f < game.time ()) {
             ctrl.msg ("%d - stop after 3 sec  %f", index (), game.time ());
             m_tryStuckMove = false;
