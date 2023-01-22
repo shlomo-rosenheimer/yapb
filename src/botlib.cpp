@@ -3010,8 +3010,8 @@ void Bot::frame () {
    }
 
    checkSpawnConditions ();
-   checkForChat ();
-   checkBreakablesAround ();
+   //checkForChat ();
+   //checkBreakablesAround ();
 
    if (game.is (GameFlags::HasBotVoice)) {
       showChaterIcon (false); // end voice feedback
@@ -5284,23 +5284,24 @@ void Bot::takeDamage (edict_t *inflictor, int damage, int armor, int bits) {
    // qqq
    //updatePracticeValue (damage);
 
-   if (util.isPlayer (inflictor) || (cv_attack_monsters.bool_ () && util.isMonster (inflictor))) {
-      if (!util.isMonster (inflictor) && cv_tkpunish.bool_ () && game.getTeam (inflictor) == m_team && !util.isFakeClient (inflictor)) {
-         // alright, die you teamkiller!!!
-         m_actualReactionTime = 0.0f;
-         m_seeEnemyTime = game.time ();
-         m_enemy = inflictor;
+   if (util.isPlayer (inflictor)) {
+   //if (util.isPlayer (inflictor) || (cv_attack_monsters.bool_ () && util.isMonster (inflictor))) {
+      // if (!util.isMonster (inflictor) && cv_tkpunish.bool_ () && game.getTeam (inflictor) == m_team && !util.isFakeClient (inflictor)) {
+      //    // alright, die you teamkiller!!!
+      //    m_actualReactionTime = 0.0f;
+      //    m_seeEnemyTime = game.time ();
+      //    m_enemy = inflictor;
 
-         m_lastEnemy = m_enemy;
-         m_lastEnemyOrigin = m_enemy->v.origin;
-         m_enemyOrigin = m_enemy->v.origin;
+      //    m_lastEnemy = m_enemy;
+      //    m_lastEnemyOrigin = m_enemy->v.origin;
+      //    m_enemyOrigin = m_enemy->v.origin;
 
-         pushChatMessage (Chat::TeamAttack);
-         pushChatterMessage (Chatter::FriendlyFire);
-      }
-      else {
+      //    pushChatMessage (Chat::TeamAttack);
+      //    pushChatterMessage (Chatter::FriendlyFire);
+      // }
+      // else {
          // attacked by an enemy
-         if (m_healthValue > 60.0f) {
+         if (m_healthValue > 20.0f) { // qqq 60.0
             m_agressionLevel += 0.1f;
 
             if (m_agressionLevel > 1.0f) {
@@ -5321,13 +5322,13 @@ void Bot::takeDamage (edict_t *inflictor, int damage, int armor, int bits) {
             m_lastEnemyOrigin = inflictor->v.origin;
 
             // FIXME - Bot doesn't necessary sees this enemy
-            m_seeEnemyTime = game.time ();
+            if(rg.chance(80)) m_seeEnemyTime = game.time (); // qqq
          }
 
          if (!game.is (GameFlags::CSDM)) {
             updatePracticeDamage (inflictor, armor + damage);
          }
-      }
+      // }
    }
    // hurt by unusual damage like drowning or gas
    else {

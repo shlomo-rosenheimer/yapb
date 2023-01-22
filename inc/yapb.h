@@ -813,8 +813,8 @@ private:
    bool isReplyingToChat ();
    bool isReachableNode (int index);
    bool isBannedNode (int index);
-   bool updateLiftHandling ();
-   bool updateLiftStates ();
+   //bool updateLiftHandling ();
+   //bool updateLiftStates ();
    bool canRunHeavyWeight ();
 
    void markStale ();

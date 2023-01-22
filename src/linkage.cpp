@@ -171,9 +171,9 @@ CR_EXPORT int GetEntityAPI (gamefuncs_t *table, int) {
       if (!game.isNullEntity (pentTouched) && pentOther != game.getStartEntity ()) {
          auto bot = bots[pentTouched];
 
-         if (bot && game.isShootableBreakable (pentOther)) {
-            bot->checkBreakable (pentOther);
-         }
+         // if (bot && game.isShootableBreakable (pentOther)) {
+         //    bot->checkBreakable (pentOther);
+         // }
       }
 
       if (game.is (GameFlags::Metamod)) {
