@@ -5071,13 +5071,13 @@ void Bot::logic () {
       */
 
          if(m_tryStuckMove && m_tryStuckMoveTime + 2.0f < game.time ()) {
-            ctrl.msg ("%d - stop after 3 sec  %f", index (), game.time ());
+            ctrl.msg ("id %d - stop after 2 sec - start %f now %f", index (), m_tryStuckMoveTime, game.time ());
             m_tryStuckMove = false;
          }
          
-         if(m_tryStuckMove && m_tryStuckMoveTime <= game.time () + 0.5f) {
+         if(m_tryStuckMove && m_tryStuckMoveTime <= game.time () + 0.2f) {
 
-            ctrl.msg ("%d - stuck at  %f",  index (), game.time ());
+            ctrl.msg ("%d - move at  %f",  index (), game.time ());
 
             pev->button &= ~IN_FORWARD;
             pev->button |= IN_BACK;
@@ -5094,7 +5094,7 @@ void Bot::logic () {
 
             selectWeaponByName ("weapon_knife");
 
-            m_tryStuckMoveTime = game.time ();
+            m_tryStuckMoveTime = game.time () + 0.5f;
          } else if(!m_tryStuckMove) {
 
             // qqq
