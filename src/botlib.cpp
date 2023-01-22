@@ -2810,7 +2810,8 @@ void Bot::updateAimDir () {
          // qqq 2
          m_lookAt = m_destOrigin; // new
          //qqq
-         if(rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+         if(m_healthValue > 80.0f && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+            m_idealReactionTime *= 0.3f;
             selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
             if(rg.chance(40)) {
                if(rg.chance(50)) {
@@ -2827,7 +2828,8 @@ void Bot::updateAimDir () {
       // qqq 3
       m_lookAt = m_destOrigin; // new
       //qqq
-      if(rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+      if(m_healthValue > 80.0f && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+         m_idealReactionTime *= 0.3f;
          selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
 
          if(rg.chance(40)) {
@@ -2860,7 +2862,8 @@ void Bot::updateAimDir () {
             m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex); // orig
             m_lookAt = m_destOrigin; // new
             //qqq
-            if(rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+            if(m_healthValue > 80.0f && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+               m_idealReactionTime *= 0.3f;
                selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
                if(rg.chance(40)) {
                   if(rg.chance(50)) {
@@ -2890,7 +2893,8 @@ void Bot::updateAimDir () {
                // qqq
                m_lookAt = m_destOrigin; // new
                //qqq
-               if(rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+               if(m_healthValue > 80.0f && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+                  m_idealReactionTime *= 0.3f;
                   selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
 
                   if(rg.chance(40)) {
