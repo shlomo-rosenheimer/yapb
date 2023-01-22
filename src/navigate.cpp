@@ -648,10 +648,8 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                   if (isOnFloor () || isInWater ()) {
                      pev->button |= IN_JUMP;
                      m_tryStuckMove = true;
+                     m_tryStuckMoveTime = game.time ();
 
-                     if(m_tryStuckMove) {
-            ctrl.msg ("%d - nn is stuck at %f", index (), game.time ());
-         }
                   }
                } else {
                   //qqq
@@ -659,11 +657,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                   m_moveSpeed = -pev->maxspeed;
                   setStrafeSpeed (dirNormal, -pev->maxspeed);
                   m_tryStuckMove = true;
-
-                  if(m_tryStuckMove) {
-            ctrl.msg ("%d - nn is stuck at %f", index (), game.time ());
-         }
-               }
+                  m_tryStuckMoveTime = game.time ();
 
                break;
 
@@ -678,25 +672,20 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                //m_moveSpeed = -pev->maxspeed;
 
                m_tryStuckMove = true;
-               if(m_tryStuckMove) {
-            ctrl.msg ("%d - nn is stuck at %f", index (), game.time ());
-         }
+               m_tryStuckMoveTime = game.time ();
                break;
 
             case CollisionState::StrafeLeft:
                setStrafeSpeed (dirNormal, -pev->maxspeed);
                m_tryStuckMove = true;
-               if(m_tryStuckMove) {
-            ctrl.msg ("%d - nn is stuck at %f", index (), game.time ());
-         }
+               m_tryStuckMoveTime = game.time ();
+
                break;
 
             case CollisionState::StrafeRight:
                setStrafeSpeed (dirNormal, pev->maxspeed);
                m_tryStuckMove = true;
-               if(m_tryStuckMove) {
-            ctrl.msg ("%d - nn is stuck at %f", index (), game.time ());
-         }
+               m_tryStuckMoveTime = game.time ();
                break;
             }
          }

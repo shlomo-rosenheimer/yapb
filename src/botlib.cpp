@@ -5044,17 +5044,38 @@ void Bot::logic () {
          }
       }
 
+      /*
+      
+      12 - nn is stuck at 13.928228
+12 - nn is stuck at 13.928228
+12 - is stuck at 13.928228
+12 - stop after 3 sec  13.928228
+17 - nn is stuck at 13.932481
+17 - is stuck at 13.932481
+17 - stop after 3 sec  13.932481
+4 - nn is stuck at 13.935088
+4 - nn is stuck at 13.935088
+4 - is stuck at 13.935088
+4 - stop after 3 sec  13.935088
+9 - nn is stuck at 14.067589
+9 - is stuck at 14.067589
+9 - stop after 3 sec  14.067589
+9 - nn is stuck at 14.085809
+9 - is stuck at 14.085809
+9 - stop after 3 sec  14.085809
+9 - nn is stuck at 14.103871
+9 - is stuck at 14.103871
+9 - stop after 3 sec  14.103871
 
-         if(m_tryStuckMove) {
-            ctrl.msg ("%d - is stuck at %f", index (), game.time ());
-         }
+      
+      */
 
-         if(m_tryStuckMove && m_tryStuckMoveTime + 3.0f < game.time ()) {
+         if(m_tryStuckMove && m_tryStuckMoveTime + 2.0f < game.time ()) {
             ctrl.msg ("%d - stop after 3 sec  %f", index (), game.time ());
             m_tryStuckMove = false;
          }
          
-         if(m_tryStuckMove && m_tryStuckMoveTime <= game.time () + 1.0f) {
+         if(m_tryStuckMove && m_tryStuckMoveTime <= game.time () + 0.5f) {
 
             ctrl.msg ("%d - stuck at  %f",  index (), game.time ());
 
