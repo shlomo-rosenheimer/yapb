@@ -5089,12 +5089,12 @@ id 19 - m_tryStuckMove - start 23.475901 now 23.264977
 
       
       */
-
+ctrl.msg ("id %d - fuck l %f now %f", index (), m_tryStuckMoveTime, game.time ());
          if(m_tryStuckMove) {
             ctrl.msg ("id %d - m_tryStuckMove - start %f now %f", index (), m_tryStuckMoveTime, game.time ());
          }
 
-         if(m_tryStuckMove && m_tryStuckMoveTime + 2.0f < game.time ()) {
+         if(m_tryStuckMove && m_tryStuckMoveTime + 3.0f < game.time ()) {
             ctrl.msg ("id %d - stop after 2 sec - start %f now %f", index (), m_tryStuckMoveTime, game.time ());
             m_tryStuckMove = false;
          }
