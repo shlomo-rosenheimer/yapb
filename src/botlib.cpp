@@ -5094,7 +5094,7 @@ ctrl.msg ("id %d - fuck l %f now %f", index (), m_tryStuckMoveTime, game.time ()
             ctrl.msg ("id %d - m_tryStuckMove - start %f now %f", index (), m_tryStuckMoveTime, game.time ());
          }
 
-         if(m_tryStuckMove && m_tryStuckMoveTime + 3.0f < game.time ()) {
+         if(m_tryStuckMove && m_tryStuckMoveTime + 1.0f < game.time ()) {
             ctrl.msg ("id %d - stop after 2 sec - start %f now %f", index (), m_tryStuckMoveTime, game.time ());
             m_tryStuckMove = false;
          }
