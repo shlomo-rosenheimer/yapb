@@ -389,16 +389,16 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
 
    // Standing still, no need to check?
    // FIXME: doesn't care for ladder movement (handled separately) should be included in some way
-   //qqq was 10.0f
-   if ((m_moveSpeed >= 1.0f || m_strafeSpeed >= 1.0f) && m_lastCollTime < game.time () && m_seeEnemyTime + 0.8f < game.time () && getCurrentTaskId () != Task::Attack) {
+   //qqq was 10.0f, new 1.0
+   if ((m_moveSpeed >= 10.0f || m_strafeSpeed >= 10.0f) && m_lastCollTime < game.time () && m_seeEnemyTime + 0.8f < game.time () && getCurrentTaskId () != Task::Attack) {
 
       // didn't we move enough previously?
-      if (movedDistance < 2.0f && m_prevSpeed >= 100.0f) { // was 20.0
+      if (movedDistance < 20.0f && m_prevSpeed >= 100.0f) { // was 20.0 , new 2.0
          m_prevTime = game.time (); // then consider being stuck
          m_isStuck = true;
 
          if (cr::fzero (m_firstCollideTime)) {
-            m_firstCollideTime = game.time () + 0.5f; // qqq was 0.2
+            m_firstCollideTime = game.time () + 0.52; // qqq was 0.2, new 0.2
          }
       }
       // not stuck yet
@@ -444,9 +444,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             bits |= (CollisionProbe::Jump | CollisionProbe::Strafe);
          }
          else {
-            // qqq
-            //bits |= (CollisionProbe::Strafe | CollisionProbe::Jump);
-            bits |= CollisionProbe::Strafe;
+            bits |= (CollisionProbe::Strafe | CollisionProbe::Jump);
          }
 
          // collision check allowed if not flying through the air
@@ -641,10 +639,10 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                // if (isOnFloor () || isInWater ()) {
                //    pev->button |= IN_JUMP;
                // }
+               //qqq
+               pev->button |= IN_BACK;
+               m_moveSpeed = -pev->maxspeed;
                setStrafeSpeed (dirNormal, -pev->maxspeed);
-               if(rg.chance(30)) {
-                  m_moveSpeed = -pev->maxspeed;
-               }
                break;
 
             case CollisionState::Duck:
@@ -653,17 +651,23 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                //    pev->button |= IN_DUCK;
                // }
                setStrafeSpeed (dirNormal, pev->maxspeed);
-               if(rg.chance(30)) {
-                  m_moveSpeed = -pev->maxspeed;
-               }
+               //qqq
+               pev->button |= IN_BACK;
+               m_moveSpeed = -pev->maxspeed;
                break;
 
             case CollisionState::StrafeLeft:
                setStrafeSpeed (dirNormal, -pev->maxspeed);
+               //qqq
+               pev->button |= IN_BACK;
+               m_moveSpeed = -pev->maxspeed;
                break;
 
             case CollisionState::StrafeRight:
                setStrafeSpeed (dirNormal, pev->maxspeed);
+               //qqq
+               pev->button |= IN_BACK;
+               m_moveSpeed = -pev->maxspeed;
                break;
             }
          }
