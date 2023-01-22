@@ -398,7 +398,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
          m_isStuck = true;
 
          if (cr::fzero (m_firstCollideTime)) {
-            m_firstCollideTime = game.time () + 0.52; // qqq was 0.2, new 0.2
+            m_firstCollideTime = game.time () + 0.2; // qqq was 0.2, new 0.5
          }
       }
       // not stuck yet
@@ -406,7 +406,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
          // test if there's something ahead blocking the way
          if (cantMoveForward (dirNormal, &tr) && !isOnLadder ()) {
             if (cr::fzero (m_firstCollideTime)) {
-               m_firstCollideTime = game.time () + 0.5f; // qqq was 0.2
+               m_firstCollideTime = game.time () + 0.2f; // qqq was 0.2, new 0.5
             }
             else if (m_firstCollideTime <= game.time ()) {
                m_isStuck = true;
@@ -658,16 +658,10 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
 
             case CollisionState::StrafeLeft:
                setStrafeSpeed (dirNormal, -pev->maxspeed);
-               //qqq
-               pev->button |= IN_BACK;
-               m_moveSpeed = -pev->maxspeed;
                break;
 
             case CollisionState::StrafeRight:
                setStrafeSpeed (dirNormal, pev->maxspeed);
-               //qqq
-               pev->button |= IN_BACK;
-               m_moveSpeed = -pev->maxspeed;
                break;
             }
          }
