@@ -398,7 +398,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
          m_isStuck = true;
 
          if (cr::fzero (m_firstCollideTime)) {
-            m_firstCollideTime = game.time () + 0.9; // qqq was 0.2, new 0.7 ok
+            m_firstCollideTime = game.time () + 0.2; // qqq was 0.2, new 0.7 ok
          }
       }
       // not stuck yet
@@ -406,7 +406,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
          // test if there's something ahead blocking the way
          if (cantMoveForward (dirNormal, &tr) && !isOnLadder ()) {
             if (cr::fzero (m_firstCollideTime)) {
-               m_firstCollideTime = game.time () + 0.9f; // qqq was 0.2, new 0.7 ok
+               m_firstCollideTime = game.time () + 0.2f; // qqq was 0.2, new 0.7 ok
             }
             else if (m_firstCollideTime <= game.time ()) {
                m_isStuck = true;
@@ -419,7 +419,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
 
       // not stuck?
       if (!m_isStuck) {
-         if (m_probeTime + 0.9f < game.time ()) { // qqq was 0.5,, new 0.9
+         if (m_probeTime + 0.5f < game.time ()) { // qqq was 0.5,, new 0.9
             resetCollision (); // reset collision memory if not being stuck for 0.5 secs
          }
          // qqq
@@ -636,13 +636,17 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             switch (m_collideMoves[m_collStateIndex]) {
             case CollisionState::Jump:
                // qqq
-               if (isOnFloor () || isInWater ()) {
-                  pev->button |= IN_JUMP;
+               if(rg.chance(40)) {
+                  if (isOnFloor () || isInWater ()) {
+                     pev->button |= IN_JUMP;
+                  }
+               } else {
+                  //qqq
+                  pev->button |= IN_BACK;
+                  m_moveSpeed = -pev->maxspeed;
+                  setStrafeSpeed (dirNormal, -pev->maxspeed);
                }
-               //qqq
-               //pev->button |= IN_BACK;
-               //m_moveSpeed = -pev->maxspeed;
-               //setStrafeSpeed (dirNormal, -pev->maxspeed);
+
                break;
 
             case CollisionState::Duck:
