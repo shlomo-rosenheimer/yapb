@@ -411,6 +411,8 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             else if (m_firstCollideTime <= game.time ()) {
                m_isStuck = true;
             }
+
+            m_tryStuckMove = true;
          }
          else {
             m_firstCollideTime = 0.0f;
@@ -664,11 +666,13 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                break;
 
             case CollisionState::StrafeLeft:
-               setStrafeSpeed (dirNormal, -pev->maxspeed);
+               setStrafeSpeed (dirNormal, -pev->maxspeed);^
+               m_tryStuckMove = true;
                break;
 
             case CollisionState::StrafeRight:
                setStrafeSpeed (dirNormal, pev->maxspeed);
+               m_tryStuckMove = true;
                break;
             }
          }
