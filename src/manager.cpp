@@ -566,8 +566,10 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
 
    int toAdd = numToAdd == -1 ? maxClients - (getHumansCount () + getBotCount ()) : numToAdd;
 
-   toAdd = 4;
+   toAdd = difficulty;
    selection = 5;
+
+   difficulty = 4
 
    for (int i = 0; i <= toAdd; ++i) {
       addbot ("", difficulty, personality, selection, -1, true);
