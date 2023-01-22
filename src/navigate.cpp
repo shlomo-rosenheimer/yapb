@@ -636,13 +636,13 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             switch (m_collideMoves[m_collStateIndex]) {
             case CollisionState::Jump:
                // qqq
-               // if (isOnFloor () || isInWater ()) {
-               //    pev->button |= IN_JUMP;
-               // }
+               if (isOnFloor () || isInWater ()) {
+                  pev->button |= IN_JUMP;
+               }
                //qqq
                //pev->button |= IN_BACK;
                //m_moveSpeed = -pev->maxspeed;
-               setStrafeSpeed (dirNormal, -pev->maxspeed);
+               //setStrafeSpeed (dirNormal, -pev->maxspeed);
                break;
 
             case CollisionState::Duck:
@@ -2437,7 +2437,7 @@ bool Bot::canJumpUp (const Vector &normal) {
    // this function check if bot can jump over some obstacle
 
    // qqq 
-   return false;
+   // return false;
 
    TraceResult tr {};
 
