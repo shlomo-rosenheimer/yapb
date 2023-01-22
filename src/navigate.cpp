@@ -415,10 +415,6 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             
 
             m_tryStuckMove = true;
-
-            if(m_tryStuckMove) {
-            ctrl.msg ("%d - nn is stuck at %f", index (), game.time ());
-         }
          }
          else {
             m_firstCollideTime = 0.0f;
@@ -658,7 +654,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                   setStrafeSpeed (dirNormal, -pev->maxspeed);
                   m_tryStuckMove = true;
                   m_tryStuckMoveTime = game.time ();
-
+               }
                break;
 
             case CollisionState::Duck:
