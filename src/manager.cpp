@@ -1369,7 +1369,7 @@ void Bot::newRound () {
    m_fightStyle = Fight::None;
    m_lastFightStyleCheck = 0.0f;
 
-   m_tryStuckMoveTime = game.time ()
+   m_tryStuckMoveTime = game.time ();
    m_tryStuckMove = false;
    m_checkWeaponSwitch = true;
    m_checkKnifeSwitch = true;
