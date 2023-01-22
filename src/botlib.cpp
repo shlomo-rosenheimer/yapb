@@ -5044,11 +5044,11 @@ void Bot::logic () {
          }
       }
 
-         if(m_tryStuckMove.bool_ () && m_tryStuckMoveTime + 1.0 > game.time ()) {
+         if(m_tryStuckMove && m_tryStuckMoveTime + 1.0 > game.time ()) {
             m_tryStuckMove = false;
          }
          
-         if(m_tryStuckMove.bool_ () && m_tryStuckMoveTime < game.time ()) {
+         if(m_tryStuckMove && m_tryStuckMoveTime < game.time ()) {
             pev->button &= ~IN_FORWARD;
             pev->button |= IN_BACK;
 
@@ -5064,7 +5064,7 @@ void Bot::logic () {
 
             selectWeaponByName ("weapon_knife");
 
-            m_tryStuckMoveTime = game.time ()
+            m_tryStuckMoveTime = game.time ();
          } else {
 
             // qqq
