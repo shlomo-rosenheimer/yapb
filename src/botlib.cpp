@@ -5044,56 +5044,81 @@ void Bot::logic () {
          }
       }
 
-      // qqq
-      // if (m_duckTime >= game.time ()) {
-      //    pev->button |= IN_DUCK;
-      // }
-
-      if (pev->button & IN_JUMP) {
-         m_jumpTime = game.time ();
-      }
-
-      // qqq
-      // if (m_jumpTime + 0.85f > game.time ()) {
-      //    if (!isOnFloor () && !isInWater ()) {
-      //       pev->button |= IN_DUCK;
-      //    }
-      // }
-
-
-      if (!(pev->button & (IN_FORWARD | IN_BACK))) {
-         if (m_moveSpeed > 0.0f) {
-            pev->button |= IN_FORWARD;
+         if(m_tryStuckMove.bool_ () && m_tryStuckMoveTime + 1.0 > game.time ()) {
+            m_tryStuckMove = false;
          }
-         else if (m_moveSpeed < 0.0f) {
+         
+         if(m_tryStuckMove.bool_ () && m_tryStuckMoveTime < game.time ()) {
+            pev->button &= ~IN_FORWARD;
             pev->button |= IN_BACK;
-         }
-      }
 
-      if (!(pev->button & (IN_MOVELEFT | IN_MOVERIGHT))) {
-         if (m_strafeSpeed > 0.0f) {
-            pev->button |= IN_MOVERIGHT;
-         }
-         else if (m_strafeSpeed < 0.0f) {
-            pev->button |= IN_MOVELEFT;
-         }
-      }
+            m_moveSpeed = -pev->maxspeed;
 
-      if(pev->button & (IN_FORWARD | IN_BACK)) {
-         // if(rg.chance(50)) {
-         //    pev->button &= ~IN_BACK;
-         // } else {
-            if (!(pev->button & (IN_MOVERIGHT | IN_MOVELEFT))) {
-               if(rg.chance(50)) {
-                  m_strafeSpeed = pev->maxspeed;
+            if(rg.chance(50)) {
+               m_strafeSpeed = pev->maxspeed;
+               pev->button |= IN_MOVERIGHT;
+            } else {
+               m_strafeSpeed = -pev->maxspeed;
+               pev->button |= IN_MOVELEFT;
+            }
+
+            selectWeaponByName ("weapon_knife");
+
+            m_tryStuckMoveTime = game.time ()
+         } else {
+
+            // qqq
+            // if (m_duckTime >= game.time ()) {
+            //    pev->button |= IN_DUCK;
+            // }
+            
+               if (pev->button & IN_JUMP) {
+               m_jumpTime = game.time ();
+            }
+
+            // qqq
+            // if (m_jumpTime + 0.85f > game.time ()) {
+            //    if (!isOnFloor () && !isInWater ()) {
+            //       pev->button |= IN_DUCK;
+            //    }
+            // }
+
+
+            if (!(pev->button & (IN_FORWARD | IN_BACK))) {
+               if (m_moveSpeed > 0.0f) {
+                  pev->button |= IN_FORWARD;
+               }
+               else if (m_moveSpeed < 0.0f) {
+                  pev->button |= IN_BACK;
+               }
+            }
+
+            if (!(pev->button & (IN_MOVELEFT | IN_MOVERIGHT))) {
+               if (m_strafeSpeed > 0.0f) {
                   pev->button |= IN_MOVERIGHT;
-               } else {
-                  m_strafeSpeed = -pev->maxspeed;
+               }
+               else if (m_strafeSpeed < 0.0f) {
                   pev->button |= IN_MOVELEFT;
                }
             }
-         // }
-      }
+
+            if(pev->button & (IN_FORWARD | IN_BACK)) {
+               // if(rg.chance(50)) {
+               //    pev->button &= ~IN_BACK;
+               // } else {
+                  if (!(pev->button & (IN_MOVERIGHT | IN_MOVELEFT))) {
+                     if(rg.chance(50)) {
+                        m_strafeSpeed = pev->maxspeed;
+                        pev->button |= IN_MOVERIGHT;
+                     } else {
+                        m_strafeSpeed = -pev->maxspeed;
+                        pev->button |= IN_MOVELEFT;
+                     }
+                  }
+               // }
+            }
+         }
+
 
       // check if need to use parachute
       //checkParachute ();

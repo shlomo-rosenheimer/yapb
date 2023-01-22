@@ -645,6 +645,8 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                   pev->button |= IN_BACK;
                   m_moveSpeed = -pev->maxspeed;
                   setStrafeSpeed (dirNormal, -pev->maxspeed);
+
+                  m_tryStuckMove = true;
                }
 
                break;
@@ -658,6 +660,8 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                //qqq
                //pev->button |= IN_BACK;
                //m_moveSpeed = -pev->maxspeed;
+
+               m_tryStuckMove = true;
                break;
 
             case CollisionState::StrafeLeft:

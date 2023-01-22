@@ -681,7 +681,9 @@ private:
    float m_joinServerTime; // time when bot joined the game
    float m_playServerTime; // time bot spent in the game
    float m_changeViewTime {}; // timestamp to change look at while at freezetime
+   float m_tryStuckMoveTime {}; // timestamp to change look at while at freezetime
 
+   bool m_tryStuckMove {}; // qqq stuck mov
    bool m_moveToGoal {}; // bot currently moving to goal??
    bool m_isStuck {}; // bot is stuck
    bool m_isReloading {}; // bot is reloading a gun
