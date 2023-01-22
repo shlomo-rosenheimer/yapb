@@ -397,6 +397,9 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
          m_prevTime = game.time (); // then consider being stuck
          m_isStuck = true;
 
+         m_tryStuckMove = true;
+         m_tryStuckMoveTime = game.time ();
+
          if (cr::fzero (m_firstCollideTime)) {
             m_firstCollideTime = game.time () + 0.2; // qqq was 0.2, new 0.7 ok
          }
