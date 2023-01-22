@@ -5066,6 +5066,26 @@ void Bot::logic () {
 9 - nn is stuck at 14.103871
 9 - is stuck at 14.103871
 9 - stop after 3 sec  14.103871
+^
+
+
+
+
+
+
+id 6 - m_tryStuckMove - start 23.656799 now 23.264977
+id 9 - m_tryStuckMove - start 23.529778 now 23.264977
+id 10 - m_tryStuckMove - start 23.710505 now 23.264977
+id 11 - m_tryStuckMove - start 23.728149 now 23.264977
+id 12 - m_tryStuckMove - start 23.656799 now 23.264977
+id 13 - m_tryStuckMove - start 23.547932 now 23.264977
+id 14 - m_tryStuckMove - start 23.638552 now 23.264977
+id 15 - m_tryStuckMove - start 23.638552 now 23.264977
+id 16 - m_tryStuckMove - start 23.264977 now 23.264977
+16 - move at  23.264977
+id 17 - m_tryStuckMove - start 23.457710 now 23.264977
+17 - move at  23.264977
+id 19 - m_tryStuckMove - start 23.475901 now 23.264977
 
       
       */
@@ -5079,7 +5099,7 @@ void Bot::logic () {
             m_tryStuckMove = false;
          }
          
-         if(m_tryStuckMove && m_tryStuckMoveTime <= game.time () + 0.2f) {
+         if(m_tryStuckMove && m_tryStuckMoveTime <= game.time () + 0.5f) {
 
             ctrl.msg ("%d - move at  %f",  index (), game.time ());
 
