@@ -5044,11 +5044,11 @@ void Bot::logic () {
          }
       }
 
-         if(m_tryStuckMove && m_tryStuckMoveTime + 1.0 < game.time ()) {
+         if(m_tryStuckMove && m_tryStuckMoveTime + 3.0f < game.time ()) {
             m_tryStuckMove = false;
          }
          
-         if(m_tryStuckMove && m_tryStuckMoveTime < game.time ()) {
+         if(m_tryStuckMove && m_tryStuckMoveTime <= game.time () + 1.0f) {
             pev->button &= ~IN_FORWARD;
             pev->button |= IN_BACK;
 
