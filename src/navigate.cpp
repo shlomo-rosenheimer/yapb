@@ -1779,12 +1779,32 @@ int Bot::findNearestNode () {
       }
       float distance = graph[at].origin.distanceSq (pev->origin);
 
-      if (distance < minimum) {
+      // qqq old
+      // if (distance < minimum) {
 
-         // if bot doing navigation, make sure node really visible and not too high
-         if ((m_currentNodeIndex != kInvalidNodeIndex && graph.isVisible (m_currentNodeIndex, at)) || isReachableNode (at)) {
-            index = at;
-            minimum = distance;
+      //    // if bot doing navigation, make sure node really visible and not too high
+      //    if ((m_currentNodeIndex != kInvalidNodeIndex && graph.isVisible (m_currentNodeIndex, at)) || isReachableNode (at)) {
+      //       index = at;
+      //       minimum = distance;
+      //    }
+      // }
+
+      // qqq fix github
+      if (distance < minimum) {
+            // if bot doing navigation, make sure node really visible and not too high
+            if (m_currentNodeIndex != kInvalidNodeIndex && graph.isVisible (m_currentNodeIndex, at)) {
+               index = at;
+               minimum = distance;
+            }
+            else {
+               TraceResult tr;
+               game.testLine (getEyesPos (), graph[at].origin, TraceIgnore::Monsters, ent (), &tr);
+
+               if (tr.flFraction >= 1.0f && !tr.fStartSolid) {
+                  index = at;
+                  minimum = distance;
+               }
+            }
          }
       }
    }
