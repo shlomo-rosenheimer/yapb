@@ -412,7 +412,13 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                m_isStuck = true;
             }
 
+            
+
             m_tryStuckMove = true;
+
+            if(m_tryStuckMove) {
+            ctrl.msg ("%d - nn is stuck at %f", index (), game.time ());
+         }
          }
          else {
             m_firstCollideTime = 0.0f;
@@ -642,6 +648,10 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                   if (isOnFloor () || isInWater ()) {
                      pev->button |= IN_JUMP;
                      m_tryStuckMove = true;
+
+                     if(m_tryStuckMove) {
+            ctrl.msg ("%d - nn is stuck at %f", index (), game.time ());
+         }
                   }
                } else {
                   //qqq
@@ -649,6 +659,10 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                   m_moveSpeed = -pev->maxspeed;
                   setStrafeSpeed (dirNormal, -pev->maxspeed);
                   m_tryStuckMove = true;
+
+                  if(m_tryStuckMove) {
+            ctrl.msg ("%d - nn is stuck at %f", index (), game.time ());
+         }
                }
 
                break;
@@ -664,16 +678,25 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                //m_moveSpeed = -pev->maxspeed;
 
                m_tryStuckMove = true;
+               if(m_tryStuckMove) {
+            ctrl.msg ("%d - nn is stuck at %f", index (), game.time ());
+         }
                break;
 
             case CollisionState::StrafeLeft:
                setStrafeSpeed (dirNormal, -pev->maxspeed);
                m_tryStuckMove = true;
+               if(m_tryStuckMove) {
+            ctrl.msg ("%d - nn is stuck at %f", index (), game.time ());
+         }
                break;
 
             case CollisionState::StrafeRight:
                setStrafeSpeed (dirNormal, pev->maxspeed);
                m_tryStuckMove = true;
+               if(m_tryStuckMove) {
+            ctrl.msg ("%d - nn is stuck at %f", index (), game.time ());
+         }
                break;
             }
          }
