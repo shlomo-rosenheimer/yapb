@@ -1791,22 +1791,22 @@ int Bot::findNearestNode () {
 
       // qqq fix github
       if (distance < minimum) {
-            // if bot doing navigation, make sure node really visible and not too high
-            if (m_currentNodeIndex != kInvalidNodeIndex && graph.isVisible (m_currentNodeIndex, at)) {
+         // if bot doing navigation, make sure node really visible and not too high
+         if (m_currentNodeIndex != kInvalidNodeIndex && graph.isVisible (m_currentNodeIndex, at)) {
+            index = at;
+            minimum = distance;
+         }
+         else {
+            TraceResult tr;
+            game.testLine (getEyesPos (), graph[at].origin, TraceIgnore::Monsters, ent (), &tr);
+
+            if (tr.flFraction >= 1.0f && !tr.fStartSolid) {
                index = at;
                minimum = distance;
             }
-            else {
-               TraceResult tr;
-               game.testLine (getEyesPos (), graph[at].origin, TraceIgnore::Monsters, ent (), &tr);
-
-               if (tr.flFraction >= 1.0f && !tr.fStartSolid) {
-                  index = at;
-                  minimum = distance;
-               }
-            }
          }
       }
+
    }
 
    // worst case, take any node...
