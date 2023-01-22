@@ -5045,10 +5045,14 @@ void Bot::logic () {
       }
 
          if(m_tryStuckMove && m_tryStuckMoveTime + 3.0f < game.time ()) {
+            ctrl.msg ("%d - stop after 3 sec  %f", index (), game.time ())
             m_tryStuckMove = false;
          }
          
          if(m_tryStuckMove && m_tryStuckMoveTime <= game.time () + 1.0f) {
+
+            ctrl.msg ("%d - stuck at  %f",  index (), game.time ())
+
             pev->button &= ~IN_FORWARD;
             pev->button |= IN_BACK;
 
