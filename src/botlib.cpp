@@ -5044,82 +5044,6 @@ void Bot::logic () {
          }
       }
 
-      /*
-      
-      12 - nn is stuck at 13.928228
-12 - nn is stuck at 13.928228
-12 - is stuck at 13.928228
-12 - stop after 3 sec  13.928228
-17 - nn is stuck at 13.932481
-17 - is stuck at 13.932481
-17 - stop after 3 sec  13.932481
-4 - nn is stuck at 13.935088
-4 - nn is stuck at 13.935088
-4 - is stuck at 13.935088
-4 - stop after 3 sec  13.935088
-9 - nn is stuck at 14.067589
-9 - is stuck at 14.067589
-9 - stop after 3 sec  14.067589
-9 - nn is stuck at 14.085809
-9 - is stuck at 14.085809
-9 - stop after 3 sec  14.085809
-9 - nn is stuck at 14.103871
-9 - is stuck at 14.103871
-9 - stop after 3 sec  14.103871
-^
-
-
-
-
-
-
-id 6 - m_tryStuckMove - start 23.656799 now 23.264977
-id 9 - m_tryStuckMove - start 23.529778 now 23.264977
-id 10 - m_tryStuckMove - start 23.710505 now 23.264977
-id 11 - m_tryStuckMove - start 23.728149 now 23.264977
-id 12 - m_tryStuckMove - start 23.656799 now 23.264977
-id 13 - m_tryStuckMove - start 23.547932 now 23.264977
-id 14 - m_tryStuckMove - start 23.638552 now 23.264977
-id 15 - m_tryStuckMove - start 23.638552 now 23.264977
-id 16 - m_tryStuckMove - start 23.264977 now 23.264977
-16 - move at  23.264977
-id 17 - m_tryStuckMove - start 23.457710 now 23.264977
-17 - move at  23.264977
-id 19 - m_tryStuckMove - start 23.475901 now 23.264977
-
-      
-      */
-ctrl.msg ("id %d - fuck l %f now %f", index (), m_tryStuckMoveTime, game.time ());
-         if(m_tryStuckMove) {
-            ctrl.msg ("id %d - m_tryStuckMove - start %f now %f", index (), m_tryStuckMoveTime, game.time ());
-         }
-
-         if(m_tryStuckMove && m_tryStuckMoveTime + 1.0f < game.time ()) {
-            ctrl.msg ("id %d - stop after 2 sec - start %f now %f", index (), m_tryStuckMoveTime, game.time ());
-            m_tryStuckMove = false;
-         }
-         
-         if(m_tryStuckMove) {
-
-            ctrl.msg ("%d - move at  %f",  index (), game.time ());
-
-            pev->button &= ~IN_FORWARD;
-            pev->button |= IN_BACK;
-
-            m_moveSpeed = -pev->maxspeed;
-
-            if(rg.chance(50)) {
-               m_strafeSpeed = pev->maxspeed;
-               pev->button |= IN_MOVERIGHT;
-            } else {
-               m_strafeSpeed = -pev->maxspeed;
-               pev->button |= IN_MOVELEFT;
-            }
-
-            selectWeaponByName ("weapon_knife");
-
-            //m_tryStuckMoveTime = game.time () + 0.5f;
-         } else if(!m_tryStuckMove) {
 
             // qqq
             // if (m_duckTime >= game.time ()) {
@@ -5171,7 +5095,7 @@ ctrl.msg ("id %d - fuck l %f now %f", index (), m_tryStuckMoveTime, game.time ()
                   }
                // }
             }
-         }
+         
 
 
       // check if need to use parachute
