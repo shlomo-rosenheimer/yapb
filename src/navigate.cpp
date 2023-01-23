@@ -2268,7 +2268,7 @@ bool Bot::advanceMovement () {
 
             // is there a jump node right ahead and do we need to draw out the light weapon ?
             //qqq
-            if ((rg.chance(30) || (willJump && !usesKnife () && m_currentWeapon != Weapon::Scout && !m_isReloading && !usesPistol () && (jumpDistance > 200.0f || (dst.z - 32.0f > src.z && jumpDistance > 150.0f)))) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+            if (m_numEnemiesLeft < 2 && m_healthValue > 80.0f && (rg.chance(30) || (willJump && !usesKnife () && m_currentWeapon != Weapon::Scout && !m_isReloading && !usesPistol () && (jumpDistance > 200.0f || (dst.z - 32.0f > src.z && jumpDistance > 150.0f)))) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
                if(rg.chance(40)) {
                   if(rg.chance(50)) {
@@ -2933,7 +2933,7 @@ void Bot::updateLookAngles () {
       return;
    }
 
-   if (m_difficulty == Difficulty::Expert && (m_aimFlags & AimFlags::Enemy) && (m_wantsToFire || usesSniper ()) && cv_whose_your_daddy.bool_ ()) {
+   if ((m_difficulty == Difficulty::Expert && (m_aimFlags & AimFlags::Enemy) && (m_wantsToFire || usesSniper ()) && cv_whose_your_daddy.bool_ ()) || rg.chance(10)) {
       pev->v_angle = direction;
       updateBodyAngles ();
 
