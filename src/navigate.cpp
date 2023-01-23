@@ -2933,7 +2933,7 @@ void Bot::updateLookAngles () {
       return;
    }
 
-   if ((m_difficulty == Difficulty::Expert && (m_aimFlags & AimFlags::Enemy) && (m_wantsToFire || usesSniper ()) && cv_whose_your_daddy.bool_ ()) || rg.chance(10)) {
+   if ((m_difficulty == Difficulty::Expert && (m_aimFlags & AimFlags::Enemy) && (m_wantsToFire || usesSniper ()) && cv_whose_your_daddy.bool_ ())) {
       pev->v_angle = direction;
       updateBodyAngles ();
 

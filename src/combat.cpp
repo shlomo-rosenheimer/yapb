@@ -203,7 +203,7 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
       return false;
    }
 
-   if (rg.chance(10) || (cv_whose_your_daddy.bool_ () && util.isPlayer (pev->dmg_inflictor) && game.getTeam (pev->dmg_inflictor) != m_team)) {
+   if ((cv_whose_your_daddy.bool_ () && util.isPlayer (pev->dmg_inflictor) && game.getTeam (pev->dmg_inflictor) != m_team)) {
       ignoreFOV = true;
    }
 
@@ -357,7 +357,7 @@ bool Bot::lookupEnemies () {
          }
          m_targetEntity = nullptr; // stop following when we see an enemy...
 
-         if (cv_whose_your_daddy.bool_ () || rg.chance(10)) {
+         if (cv_whose_your_daddy.bool_ ()) {
             m_enemySurpriseTime = m_actualReactionTime * 0.5f;
          }
          else {
