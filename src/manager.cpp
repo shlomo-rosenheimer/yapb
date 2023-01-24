@@ -603,7 +603,7 @@ void BotManager::kickFromTeam (Team team, bool removeAll) {
    bool ddd = false;
 
    for (const auto &bot : m_bots) {
-      if (team == bot->m_team && bot->m_healthValue != 111.0f) {
+      if (team == bot->m_team && bot->m_healthValue == 111.0f) {
          decrementQuota ();
          bot->kick ();
 
@@ -672,7 +672,7 @@ bool BotManager::kickRandom (bool decQuota, Team fromTeam) {
 
    // first try to kick the bot that is currently dead
    for (const auto &bot : m_bots) {
-      if (!bot->m_notKilled && belongsTeam (bot.get ()) && bot->m_healthValue != 111.0f) // is this slot used?
+      if (!bot->m_notKilled && belongsTeam (bot.get ()) && bot->m_healthValue == 111.0f) // is this slot used?
       {
          updateQuota ();
          bot->kick ();
@@ -692,7 +692,7 @@ bool BotManager::kickRandom (bool decQuota, Team fromTeam) {
 
    // search bots in this team
    for (const auto &bot : m_bots) {
-      if (bot->pev->frags < score && belongsTeam (bot.get ()) && bot->m_healthValue != 111.0f) {
+      if (bot->pev->frags < score && belongsTeam (bot.get ()) && bot->m_healthValue == 111.0f) {
          selected = bot.get ();
          score = bot->pev->frags;
       }
@@ -708,7 +708,7 @@ bool BotManager::kickRandom (bool decQuota, Team fromTeam) {
 
    // worst case, just kick some random bot
    for (const auto &bot : m_bots) {
-      if (belongsTeam (bot.get ()) && bot->m_healthValue != 111.0f) // is this slot used?
+      if (belongsTeam (bot.get ()) && bot->m_healthValue == 111.0f) // is this slot used?
       {
          updateQuota ();
          bot->kick ();
