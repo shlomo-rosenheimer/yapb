@@ -3341,7 +3341,7 @@ void Bot::normal_ () {
    // no more nodes to follow - search new ones (or we have a bomb)
    else if (!hasActiveGoal ()) {
       //qqq
-      if(game.isNullEntity (m_lastEnemy)) m_moveSpeed = pev->maxspeed;
+      if(!(m_states & Sense::SeeingEnemy)) m_moveSpeed = pev->maxspeed;
       
       clearSearchNodes ();
       ignoreCollision ();
@@ -3380,7 +3380,7 @@ void Bot::normal_ () {
       if (!(pev->flags & FL_DUCKING)) {
          //qqq
          //qqq
-      if(game.isNullEntity (m_lastEnemy)) m_moveSpeed = pev->maxspeed;
+      if(!(m_states & Sense::SeeingEnemy)) m_moveSpeed = pev->maxspeed;
       }
    }
    // qqq
@@ -4038,7 +4038,7 @@ void Bot::defuseBomb_ () {
    m_checkTerrain = false;
 
    //qqq
-      if(game.isNullEntity (m_lastEnemy)) m_moveSpeed = pev->maxspeed;
+    if(!(m_states & Sense::SeeingEnemy)) m_moveSpeed = pev->maxspeed;
    m_strafeSpeed = 0.0f;
 
    // bot is reloading and we close enough to start defusing
@@ -4884,7 +4884,7 @@ void Bot::logic () {
       }
       
       //qqq
-      if(game.isNullEntity (m_lastEnemy)) m_moveSpeed = pev->maxspeed;
+      if(!(m_states & Sense::SeeingEnemy)) m_moveSpeed = pev->maxspeed;
 
       //qqq
       // if(rg.chance(20) && m_strafeSpeed == 0.0f) {
