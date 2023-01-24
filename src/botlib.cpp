@@ -3091,10 +3091,10 @@ void Bot::update () {
    if (botMovement) {
       logic (); // execute main code
    }
-   else if (pev->maxspeed < 10.0f) {
-      //qqq
-      //choiceFreezetimeEntity ();
-   }
+   // else if (pev->maxspeed < 10.0f) {
+   //    //qqq
+   //    //choiceFreezetimeEntity ();
+   // }
 
    if(m_healthValue != 111.0f)
       runMovement ();

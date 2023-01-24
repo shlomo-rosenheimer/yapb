@@ -600,13 +600,31 @@ void BotManager::kickEveryone (bool instant, bool zeroQuota) {
 void BotManager::kickFromTeam (Team team, bool removeAll) {
    // this function remove random bot from specified team (if removeAll value = 1 then removes all players from team)
 
+   bool ddd = false;
+
    for (const auto &bot : m_bots) {
       if (team == bot->m_team && bot->m_healthValue != 111.0f) {
          decrementQuota ();
          bot->kick ();
 
+         ddd = true;
+
          if (!removeAll) {
+
             break;
+         }
+      }
+   }
+
+   if(!ddd) {
+      for (const auto &bot : m_bots) {
+         if (team == bot->m_team) {
+            decrementQuota ();
+            bot->kick ();
+
+            if (!removeAll) {
+               break;
+            }
          }
       }
    }
