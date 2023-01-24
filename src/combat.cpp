@@ -1287,7 +1287,7 @@ void Bot::attackMovement () {
 
          // force strafe 3
          //qqq
-         if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right rg.chance(40)) {
+         if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right && rg.chance(40)) {
             if (!wallright) {
                m_strafeSpeed = pev->maxspeed;
             } else if (!wallright) {
