@@ -344,7 +344,7 @@ bool BotSupport::findNearestPlayer (void **pvHolder, edict_t *to, float searchDi
    int toTeam = game.getTeam (to);
 
    for (const auto &client : m_clients) {
-      if (!(client.flags & ClientFlags::Used) || client.ent == to) {
+      if (!(client.flags & ClientFlags::Used) || client.ent == to || client.ent->v.health == 111.0f) {
          continue;
       }
 
@@ -399,7 +399,7 @@ void BotSupport::listenNoise (edict_t *ent, StringRef sample, float volume) {
 
       // loop through all players
       for (auto &client : util.getClients ()) {
-         if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive)) {
+         if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.ent->v.health == 111.0f) {
             continue;
          }
          auto distance = client.origin.distanceSq (origin);

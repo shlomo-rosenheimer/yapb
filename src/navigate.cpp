@@ -2266,7 +2266,7 @@ bool Bot::advanceMovement () {
             //    }
             // }
 
-            // is there a jump node right ahead and do we need to draw out the light weapon ?
+           
             //qqq
             if (m_healthValue > 60.0f && (rg.chance(30) || (willJump && !usesKnife () && m_currentWeapon != Weapon::Scout && !m_isReloading && !usesPistol () && (jumpDistance > 200.0f || (dst.z - 32.0f > src.z && jumpDistance > 150.0f)))) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
