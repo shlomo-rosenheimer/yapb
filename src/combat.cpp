@@ -1017,7 +1017,7 @@ void Bot::fireWeapons () {
    // }
 
    // qqq knife
-   if (!game.isNullEntity (enemy) && (distance < 90.0f || (rg.chance(40) && distance < 120.0f))) {
+   if (!game.isNullEntity (enemy) && ((rg.chance(70) && distance < 90.0f) || (rg.chance(30) && distance < 120.0f))) {
       selectWeapons (distance, selectIndex, selectId, choosenWeapon);
       return;
    }
@@ -1227,12 +1227,12 @@ void Bot::attackMovement () {
 
       m_fightStyle = Fight::Strafe;
 
-      // qqq ALWAYS strafe
-      // if (usesSniper () || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
-      //    m_fightStyle = Fight::Stay;
-      //    m_lastFightStyleCheck = game.time ();
-      // }
-      // else 
+      // qqq 
+      if (usesSniper () || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
+         m_fightStyle = Fight::Stay;
+         m_lastFightStyleCheck = game.time ();
+      }
+      else 
       if (usesRifle () || usesSubmachine ()) {
          if (m_lastFightStyleCheck + 3.0f < game.time ()) {
             m_fightStyle = Fight::Strafe;
@@ -1287,7 +1287,7 @@ void Bot::attackMovement () {
 
          // force strafe 3
          //qqq
-         if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right) {
+         if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right rg.chance(40)) {
             if (!wallright) {
                m_strafeSpeed = pev->maxspeed;
             } else if (!wallright) {
