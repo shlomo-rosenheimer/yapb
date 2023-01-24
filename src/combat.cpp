@@ -1160,6 +1160,9 @@ void Bot::attackMovement () {
    }
    float distance = m_lookAt.distance2d (getEyesPos ()); // how far away is the enemy scum?
 
+   bool wallleft;
+   bool wallright;
+
    if (m_lastUsedNodesTime + getFrameInterval () + 0.5f < game.time ()) {
       // int approach;
 
@@ -1289,34 +1292,41 @@ void Bot::attackMovement () {
             if (rg.chance (20)) {
                m_combatStrafeDir = (m_combatStrafeDir == Dodge::Left ? Dodge::Right : Dodge::Left);
             }
-            m_strafeSetTime = game.time () + rg.get (2.5f, 3.0f); // was 0.5 - 3.0, new 1.5 - 3.0
+            m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f); // was 0.5 - 3.0, new 1.5 - 3.0
          }
 
+         wallleft = checkWallOnLeft ();
+         wallright = checkWallOnRight () ();
+
          if (m_combatStrafeDir == Dodge::Right) {
-            if (!checkWallOnLeft ()) {
+            if (!wallleft) {
                m_strafeSpeed = -pev->maxspeed;
             }
             else {
                m_combatStrafeDir = Dodge::Left;
-               m_strafeSetTime = game.time () + rg.get (2.8f, 3.1f); // was 0.8 - 1.1, new 1.8 - 3.1
+               m_strafeSetTime = game.time () + rg.get (1.8f, 3.1f); // was 0.8 - 1.1, new 1.8 - 3.1
             }
          }
          else {
-            if (!checkWallOnRight ()) {
+            if (!wallright) {
                m_strafeSpeed = pev->maxspeed;
             }
             else {
                m_combatStrafeDir = Dodge::Right;
-               m_strafeSetTime = game.time () + rg.get (2.8f, 3.1f); // was 0.8 - 1.1, new 1.8 - 3.1
+               m_strafeSetTime = game.time () + rg.get (1.8f, 3.1f); // was 0.8 - 1.1, new 1.8 - 3.1
             }
          }
 
          // force strafe 3
       //qqq
-         // if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right) {
-         //    m_strafeSpeed = pev->maxspeed;
-         //    m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f); // was 0.5 - 3.0
-         // }
+         if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right) {
+            if (!wallright) {
+               m_strafeSpeed = pev->maxspeed;
+            } else if (!wallright) {
+               m_strafeSpeed = pev->maxspeed;
+            }
+            m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f); // was 0.5 - 3.0
+         }
 
          // qqq
          // if (m_difficulty >= Difficulty::Hard && (m_jumpTime + 5.0f < game.time () && isOnFloor () && rg.get (0, 1000) < (m_isReloading ? 8 : 2) && pev->velocity.length2d () > 120.0f) && !usesSniper ()) {
