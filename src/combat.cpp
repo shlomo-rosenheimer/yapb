@@ -327,7 +327,9 @@ bool Bot::lookupEnemies () {
             }
          }
       }
-      m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 0.5f, 0.75f);
+      //qqq
+      //m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 0.5f, 0.75f);
+      m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 0.75f, 1.0f);
 
       if (game.isNullEntity (newEnemy) && !game.isNullEntity (shieldEnemy)) {
          newEnemy = shieldEnemy;
@@ -357,7 +359,8 @@ bool Bot::lookupEnemies () {
          }
          m_targetEntity = nullptr; // stop following when we see an enemy...
 
-         if (cv_whose_your_daddy.bool_ ()) {
+         //qqq
+         if (cv_whose_your_daddy.bool_ () || usesKnife()) {
             m_enemySurpriseTime = m_actualReactionTime * 0.5f;
          }
          else {
@@ -411,7 +414,7 @@ bool Bot::lookupEnemies () {
          // shoot at dying players if no new enemy to give some more human-like illusion
          if (m_seeEnemyTime + 0.1f > game.time ()) {
             if (!usesSniper ()) {
-               m_shootAtDeadTime = game.time () + cr::clamp (m_agressionLevel * 1.25f, 0.45f, 0.60f);
+               m_shootAtDeadTime = game.time () + cr::clamp (m_agressionLevel * 1.25f, 0.25f, 0.40f); // 0.45f, 0.60f
                m_actualReactionTime = 0.0f;
                m_states |= Sense::SuspectEnemy;
 

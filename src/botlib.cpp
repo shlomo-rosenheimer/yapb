@@ -2770,8 +2770,8 @@ void Bot::updateAimDir () {
       //m_lookAt = m_destOrigin; // new
 
       // did bot just see enemy and is quite aggressive?
-      //qqq
-      if (rg.chance(30) || (m_seeEnemyTime + 1.0f - m_actualReactionTime + m_baseAgressionLevel > game.time ())) {
+
+      if ((m_seeEnemyTime + 1.0f - m_actualReactionTime + m_baseAgressionLevel > game.time ())) {
 
          // feel free to fire if shootable
          if (!usesSniper () && lastEnemyShootable ()) {
@@ -2862,7 +2862,7 @@ void Bot::updateAimDir () {
          if (graph.isVisible (m_currentNodeIndex, nextPathIndex)) {
             // qqq
             m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex); // orig
-            m_lookAt = m_destOrigin; // new
+            //m_lookAt = m_destOrigin; // new
             //qqq
             if(m_numEnemiesLeft < 2 && m_healthValue > 80.0f && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                m_idealReactionTime = 0.05f; // 0.05
@@ -2893,8 +2893,7 @@ void Bot::updateAimDir () {
                m_lookAt = m_destOrigin;
             }
             else {
-               // qqq
-               m_lookAt = m_destOrigin; // new
+               
                //qqq
                if(m_numEnemiesLeft < 2 && m_healthValue > 80.0f && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                   m_idealReactionTime = 0.05f; // 0.05
@@ -2909,7 +2908,9 @@ void Bot::updateAimDir () {
                      }
                   }
                }
-               //m_lookAt = graph[dangerIndex].origin + pev->view_ofs + smoothView (dangerIndex); // orig
+               // qqq
+               //m_lookAt = m_destOrigin; // new
+               m_lookAt = graph[dangerIndex].origin + pev->view_ofs + smoothView (dangerIndex); // orig
 
                // add danger flags
                m_aimFlags |= AimFlags::Danger;
@@ -4882,13 +4883,13 @@ void Bot::logic () {
       m_moveSpeed = pev->maxspeed;
 
       //qqq
-      if(rg.chance(20) && m_strafeSpeed == 0.0f) {
-         if(rg.chance(50) && m_strafeSpeed > 50.0f) {
-            m_strafeSpeed = pev->maxspeed;
-         } else {
-            m_strafeSpeed = -pev->maxspeed;
-         }
-      }
+      // if(rg.chance(20) && m_strafeSpeed == 0.0f) {
+      //    if(rg.chance(50) && m_strafeSpeed > 50.0f) {
+      //       m_strafeSpeed = pev->maxspeed;
+      //    } else {
+      //       m_strafeSpeed = -pev->maxspeed;
+      //    }
+      // }
 
       if (m_prevTime <= game.time ()) {
 
