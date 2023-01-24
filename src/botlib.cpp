@@ -1733,7 +1733,7 @@ void Bot::overrideConditions () {
    // special handling for sniping
    if (usesSniper () && (m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy)) && m_sniperStopTime > game.time () && getCurrentTaskId () != Task::SeekCover) {
       m_moveSpeed = 0.0f;
-      if(rg.chance(30)) m_strafeSpeed = 0.0f;
+      //if(rg.chance(30)) m_strafeSpeed = 0.0f;
 
       m_navTimeset = game.time ();
    }
@@ -3575,7 +3575,7 @@ void Bot::seekCover_ () {
       }
       //qqq
       m_moveSpeed = 0.0f;
-      //m_strafeSpeed = 0.0f;
+      m_strafeSpeed = 0.0f;
 
       m_moveToGoal = false;
       m_checkTerrain = false;
@@ -3635,7 +3635,7 @@ void Bot::pause_ () {
    m_navTimeset = game.time ();
    //qqq
    m_moveSpeed = 0.0f;
-   //m_strafeSpeed = 0.0f;
+   m_strafeSpeed = 0.0f;
 
    m_aimFlags |= AimFlags::Nav;
 
@@ -3710,9 +3710,8 @@ void Bot::camp_ () {
    m_navTimeset = game.time ();
    m_timeCamping = game.time ();
 
-   //qqq
-   //m_moveSpeed = 0.0f;
-   //m_strafeSpeed = 0.0f;
+   m_moveSpeed = 0.0f;
+   m_strafeSpeed = 0.0f;
 
    findValidNode ();
 
@@ -3803,7 +3802,7 @@ void Bot::hide_ () {
    m_navTimeset = game.time ();
    //qqq
    m_moveSpeed = 0.0f;
-   //m_strafeSpeed = 0.0f;
+   m_strafeSpeed = 0.0f;
 
    findValidNode ();
 
@@ -4037,8 +4036,7 @@ void Bot::defuseBomb_ () {
    m_moveToGoal = false;
    m_checkTerrain = false;
 
-   //qqq
-    if(!(m_states & Sense::SeeingEnemy) || usesKnife()) m_moveSpeed = pev->maxspeed;
+   m_moveSpeed = pev->maxspeed;
    m_strafeSpeed = 0.0f;
 
    // bot is reloading and we close enough to start defusing
