@@ -1296,7 +1296,7 @@ void Bot::attackMovement () {
          }
 
          wallleft = checkWallOnLeft ();
-         wallright = checkWallOnRight () ();
+         wallright = checkWallOnRight ();
 
          if (m_combatStrafeDir == Dodge::Right) {
             if (!wallleft) {
