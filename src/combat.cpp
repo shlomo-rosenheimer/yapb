@@ -1011,7 +1011,7 @@ void Bot::fireWeapons () {
    }
 
    // use knife if near and good difficulty (l33t dude!)
-   // if (cv_stab_close_enemies.bool_ () && m_difficulty >= Difficulty::Normal && m_healthValue > 80.0f && !game.isNullEntity (enemy) && m_healthValue >= enemy->v.health && distance < 100.0f && !isOnLadder () && !isGroupOfEnemies (pev->origin)) {
+   // if (cv_stab_close_enemies.bool_ () && m_difficulty >= Difficulty::Normal && m_healthValue > 60.0f && !game.isNullEntity (enemy) && m_healthValue >= enemy->v.health && distance < 100.0f && !isOnLadder () && !isGroupOfEnemies (pev->origin)) {
    //    selectWeapons (distance, selectIndex, selectId, choosenWeapon);
    //    return;
    // }
@@ -1320,7 +1320,7 @@ void Bot::attackMovement () {
          // }
 
          //qqq
-         if (m_moveSpeed != 0.0f && rg.chance(90) && distance > 100.0f && !usesKnife ()) {
+         if (m_moveSpeed != 0.0f && rg.chance(95) && distance > 100.0f && !usesKnife ()) {
             m_moveSpeed = 0.0f;
          }
          // if (usesKnife ()) {

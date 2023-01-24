@@ -2810,7 +2810,7 @@ void Bot::updateAimDir () {
          // qqq 2
          m_lookAt = m_destOrigin; // new
          //qqq
-         if(m_numEnemiesLeft < 2 && m_healthValue > 80.0f && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+         if(m_healthValue > 60.0f && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
             m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
             selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
@@ -2829,7 +2829,7 @@ void Bot::updateAimDir () {
       // qqq 3
       m_lookAt = m_destOrigin; // new
       //qqq
-      if(m_numEnemiesLeft < 2 && m_healthValue > 80.0f && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+      if(m_healthValue > 60.0f && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
          m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
          selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
@@ -2864,7 +2864,7 @@ void Bot::updateAimDir () {
             m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex); // orig
             //m_lookAt = m_destOrigin; // new
             //qqq
-            if(m_numEnemiesLeft < 2 && m_healthValue > 80.0f && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+            if(m_healthValue > 60.0f && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
                selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
@@ -2895,7 +2895,7 @@ void Bot::updateAimDir () {
             else {
                
                //qqq
-               if(m_numEnemiesLeft < 2 && m_healthValue > 80.0f && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+               if(m_healthValue > 60.0f && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                   m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
                   selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
@@ -3340,7 +3340,8 @@ void Bot::normal_ () {
    }
    // no more nodes to follow - search new ones (or we have a bomb)
    else if (!hasActiveGoal ()) {
-      m_moveSpeed = pev->maxspeed;
+      //qqq
+      if(game.isNullEntity (m_lastEnemy)) m_moveSpeed = pev->maxspeed;
       
       clearSearchNodes ();
       ignoreCollision ();
@@ -3378,7 +3379,8 @@ void Bot::normal_ () {
       //if (!(pev->flags & FL_DUCKING) && !cr::fequal (m_minSpeed, pev->maxspeed) && m_minSpeed > 1.0f) {
       if (!(pev->flags & FL_DUCKING)) {
          //qqq
-         m_moveSpeed = pev->maxspeed;
+         //qqq
+      if(game.isNullEntity (m_lastEnemy)) m_moveSpeed = pev->maxspeed;
       }
    }
    // qqq
@@ -4035,7 +4037,8 @@ void Bot::defuseBomb_ () {
    m_moveToGoal = false;
    m_checkTerrain = false;
 
-   m_moveSpeed = pev->maxspeed;
+   //qqq
+      if(game.isNullEntity (m_lastEnemy)) m_moveSpeed = pev->maxspeed;
    m_strafeSpeed = 0.0f;
 
    // bot is reloading and we close enough to start defusing
@@ -4880,7 +4883,8 @@ void Bot::logic () {
          m_maxViewDistance = 4096.0f;
       }
       
-      m_moveSpeed = pev->maxspeed;
+      //qqq
+      if(game.isNullEntity (m_lastEnemy)) m_moveSpeed = pev->maxspeed;
 
       //qqq
       // if(rg.chance(20) && m_strafeSpeed == 0.0f) {
