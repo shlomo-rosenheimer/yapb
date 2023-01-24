@@ -1600,6 +1600,9 @@ void Bot::selectBestWeapon () {
    if (m_currentWeapon != id) {
       selectWeaponByName (tab[selectIndex].name);
    }
+
+   if(m_currentWeapon == Weapon::M4A1 && !(m_states & (Sense::SeeingEnemy)) && rg.chance(30)) checkSilencer ();
+
    m_isReloading = false;
    m_reloadState = Reload::None;
 }

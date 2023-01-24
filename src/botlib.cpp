@@ -5753,11 +5753,12 @@ void Bot::checkBurstMode (float distance) {
 }
 
 void Bot::checkSilencer () {
-   if ((m_currentWeapon == Weapon::USP || m_currentWeapon == Weapon::M4A1) && !hasShield ()) {
+   if (m_currentWeapon == Weapon::M4A1 && !hasShield ()) {
       int prob = (m_personality == Personality::Rusher ? 35 : 65);
 
       // aggressive bots don't like the silencer
-      if (rg.chance (m_currentWeapon == Weapon::USP ? prob / 2 : prob)) {
+      //if (rg.chance (m_currentWeapon == Weapon::USP ? prob / 2 : prob)) {
+      if (rg.chance (60)) {
          // is the silencer not attached...
          if (pev->weaponanim > 6) {
             pev->button |= IN_ATTACK2; // attach the silencer
