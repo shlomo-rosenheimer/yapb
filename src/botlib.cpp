@@ -3168,7 +3168,7 @@ void Bot::normal_ () {
       else {
          pev->button |= IN_ATTACK2;
       }
-      m_knifeAttackTime = game.time () + rg.get (4.5f, 8.0f); // was 2.5 - 6.0
+      m_knifeAttackTime = game.time () + rg.get (2.5f, 6.0f);
    }
    const auto &prop = conf.getWeaponProp (m_currentWeapon);
 

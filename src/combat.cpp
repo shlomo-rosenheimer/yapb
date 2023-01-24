@@ -361,16 +361,16 @@ bool Bot::lookupEnemies () {
 
          //qqq
          if (cv_whose_your_daddy.bool_ () || usesKnife()) {
-            m_enemySurpriseTime = m_actualReactionTime * 0.5f;
+            m_enemySurpriseTime = m_actualReactionTime * 0.8f;
          }
          else {
             m_enemySurpriseTime = m_actualReactionTime;
          }
 
          //qqq
-         // if (usesSniper ()) {
-         //    m_enemySurpriseTime *= 0.5f;
-         // }
+         if (usesSniper ()) {
+            m_enemySurpriseTime *= 0.3f;
+         }
          m_enemySurpriseTime += game.time ();
 
          // zero out reaction time
@@ -910,7 +910,7 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
    // we're should stand still before firing sniper weapons, else sniping is useless..
    if (usesSniper () && (m_aimFlags & (AimFlags::Enemy | AimFlags::LastEnemy)) && !m_isReloading && pev->velocity.lengthSq () > 0.0f && getCurrentTaskId () != Task::SeekCover) {
       m_moveSpeed = 0.0f;
-      if(rg.chance(30)) m_strafeSpeed = 0.0f;
+      if(rg.chance(20)) m_strafeSpeed = 0.0f;
       m_navTimeset = game.time ();
 
       if (cr::abs (pev->velocity.x) > 5.0f || cr::abs (pev->velocity.y) > 5.0f || cr::abs (pev->velocity.z) > 5.0f) {
@@ -1295,7 +1295,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Left;
-               m_strafeSetTime = game.time () + rg.get (1.8f, 3.1f); // was 0.8 - 1.1
+               m_strafeSetTime = game.time () + rg.get (0.8f, 1.1f); // was 0.8 - 1.1, new 1.8 - 3.1
             }
          }
          else {
@@ -1304,7 +1304,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Right;
-               m_strafeSetTime = game.time () + rg.get (1.8f, 3.1f); // was 0.8 - 1.1
+               m_strafeSetTime = game.time () + rg.get (0.8f, 1.1f); // was 0.8 - 1.1
             }
          }
 
