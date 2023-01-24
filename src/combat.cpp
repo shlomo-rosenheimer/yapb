@@ -1216,7 +1216,7 @@ void Bot::attackMovement () {
       }
 
    //qqq
-      if(m_strafeSpeed == 0.0f) m_strafeSpeed = pev->maxspeed;
+      //if(m_strafeSpeed == 0.0f) m_strafeSpeed = pev->maxspeed;
 
       // if (usesSniper () || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
       //    m_fightStyle = Fight::Stay;
@@ -1309,10 +1309,10 @@ void Bot::attackMovement () {
          }
 
       //qqq
-         if(m_strafeSpeed == 0.0f) {
-            m_strafeSpeed = pev->maxspeed;
-            m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f); //was 0.5 - 3.0
-         }
+         // if(m_strafeSpeed == 0.0f) {
+         //    m_strafeSpeed = pev->maxspeed;
+         //    m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f); //was 0.5 - 3.0
+         // }
 
          // qqq
          // if (m_difficulty >= Difficulty::Hard && (m_jumpTime + 5.0f < game.time () && isOnFloor () && rg.get (0, 1000) < (m_isReloading ? 8 : 2) && pev->velocity.length2d () > 120.0f) && !usesSniper ()) {
