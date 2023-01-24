@@ -5754,7 +5754,7 @@ void Bot::checkBurstMode (float distance) {
 
 void Bot::checkSilencer () {
    if (m_currentWeapon == Weapon::M4A1 && !hasShield ()) {
-      int prob = (m_personality == Personality::Rusher ? 35 : 65);
+      //int prob = (m_personality == Personality::Rusher ? 35 : 65);
 
       // aggressive bots don't like the silencer
       //if (rg.chance (m_currentWeapon == Weapon::USP ? prob / 2 : prob)) {
