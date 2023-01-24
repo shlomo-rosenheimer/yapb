@@ -1203,20 +1203,23 @@ void Bot::attackMovement () {
 
       //if(rg.chance(20)) m_moveSpeed = pev->maxspeed;
 
-      if(rg.chance(60)) {
-         if(rg.chance(50)) {
-            if (!checkWallOnLeft () && m_strafeSpeed != pev->maxspeed) {
-               m_strafeSpeed = -pev->maxspeed;
-            }
-         } else {
-            if (!checkWallOnRight () && m_strafeSpeed != -pev->maxspeed) {
-               m_strafeSpeed = pev->maxspeed;
-            }
-         }
-      }
+      // force strafe 1
 
-   //qqq
-      if(m_strafeSpeed == 0.0f && rg.chance(80)) m_strafeSpeed = pev->maxspeed;
+   //    if(rg.chance(60)) {
+   //       if(rg.chance(50)) {
+   //          if (!checkWallOnLeft () && m_strafeSpeed != pev->maxspeed) {
+   //             m_strafeSpeed = -pev->maxspeed;
+   //          }
+   //       } else {
+   //          if (!checkWallOnRight () && m_strafeSpeed != -pev->maxspeed) {
+   //             m_strafeSpeed = pev->maxspeed;
+   //          }
+   //       }
+   //    }
+
+   //    // force strafe 2
+   // //qqq
+   //    if(m_strafeSpeed == 0.0f && rg.chance(80)) m_strafeSpeed = pev->maxspeed;
 
       // if (usesSniper () || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
       //    m_fightStyle = Fight::Stay;
@@ -1286,7 +1289,7 @@ void Bot::attackMovement () {
             if (rg.chance (20)) {
                m_combatStrafeDir = (m_combatStrafeDir == Dodge::Left ? Dodge::Right : Dodge::Left);
             }
-            m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f); //was 0.5 - 3.0, new 1.5 - 3.0
+            m_strafeSetTime = game.time () + rg.get (2.5f, 3.0f); // was 0.5 - 3.0, new 1.5 - 3.0
          }
 
          if (m_combatStrafeDir == Dodge::Right) {
@@ -1295,7 +1298,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Left;
-               m_strafeSetTime = game.time () + rg.get (1.8f, 3.1f); // was 0.8 - 1.1, new 1.8 - 3.1
+               m_strafeSetTime = game.time () + rg.get (2.8f, 3.1f); // was 0.8 - 1.1, new 1.8 - 3.1
             }
          }
          else {
@@ -1304,15 +1307,16 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Right;
-               m_strafeSetTime = game.time () + rg.get (1.8f, 3.1f); // was 0.8 - 1.1, new 1.8 - 3.1
+               m_strafeSetTime = game.time () + rg.get (2.8f, 3.1f); // was 0.8 - 1.1, new 1.8 - 3.1
             }
          }
 
+         // force strafe 3
       //qqq
-         if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right) {
-            m_strafeSpeed = pev->maxspeed;
-            m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f); //was 0.5 - 3.0
-         }
+         // if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right) {
+         //    m_strafeSpeed = pev->maxspeed;
+         //    m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f); // was 0.5 - 3.0
+         // }
 
          // qqq
          // if (m_difficulty >= Difficulty::Hard && (m_jumpTime + 5.0f < game.time () && isOnFloor () && rg.get (0, 1000) < (m_isReloading ? 8 : 2) && pev->velocity.length2d () > 120.0f) && !usesSniper ()) {

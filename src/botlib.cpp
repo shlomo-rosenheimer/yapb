@@ -2814,13 +2814,7 @@ void Bot::updateAimDir () {
             m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
             selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
-            if(rg.chance(40)) {
-               if(rg.chance(50)) {
-                  m_strafeSpeed = -pev->maxspeed;
-               } else {
-                  m_strafeSpeed = pev->maxspeed;
-               }
-            }
+        
          }
          //m_lookAt = m_camp; // orig
       }
@@ -2834,13 +2828,7 @@ void Bot::updateAimDir () {
           m_actualReactionTime = 0.095f; // 0.095
          selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
 
-         if(rg.chance(40)) {
-            if(rg.chance(50)) {
-               m_strafeSpeed = -pev->maxspeed;
-            } else {
-               m_strafeSpeed = pev->maxspeed;
-            }
-         }
+      
       }
       //m_lookAt = m_camp; // orig
    }
@@ -2868,13 +2856,7 @@ void Bot::updateAimDir () {
                m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
                selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
-               if(rg.chance(40)) {
-                  if(rg.chance(50)) {
-                     m_strafeSpeed = -pev->maxspeed;
-                  } else {
-                     m_strafeSpeed = pev->maxspeed;
-                  }
-               }
+               
             }
          }
          else {
@@ -2900,13 +2882,6 @@ void Bot::updateAimDir () {
           m_actualReactionTime = 0.095f; // 0.095
                   selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
 
-                  if(rg.chance(40)) {
-                     if(rg.chance(50)) {
-                        m_strafeSpeed = -pev->maxspeed;
-                     } else {
-                        m_strafeSpeed = pev->maxspeed;
-                     }
-                  }
                }
                // qqq
                //m_lookAt = m_destOrigin; // new
@@ -4884,6 +4859,7 @@ void Bot::logic () {
       //qqq
       if(!(m_states & Sense::SeeingEnemy) || usesKnife()) m_moveSpeed = pev->maxspeed;
 
+      // force strafe 4
       //qqq
       // if(rg.chance(20) && m_strafeSpeed == 0.0f) {
       //    if(rg.chance(50) && m_strafeSpeed > 50.0f) {
@@ -5085,22 +5061,6 @@ void Bot::logic () {
                }
             }
 
-            // if(pev->button & (IN_FORWARD | IN_BACK)) {
-            //    // if(rg.chance(50)) {
-            //    //    pev->button &= ~IN_BACK;
-            //    // } else {
-            //       // if (!(pev->button & (IN_MOVERIGHT | IN_MOVELEFT))) {
-            //       //    if(rg.chance(50)) {
-            //       //       m_strafeSpeed = pev->maxspeed;
-            //       //       pev->button |= IN_MOVERIGHT;
-            //       //    } else {
-            //       //       m_strafeSpeed = -pev->maxspeed;
-            //       //       pev->button |= IN_MOVELEFT;
-            //       //    }
-            //       // }
-            //    // }
-            // }
-         
 
 
       // check if need to use parachute
