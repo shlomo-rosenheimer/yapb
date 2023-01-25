@@ -570,8 +570,12 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
    int wargs = 0;
 
    for (const auto &client : util.getClients ()) {
-      if ((client.flags & ClientFlags::Used) && (client.ent->v.flags & FL_ONTRAIN))
+      if (!(client.flags & ClientFlags::Used) || (client.ent->v.flags & FL_FAKECLIENT)) continue;
+
+      if ((client.flags & ClientFlags::Used) && ((client.ent->v.flags & FL_ONTRAIN) || (client.ent->v.flags & FL_ONTRAIN)))
          ++wargs;
+
+      ctrl.msg ("train? %i lava? %i ALL %i", (client.ent->v.flags & FL_ONTRAIN)?1:0, (client.ent->v.flags & FL_IMMUNE_LAVA)?1:0, client.ent->v.flags);
    }
 
    //char teams[6][12] = {"", {"Terrorists"}, {"CTs"}, "", "", {"Random"}, };
