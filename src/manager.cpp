@@ -554,6 +554,7 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
 
    // always keep one slot
    int maxClients = cv_autovacate.bool_ () ? game.maxClients () - 1 - (game.isDedicated () ? 0 : hum) : game.maxClients ();
+   
 
    if (bots >= maxClients - hum) {
       return;
@@ -565,6 +566,16 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
    else {
       selection = 5;
    }
+
+   int wargs = 0;
+
+   for (const auto &client : util.getClients ()) {
+      if ((client.flags & ClientFlags::Used) && !(client.ent->v.iuser1 == 1)) 
+         continue;
+
+         ++wargs;
+   }
+
    //char teams[6][12] = {"", {"Terrorists"}, {"CTs"}, "", "", {"Random"}, };
 
    int toAdd = numToAdd == -1 ? maxClients - (hum + bots) : numToAdd;
@@ -581,7 +592,7 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
       addbot ("", difficulty, personality, selection, -1, true);
    }
    //ctrl.msg ("Fill server with %s bots...", &teams[selection][0]);
-   ctrl.msg ("Filling with bots... Bots [%i + %i = %i] Humans [%i] Total [%i + %i = %i]", bots, toAdd, toAdd+bots, hum, hum+bots, toAdd, hum+bots+toAdd);
+   ctrl.msg ("Filling with bots... Bots [%i + %i = %i] Wargs [%i] Humans [%i] Total [%i + %i = %i]", bots, toAdd, toAdd+bots, hum, hum+bots, toAdd, hum+bots+toAdd);
 }
 
 void BotManager::kickEveryone (bool instant, bool zeroQuota) {
