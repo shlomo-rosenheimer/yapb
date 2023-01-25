@@ -570,8 +570,8 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
    int wargs = 0;
 
    for (const auto &client : util.getClients ()) {
-      ctrl.msg ("%i - %i", client.ent->v.iuser1, +client.ent->v.iuser1)
-      
+      ctrl.msg ("%i - %i", client.ent->v.iuser1, +client.ent->v.iuser1);
+
       if ((client.flags & ClientFlags::Used) && client.ent->v.iuser1 == 1) 
          ++wargs;
    }
