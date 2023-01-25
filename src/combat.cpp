@@ -1017,7 +1017,7 @@ void Bot::fireWeapons () {
    // }
 
    // qqq knife
-   if (!game.isNullEntity (enemy) && ((rg.chance(70) && distance < 90.0f) || (rg.chance(30) && distance < 120.0f))) {
+   if (!game.isNullEntity (enemy) && (distance < 90.0f || (rg.chance(30) && distance < 120.0f))) {
       selectWeapons (distance, selectIndex, selectId, choosenWeapon);
       return;
    }
