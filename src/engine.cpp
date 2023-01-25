@@ -672,7 +672,7 @@ void Game::checkCvarsBounds () {
          var.self->set (var.initial);
 
          // notify about that
-         ctrl.msg ("Bogus value for cvar '%s', min is '%.1f' and max is '%.1f', and we're got '%s', value reverted to default '%.1f'.", var.reg.name, var.min, var.max, str, var.initial);
+         ctrl.msg ("Bogus value for cvar '%s', min is '%.1f' and max is '%.1f', and we're got [str] '%s' [float] '%.1f', value reverted to default '%.1f'.", var.reg.name, var.min, var.max, str, value, var.initial);
       }
    }
 }
