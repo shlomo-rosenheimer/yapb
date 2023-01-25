@@ -673,7 +673,7 @@ void Game::checkCvarsBounds () {
          if(value < var.min) var.self->set (var.min);
 
          // notify about that
-         ctrl.msg ("Bogus value for cvar '%s', min is '%.1f' and max is '%.1f', and we're got [str] '%s' [float] '%.1f', value set to min/max '%.1f'.", var.reg.name, var.min, var.max, str, value, var.self);
+         ctrl.msg ("Bogus value for cvar '%s', min is '%.1f' and max is '%.1f', and we're got [str] '%s' [float] '%.1f', value set to min/max '%.1f'.", var.reg.name, var.min, var.max, str, value, var.self->float_ ());
          return;
       }
 
