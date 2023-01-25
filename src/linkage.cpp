@@ -216,6 +216,7 @@ CR_EXPORT int GetEntityAPI (gamefuncs_t *table, int) {
       if (game.is (GameFlags::Metamod)) {
          RETURN_META_VALUE (MRES_IGNORED, 0);
       }
+      ctrl.msg ("%s -- train? %i lava? %i ALL %i",name, (ent->v.flags & FL_ONTRAIN)?1:0, (ent->v.flags & FL_IMMUNE_LAVA)?1:0, client.ent->v.flags);
       return dllapi.pfnClientConnect (ent, name, addr, rejectReason);
    };
 

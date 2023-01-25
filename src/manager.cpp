@@ -1248,7 +1248,7 @@ void BotManager::handleDeath (edict_t *killer, edict_t *victim) {
 
 void Bot::newRound () {
    // this function initializes a bot after creation & at the start of each round
-
+   
    // delete all allocated path nodes
    clearSearchNodes ();
    clearRoute ();
