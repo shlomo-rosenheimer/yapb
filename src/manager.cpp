@@ -573,7 +573,7 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
       if ((client.flags & ClientFlags::Used) && !(client.ent->v.iuser1 == 1)) 
          continue;
 
-         ++wargs;
+      ++wargs;
    }
 
    //char teams[6][12] = {"", {"Terrorists"}, {"CTs"}, "", "", {"Random"}, };
