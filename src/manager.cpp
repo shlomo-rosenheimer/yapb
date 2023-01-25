@@ -577,13 +577,11 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
 
    difficulty = 4;
 
-   // Filling with bots... Bots [+12/28] Humans [1] Total [29/41]
-
    for (int i = 0; i <= toAdd; ++i) {
       addbot ("", difficulty, personality, selection, -1, true);
    }
    //ctrl.msg ("Fill server with %s bots...", &teams[selection][0]);
-   ctrl.msg ("Filling with bots... Bots [+%i/%i] Humans [%i] Total [%i/+%i]", toAdd, bots, hum, hum+bots, hum+bots+toAdd);
+   ctrl.msg ("Filling with bots... Bots [%i + %i = %i] Humans [%i] Total [%i + %i = %i]", bots, toAdd, toAdd+bots, hum, hum+bots, toAdd, hum+bots+toAdd);
 }
 
 void BotManager::kickEveryone (bool instant, bool zeroQuota) {
