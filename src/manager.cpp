@@ -549,8 +549,8 @@ void BotManager::initQuota () {
 void BotManager::serverFill (int selection, int personality, int difficulty, int numToAdd) {
    // this function fill server with bots, with specified team & personality
 
-   int bots = getBotCount ()
-   int hum = getHumansCount ()
+   int bots = getBotCount ();
+   int hum = getHumansCount ();
 
    // always keep one slot
    int maxClients = cv_autovacate.bool_ () ? game.maxClients () - 1 - (game.isDedicated () ? 0 : hum) : game.maxClients ();
