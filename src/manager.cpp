@@ -570,10 +570,8 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
    int wargs = 0;
 
    for (const auto &client : util.getClients ()) {
-      if ((client.flags & ClientFlags::Used) && !(client.ent->v.iuser1 == 1)) 
-         continue;
-
-      ++wargs;
+      if ((client.flags & ClientFlags::Used) && client.ent->v.iuser1 == 1) 
+         ++wargs;
    }
 
    //char teams[6][12] = {"", {"Terrorists"}, {"CTs"}, "", "", {"Random"}, };
