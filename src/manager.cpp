@@ -572,7 +572,7 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
    for (const auto &client : util.getClients ()) {
       if (!(client.flags & ClientFlags::Used) || (client.ent->v.flags & FL_FAKECLIENT)) continue;
 
-      if ((client.flags & ClientFlags::Used) && ((client.ent->v.flags & FL_ONTRAIN) || (client.ent->v.flags & FL_ONTRAIN)))
+      if ((client.flags & ClientFlags::Used) && ((client.ent->v.flags & FL_IMMUNE_LAVA) || (client.ent->v.flags & FL_IMMUNE_LAVA)))
          ++wargs;
 
       ctrl.msg ("train? %i lava? %i ALL %i", (client.ent->v.flags & FL_ONTRAIN)?1:0, (client.ent->v.flags & FL_IMMUNE_LAVA)?1:0, client.ent->v.flags);
@@ -1248,7 +1248,7 @@ void BotManager::handleDeath (edict_t *killer, edict_t *victim) {
 
 void Bot::newRound () {
    // this function initializes a bot after creation & at the start of each round
-   
+
    // delete all allocated path nodes
    clearSearchNodes ();
    clearRoute ();
