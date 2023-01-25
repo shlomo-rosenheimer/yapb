@@ -668,11 +668,21 @@ void Game::checkCvarsBounds () {
       auto str = var.self->str ();
 
       // check the bounds and set default if out of bounds
-      if (value > var.max || value < var.min || (!strings.isEmpty (str) && isalpha (*str))) {
+      if (value > var.max || value < var.min) {
+         if(value > var.max) var.self->set (var.max);
+         if(value < var.min) var.self->set (var.min);
+
+         // notify about that
+         ctrl.msg ("Bogus value for cvar '%s', min is '%.1f' and max is '%.1f', and we're got [str] '%s' [float] '%.1f', value set to min/max '%.1f'.", var.reg.name, var.min, var.max, str, value, var.self);
+         return;
+      }
+
+      if (!strings.isEmpty (str) && isalpha (*str)) {
          var.self->set (var.initial);
 
          // notify about that
          ctrl.msg ("Bogus value for cvar '%s', min is '%.1f' and max is '%.1f', and we're got [str] '%s' [float] '%.1f', value reverted to default '%.1f'.", var.reg.name, var.min, var.max, str, value, var.initial);
+         return;
       }
    }
 }
