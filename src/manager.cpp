@@ -567,7 +567,7 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
    }
    //char teams[6][12] = {"", {"Terrorists"}, {"CTs"}, "", "", {"Random"}, };
 
-   //int toAdd = numToAdd == -1 ? maxClients - (hum + bots) : numToAdd;
+   int toAdd = numToAdd == -1 ? maxClients - (hum + bots) : numToAdd;
    int toAdd = hum+bots+difficulty > maxClients ? maxClients - (hum + bots) : difficulty;
 
    // qqq difficulty has the value of how many bots to add
