@@ -549,10 +549,13 @@ void BotManager::initQuota () {
 void BotManager::serverFill (int selection, int personality, int difficulty, int numToAdd) {
    // this function fill server with bots, with specified team & personality
 
-   // always keep one slot
-   int maxClients = cv_autovacate.bool_ () ? game.maxClients () - 1 - (game.isDedicated () ? 0 : getHumansCount ()) : game.maxClients ();
+   int bots = getBotCount ()
+   int hum = getHumansCount ()
 
-   if (getBotCount () >= maxClients - getHumansCount ()) {
+   // always keep one slot
+   int maxClients = cv_autovacate.bool_ () ? game.maxClients () - 1 - (game.isDedicated () ? 0 : hum) : game.maxClients ();
+
+   if (bots >= maxClients - hum) {
       return;
    }
    if (selection == 1 || selection == 2) {
@@ -564,7 +567,7 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
    }
    //char teams[6][12] = {"", {"Terrorists"}, {"CTs"}, "", "", {"Random"}, };
 
-   int toAdd = numToAdd == -1 ? maxClients - (getHumansCount () + getBotCount ()) : numToAdd;
+   int toAdd = numToAdd == -1 ? maxClients - (hum + bots) : numToAdd;
 
    toAdd = difficulty;
    selection = 5;
@@ -575,7 +578,7 @@ void BotManager::serverFill (int selection, int personality, int difficulty, int
       addbot ("", difficulty, personality, selection, -1, true);
    }
    //ctrl.msg ("Fill server with %s bots...", &teams[selection][0]);
-   ctrl.msg ("Filling with %d bots... [%d] [%d] [%d] [%d]", toAdd, selection, personality, difficulty, numToAdd);
+   ctrl.msg ("Filling with bots... Bots [+%i/%i] Humans [%i] Total [%i/%i]", toAdd, bots, hum, hum+bots, hum+bots+toAdd);
 }
 
 void BotManager::kickEveryone (bool instant, bool zeroQuota) {
