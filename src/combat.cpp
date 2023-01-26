@@ -329,7 +329,7 @@ bool Bot::lookupEnemies () {
       }
       //qqq
       //m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 0.5f, 0.75f);
-      m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 0.75f, 1.0f);
+      m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 1.0f, 3.0f); // new 3.0 long
 
       if (game.isNullEntity (newEnemy) && !game.isNullEntity (shieldEnemy)) {
          newEnemy = shieldEnemy;
@@ -540,7 +540,7 @@ const Vector &Bot::getEnemyBodyOffset () {
             aimPos.y += 1.1f;
          } 
 
-         aimPos.z += rg.get (-3.5f, 3.5f);
+         aimPos.z += rg.get (-13.5f, 2.5f);
          aimPos.x += rg.get (-0.5f, 0.5f);
       } 
       
@@ -1304,6 +1304,8 @@ void Bot::attackMovement () {
          //qqq
          if (m_moveSpeed != 0.0f && rg.chance(95) && distance > 100.0f && !usesKnife ()) {
             m_moveSpeed = 0.0f;
+            if(rg.chance(10)) m_moveSpeed = -pev->maxspeed;
+            if(m_strafeSpeed == 0.0f) m_strafeSpeed = pev->maxspeed;
          }
          // if (usesKnife ()) {
          //    m_strafeSpeed = 0.0f;
@@ -1324,7 +1326,7 @@ void Bot::attackMovement () {
    }
 
    if (m_fightStyle == Fight::Stay || (m_duckTime > game.time () || m_sniperStopTime > game.time ())) {
-      if (m_moveSpeed > 0.0f && !usesKnife ()) {
+      if (m_moveSpeed > 0.0f && rg.chance(75) && !usesKnife ()) {
          m_moveSpeed = 0.0f;
       }
    }
