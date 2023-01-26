@@ -329,7 +329,7 @@ bool Bot::lookupEnemies () {
       }
       //qqq
       //m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 0.5f, 0.75f);
-      m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 1.0f, 3.0f); // new 3.0 long
+      m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 0.5f, 1.75f); // new 3.0 long
 
       if (game.isNullEntity (newEnemy) && !game.isNullEntity (shieldEnemy)) {
          newEnemy = shieldEnemy;
@@ -1260,7 +1260,7 @@ void Bot::attackMovement () {
             if (rg.chance (20)) {
                m_combatStrafeDir = (m_combatStrafeDir == Dodge::Left ? Dodge::Right : Dodge::Left);
             }
-            m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f); // was 0.5 - 3.0, new 1.5 - 3.0
+            m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f); // was 0.5 - 3.0, new 1.5 - 3.0
          }
 
          wallleft = checkWallOnLeft ();
@@ -1287,7 +1287,7 @@ void Bot::attackMovement () {
 
          // force strafe 3
          //qqq
-         if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right && rg.chance(40)) {
+         if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right) {
             if (!wallright) {
                m_strafeSpeed = pev->maxspeed;
             } else if (!wallright) {
@@ -1306,6 +1306,7 @@ void Bot::attackMovement () {
             m_moveSpeed = 0.0f;
             if(rg.chance(10)) m_moveSpeed = -pev->maxspeed;
             if(m_strafeSpeed == 0.0f) m_strafeSpeed = pev->maxspeed;
+            m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f);
          }
          // if (usesKnife ()) {
          //    m_strafeSpeed = 0.0f;
