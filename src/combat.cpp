@@ -329,7 +329,7 @@ bool Bot::lookupEnemies () {
       }
       //qqq
       //m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 0.5f, 0.75f);
-      m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 0.5f, 1.75f); // new 3.0 long
+      m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 0.5f, 1.0f); // new
 
       if (game.isNullEntity (newEnemy) && !game.isNullEntity (shieldEnemy)) {
          newEnemy = shieldEnemy;
@@ -369,7 +369,7 @@ bool Bot::lookupEnemies () {
 
          //qqq
          if (usesSniper ()) {
-            m_enemySurpriseTime *= 0.3f;
+            m_enemySurpriseTime *= 0.6f;
          }
          m_enemySurpriseTime += game.time ();
 
