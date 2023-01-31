@@ -404,7 +404,8 @@ void Game::playSound (edict_t *ent, const char *sound) {
    if (isNullEntity (ent)) {
       return;
    }
-   engfuncs.pfnEmitSound (ent, CHAN_WEAPON, sound, 1.0f, ATTN_NORM, 0, 100);
+   // qqq
+   //engfuncs.pfnEmitSound (ent, CHAN_WEAPON, sound, 1.0f, ATTN_NORM, 0, 100);
 }
 
 void Game::setPlayerStartDrawModels () {
