@@ -1852,7 +1852,7 @@ bool BotGraph::saveGraphData () {
    m_narrowChecked = false;
    initNarrowPlaces ();
 
-   worked = return saveStorage <Path> ("graph", "Graph", static_cast <StorageOption> (options), StorageVersion::Graph, m_paths, &exten);
+   worked = saveStorage <Path> ("graph", "Graph", static_cast <StorageOption> (options), StorageVersion::Graph, m_paths, &exten);
 
    StringArray forErase;
    bots.kickEveryone (true);
