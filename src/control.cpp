@@ -386,23 +386,23 @@ int BotControl::cmdNodeOn () {
    // enable various features of editor
    if (strValue (option).empty () || strValue (option) == "display" || strValue (option) == "models") {
       graph.setEditFlag (GraphEdit::On);
-      enableDrawModels (true);
+      if(strValue (option) == "models") enableDrawModels (true);
 
-      msg ("Graph editor has been enabled.");
+      msg ("Graph editor has been enabled. Models OFF");
    }
    else if (strValue (option) == "noclip") {
       m_ent->v.movetype = MOVETYPE_NOCLIP;
 
       graph.setEditFlag (GraphEdit::On | GraphEdit::Noclip);
-      enableDrawModels (true);
+      //enableDrawModels (true);
 
-      msg ("Graph editor has been enabled with noclip mode.");
+      msg ("Graph editor has been enabled with noclip mode. Models OFF");
    }
    else if (strValue (option) == "auto") {
       graph.setEditFlag (GraphEdit::On | GraphEdit::Auto);
-      enableDrawModels (true);
+      //enableDrawModels (true);
 
-      msg ("Graph editor has been enabled with auto add node mode.");
+      msg ("Graph editor has been enabled with auto add node mode. Models OFF");
    }
 
    if (graph.hasEditFlag (GraphEdit::On)) {
@@ -1196,9 +1196,10 @@ int BotControl::menuGraphPage1 (int item) {
       }
       else {
          graph.setEditFlag (GraphEdit::On);
-         enableDrawModels (true);
+         //enableDrawModels (true);
+         enableDrawModels (false);
 
-         msg ("Graph editor has been enabled.");
+         msg ("Graph editor has been enabled. Models OFF");
       }
       showMenu (Menu::NodeMainPage1);
       break;

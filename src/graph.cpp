@@ -46,9 +46,10 @@ int BotGraph::clearConnections (int index) {
       ++numFixedLinks;
    };
 
-   if (bots.hasBotsOnline ()) {
-      bots.kickEveryone (true);
-   }
+   //qqq
+   // if (bots.hasBotsOnline ()) {
+   //    bots.kickEveryone (true);
+   // }
 
    struct Connection {
       int index {};
@@ -551,9 +552,10 @@ void BotGraph::add (int type, const Vector &pos) {
    bool addNewNode = true;
    Vector newOrigin = pos.empty () ? m_editor->v.origin : pos;
 
-   if (bots.hasBotsOnline ()) {
-      bots.kickEveryone (true);
-   }
+   //qqq
+   // if (bots.hasBotsOnline ()) {
+   //    bots.kickEveryone (true);
+   // }
    m_hasChanged = true;
 
    switch (type) {
@@ -825,9 +827,10 @@ void BotGraph::erase (int target) {
       return;
    }
 
-   if (bots.hasBotsOnline ()) {
-      bots.kickEveryone (true);
-   }
+   //qqq
+   // if (bots.hasBotsOnline ()) {
+   //    bots.kickEveryone (true);
+   // }
    const int index = (target == kInvalidNodeIndex) ? getEditorNeareset () : target;
 
    if (!exists (index)) {
@@ -1855,7 +1858,8 @@ bool BotGraph::saveGraphData () {
    worked = saveStorage <Path> ("graph", "Graph", static_cast <StorageOption> (options), StorageVersion::Graph, m_paths, &exten);
 
    StringArray forErase;
-   bots.kickEveryone (true);
+   //qqq
+   //bots.kickEveryone (true);
 
    auto map = game.getMapName ();
    auto data = getDataDirectory ();
@@ -2767,30 +2771,36 @@ void BotGraph::addBasic () {
       return EntitySearchResult::Continue;
    });
 
-   auto autoCreateForEntity = [] (int type, const char *entity) {
+   auto autoCreateForEntity = [] (int type, const char *entity, int team) {
+      int count = 0;
       game.searchEntities ("classname", entity, [&] (edict_t *ent) {
+         if(count == 0 && team == 1) type = NodeAddFlag::TerroristOnly;
+         if(count == 0 && team == 2) type = NodeAddFlag::CTOnly;
+         if(count == 3) type = NodeAddFlag::Goal;
+         if(count == 8) type = NodeAddFlag::Goal;
          const Vector &pos = game.getEntityOrigin (ent);
 
          if (graph.getNearestNoBuckets (pos, 50.0f) == kInvalidNodeIndex) {
             graph.add (type, pos);
          }
+         count++;
          return EntitySearchResult::Continue;
       });
    };
 
-   autoCreateForEntity (NodeAddFlag::Normal, "info_player_deathmatch"); // then terrortist spawnpoints
-   autoCreateForEntity (NodeAddFlag::Normal, "info_player_start"); // then add ct spawnpoints
-   autoCreateForEntity (NodeAddFlag::Normal, "info_vip_start"); // then vip spawnpoint
-   autoCreateForEntity (NodeAddFlag::Normal, "armoury_entity"); // weapons on the map ?
+   autoCreateForEntity (NodeAddFlag::Normal, "info_player_deathmatch", 1); // then terrortist spawnpoints
+   autoCreateForEntity (NodeAddFlag::Normal, "info_player_start", 2); // then add ct spawnpoints
+   // autoCreateForEntity (NodeAddFlag::Normal, "info_vip_start"); // then vip spawnpoint
+   // autoCreateForEntity (NodeAddFlag::Normal, "armoury_entity"); // weapons on the map ?
 
-   autoCreateForEntity (NodeAddFlag::Rescue, "func_hostage_rescue"); // hostage rescue zone
-   autoCreateForEntity (NodeAddFlag::Rescue, "info_hostage_rescue"); // hostage rescue zone (same as above)
+   // autoCreateForEntity (NodeAddFlag::Rescue, "func_hostage_rescue"); // hostage rescue zone
+   // autoCreateForEntity (NodeAddFlag::Rescue, "info_hostage_rescue"); // hostage rescue zone (same as above)
 
-   autoCreateForEntity (NodeAddFlag::Goal, "func_bomb_target"); // bombspot zone
-   autoCreateForEntity (NodeAddFlag::Goal, "info_bomb_target"); // bombspot zone (same as above)
-   autoCreateForEntity (NodeAddFlag::Goal, "hostage_entity"); // hostage entities
-   autoCreateForEntity (NodeAddFlag::Goal, "func_vip_safetyzone"); // vip rescue (safety) zone
-   autoCreateForEntity (NodeAddFlag::Goal, "func_escapezone"); // terrorist escape zone
+   // autoCreateForEntity (NodeAddFlag::Goal, "func_bomb_target"); // bombspot zone
+   // autoCreateForEntity (NodeAddFlag::Goal, "info_bomb_target"); // bombspot zone (same as above)
+   // autoCreateForEntity (NodeAddFlag::Goal, "hostage_entity"); // hostage entities
+   // autoCreateForEntity (NodeAddFlag::Goal, "func_vip_safetyzone"); // vip rescue (safety) zone
+   // autoCreateForEntity (NodeAddFlag::Goal, "func_escapezone"); // terrorist escape zone
 }
 
 void BotGraph::eraseFromDisk () {
