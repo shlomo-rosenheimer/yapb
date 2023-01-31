@@ -3316,7 +3316,7 @@ void Bot::normal_ () {
    else if (!hasActiveGoal ()) {
       //m_moveSpeed = 0.0f;
       //qqq
-      if(!(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) m_moveSpeed = pev->maxspeed;
+      if(!(m_states & Sense::SeeingEnemy )) m_moveSpeed = pev->maxspeed;
       
       clearSearchNodes ();
       ignoreCollision ();
@@ -3355,7 +3355,7 @@ void Bot::normal_ () {
       if (!(pev->flags & FL_DUCKING)) {
          //m_moveSpeed = 0.0f;
          //qqq
-         if(!(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) m_moveSpeed = pev->maxspeed;
+         if(!(m_states & Sense::SeeingEnemy )) m_moveSpeed = pev->maxspeed;
       }
    }
    // qqq
@@ -4858,7 +4858,7 @@ void Bot::logic () {
       
       //m_moveSpeed = 0.0f;
       //qqq
-      if(!(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) m_moveSpeed = pev->maxspeed;
+      if(!(m_states & Sense::SeeingEnemy )) m_moveSpeed = pev->maxspeed;
 
       // force strafe 4
       //qqq
