@@ -401,10 +401,12 @@ void Game::registerEngineCommand (const char *command, void func ()) {
 }
 
 void Game::playSound (edict_t *ent, const char *sound) {
-   if (isNullEntity (ent)) {
+   if (isNullEntity (ent) || sound ) {
       return;
    }
+
    // qqq
+   (void)sound;
    //engfuncs.pfnEmitSound (ent, CHAN_WEAPON, sound, 1.0f, ATTN_NORM, 0, 100);
 }
 
