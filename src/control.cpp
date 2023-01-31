@@ -408,7 +408,7 @@ int BotControl::cmdNodeOn () {
    if (graph.hasEditFlag (GraphEdit::On)) {
       mp_roundtime.set (9);
       mp_freezetime.set (0);
-      mp_timelimit.set (0);
+      //mp_timelimit.set (0);
    }
    return BotCommandResult::Handled;
 }
