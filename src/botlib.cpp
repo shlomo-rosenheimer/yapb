@@ -3314,9 +3314,9 @@ void Bot::normal_ () {
    }
    // no more nodes to follow - search new ones (or we have a bomb)
    else if (!hasActiveGoal ()) {
-      m_moveSpeed = 0.0f;
+      //m_moveSpeed = 0.0f;
       //qqq
-      //if(!(m_states & Sense::SeeingEnemy) || usesKnife()) m_moveSpeed = pev->maxspeed;
+      if(!(m_states & Sense::SeeingEnemy | Sense::SuspectEnemy)) m_moveSpeed = pev->maxspeed;
       
       clearSearchNodes ();
       ignoreCollision ();
@@ -3353,9 +3353,9 @@ void Bot::normal_ () {
    else {
       //if (!(pev->flags & FL_DUCKING) && !cr::fequal (m_minSpeed, pev->maxspeed) && m_minSpeed > 1.0f) {
       if (!(pev->flags & FL_DUCKING)) {
-         m_moveSpeed = 0.0f;
+         //m_moveSpeed = 0.0f;
          //qqq
-      //if(!(m_states & Sense::SeeingEnemy) || usesKnife()) m_moveSpeed = pev->maxspeed;
+         if(!(m_states & Sense::SeeingEnemy | Sense::SuspectEnemy)) m_moveSpeed = pev->maxspeed;
       }
    }
    // qqq
@@ -4856,9 +4856,9 @@ void Bot::logic () {
          m_maxViewDistance = 4096.0f;
       }
       
-      m_moveSpeed = 0.0f;
+      //m_moveSpeed = 0.0f;
       //qqq
-      //if(!(m_states & Sense::SeeingEnemy) || usesKnife()) m_moveSpeed = pev->maxspeed;
+      if(!(m_states & Sense::SeeingEnemy | Sense::SuspectEnemy)) m_moveSpeed = pev->maxspeed;
 
       // force strafe 4
       //qqq
