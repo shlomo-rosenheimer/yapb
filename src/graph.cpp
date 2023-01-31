@@ -2771,9 +2771,9 @@ void BotGraph::addBasic () {
       return EntitySearchResult::Continue;
    });
 
-   int count = 0;
-
    auto autoCreateForEntity = [] (int type, const char *entity, int team) {
+      int count = 0;
+
       game.searchEntities ("classname", entity, [&] (edict_t *ent) {
          if(count == 0 && team == 1) type = NodeAddFlag::TOnly;
          if(count == 0 && team == 2) type = NodeAddFlag::CTOnly;
@@ -2782,16 +2782,14 @@ void BotGraph::addBasic () {
          const Vector &pos = game.getEntityOrigin (ent);
 
          if (graph.getNearestNoBuckets (pos, 50.0f) == kInvalidNodeIndex) {
+            count++;
             graph.add (type, pos);
          }
-         count++;
          return EntitySearchResult::Continue;
       });
    };
 
-   count = 0;
    autoCreateForEntity (NodeAddFlag::Normal, "info_player_deathmatch", 1); // then terrortist spawnpoints
-   count = 0;
    autoCreateForEntity (NodeAddFlag::Normal, "info_player_start", 2); // then add ct spawnpoints
 
    // autoCreateForEntity (NodeAddFlag::Normal, "info_vip_start"); // then vip spawnpoint
