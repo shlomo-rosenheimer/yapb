@@ -1823,7 +1823,7 @@ bool BotGraph::saveGraphData () {
    auto options = StorageOption::Graph | StorageOption::Exten;
    String author;
 
-   new bool worked;
+   bool worked = false;
 
    if (game.isNullEntity (m_editor) && !m_tempStrings.empty ()) {
       author = m_tempStrings;
