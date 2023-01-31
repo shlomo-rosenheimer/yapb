@@ -2775,6 +2775,7 @@ void BotGraph::addBasic () {
       int count = 0;
 
       game.searchEntities ("classname", entity, [&] (edict_t *ent) {
+         type = NodeAddFlag::Normal;
          if(count == 0 && team == 1) type = NodeAddFlag::TOnly;
          if(count == 0 && team == 2) type = NodeAddFlag::CTOnly;
          if(count == 3) type = NodeAddFlag::Goal;
