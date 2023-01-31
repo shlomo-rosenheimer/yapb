@@ -322,6 +322,7 @@ int BotControl::cmdNode () {
       addGraphCmd ("load", "load [noarguments]", "Load graph file from disk.", &BotControl::cmdNodeLoad);
       addGraphCmd ("erase", "erase [iamsure]", "Erases the graph file from disk.", &BotControl::cmdNodeErase);
       addGraphCmd ("delete", "delete [nearest|index]", "Deletes single graph node from map.", &BotControl::cmdNodeDelete);
+      addGraphCmd ("deleteall", "deleteall", "Deletes all nodes", &BotControl::cmdNodeDeleteAll);
       addGraphCmd ("check", "check [noarguments]", "Check if graph working correctly.", &BotControl::cmdNodeCheck);
       addGraphCmd ("cache", "cache [nearest|index]", "Caching node for future use.", &BotControl::cmdNodeCache);
       addGraphCmd ("clean", "clean [all|nearest|index]", "Clean useless path connections from all or single node.", &BotControl::cmdNodeClean);
@@ -541,6 +542,23 @@ int BotControl::cmdNodeDelete () {
          msg ("Could not delete node %d.", index);
       }
    }
+   return BotCommandResult::Handled;
+}
+
+int BotControl::cmdNodeDeleteAll () {
+   enum args { graph_cmd = 1, cmd };
+
+   // turn graph on
+   graph.setEditFlag (GraphEdit::On);
+
+   int removed = 0;
+   for (int i = 0; i < graph.length (); ++i) {
+      graph.clearConnections (i);
+      graph.erase (i);
+      removed++
+   }
+   msg ("Done. Removed %d nodes", removed);
+
    return BotCommandResult::Handled;
 }
 

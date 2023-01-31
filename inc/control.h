@@ -109,6 +109,7 @@ private:
    int cmdNodeLoad ();
    int cmdNodeErase ();
    int cmdNodeDelete ();
+   int cmdNodeDeleteAll ();
    int cmdNodeCheck ();
    int cmdNodeCache ();
    int cmdNodeClean ();

@@ -3152,18 +3152,18 @@ void Bot::normal_ () {
    }
 
    // if bomb planted and it's a CT calculate new path to bomb point if he's not already heading for
-   if (!m_bombSearchOverridden && bots.isBombPlanted () && m_team == Team::CT && getTask ()->data != kInvalidNodeIndex && !(graph[getTask ()->data].flags & NodeFlag::Goal) && getCurrentTaskId () != Task::EscapeFromBomb) {
-      clearSearchNodes ();
-      getTask ()->data = kInvalidNodeIndex;
-   }
+   // if (!m_bombSearchOverridden && bots.isBombPlanted () && m_team == Team::CT && getTask ()->data != kInvalidNodeIndex && !(graph[getTask ()->data].flags & NodeFlag::Goal) && getCurrentTaskId () != Task::EscapeFromBomb) {
+   //    clearSearchNodes ();
+   //    getTask ()->data = kInvalidNodeIndex;
+   // }
 
    // reached the destination (goal) waypoint?
    if (updateNavigation ()) {
 
       // if we're reached the goal, and there is not enemies, notify the team
-      if (!bots.isBombPlanted () && m_currentNodeIndex != kInvalidNodeIndex && (m_path->flags & NodeFlag::Goal) && rg.chance (15) && numEnemiesNear (pev->origin, 650.0f) == 0) {
-         pushRadioMessage (Radio::SectorClear);
-      }
+      // if (!bots.isBombPlanted () && m_currentNodeIndex != kInvalidNodeIndex && (m_path->flags & NodeFlag::Goal) && rg.chance (15) && numEnemiesNear (pev->origin, 650.0f) == 0) {
+      //    pushRadioMessage (Radio::SectorClear);
+      // }
       
       completeTask ();
       m_prevGoalIndex = kInvalidNodeIndex;
@@ -3176,148 +3176,147 @@ void Bot::normal_ () {
       // }
 
       // reached waypoint is a camp waypoint
-      //qqq
-      if (1==2 && (m_path->flags & NodeFlag::Camp) && !game.is (GameFlags::CSDM) && cv_camping_allowed.bool_ ()) {
+      // if ((m_path->flags & NodeFlag::Camp) && !game.is (GameFlags::CSDM) && cv_camping_allowed.bool_ ()) {
 
-         // check if bot has got a primary weapon and hasn't camped before
-         if (hasPrimaryWeapon () && m_timeCamping + 10.0f < game.time () && !hasHostage ()) {
-            bool campingAllowed = true;
+      //    // check if bot has got a primary weapon and hasn't camped before
+      //    if (hasPrimaryWeapon () && m_timeCamping + 10.0f < game.time () && !hasHostage ()) {
+      //       bool campingAllowed = true;
 
-            // Check if it's not allowed for this team to camp here
-            if (m_team == Team::Terrorist) {
-               if (m_path->flags & NodeFlag::CTOnly) {
-                  campingAllowed = false;
-               }
-            }
-            else {
-               if (m_path->flags & NodeFlag::TerroristOnly) {
-                  campingAllowed = false;
-               }
-            }
+      //       // Check if it's not allowed for this team to camp here
+      //       // if (m_team == Team::Terrorist) {
+      //       //    if (m_path->flags & NodeFlag::CTOnly) {
+      //       //       campingAllowed = false;
+      //       //    }
+      //       // }
+      //       // else {
+      //       //    if (m_path->flags & NodeFlag::TerroristOnly) {
+      //       //       campingAllowed = false;
+      //       //    }
+      //       // }
 
-            // don't allow vip on as_ maps to camp + don't allow terrorist carrying c4 to camp
-            if (campingAllowed && (m_isVIP || (game.mapIs (MapFlags::Demolition) && m_team == Team::Terrorist && !bots.isBombPlanted () && m_hasC4))) {
-               campingAllowed = false;
-            }
+      //       // don't allow vip on as_ maps to camp + don't allow terrorist carrying c4 to camp
+      //       if (campingAllowed && (m_isVIP || (game.mapIs (MapFlags::Demolition) && m_team == Team::Terrorist && !bots.isBombPlanted () && m_hasC4))) {
+      //          campingAllowed = false;
+      //       }
 
-            // check if another bot is already camping here
-            if (campingAllowed && isOccupiedNode (m_currentNodeIndex)) {
-               campingAllowed = false;
-            }
+      //       // check if another bot is already camping here
+      //       if (campingAllowed && isOccupiedNode (m_currentNodeIndex)) {
+      //          campingAllowed = false;
+      //       }
 
-            if (1==2 && campingAllowed) {
-               // crouched camping here?
-               // if (m_path->flags & NodeFlag::Crouch) {
-               //    m_campButtons = IN_DUCK;
-               // }
-               // else {
-               //    m_campButtons = 0;
-               // }
-               //qqq
-               m_campButtons = 0;
-               selectBestWeapon ();
+      //       if (campingAllowed) {
+      //          // crouched camping here?
+      //          // if (m_path->flags & NodeFlag::Crouch) {
+      //          //    m_campButtons = IN_DUCK;
+      //          // }
+      //          // else {
+      //          //    m_campButtons = 0;
+      //          // }
+      //          //qqq
+      //          m_campButtons = 0;
+      //          selectBestWeapon ();
 
-               if (!(m_states & (Sense::SeeingEnemy | Sense::HearingEnemy)) && !m_reloadState) {
-                  m_reloadState = Reload::Primary;
-               }
-               m_timeCamping = game.time () + rg.get (cv_camping_time_min.float_ (), cv_camping_time_max.float_ ());
-               startTask (Task::Camp, TaskPri::Camp, kInvalidNodeIndex, m_timeCamping, true);
+      //          if (!(m_states & (Sense::SeeingEnemy | Sense::HearingEnemy)) && !m_reloadState) {
+      //             m_reloadState = Reload::Primary;
+      //          }
+      //          m_timeCamping = game.time () + rg.get (cv_camping_time_min.float_ (), cv_camping_time_max.float_ ());
+      //          startTask (Task::Camp, TaskPri::Camp, kInvalidNodeIndex, m_timeCamping, true);
 
-               m_camp = m_path->origin + m_path->start.forward () * 500.0f;
-               m_aimFlags |= AimFlags::Camp;
-               m_campDirection = 0;
+      //          m_camp = m_path->origin + m_path->start.forward () * 500.0f;
+      //          m_aimFlags |= AimFlags::Camp;
+      //          m_campDirection = 0;
 
-               // tell the world we're camping
-               if (rg.chance (40)) {
-                  pushRadioMessage (Radio::ImInPosition);
-               }
-               m_moveToGoal = false;
-               m_checkTerrain = false;
+      //          // tell the world we're camping
+      //          if (rg.chance (40)) {
+      //             pushRadioMessage (Radio::ImInPosition);
+      //          }
+      //          m_moveToGoal = false;
+      //          m_checkTerrain = false;
 
-               m_moveSpeed = 0.0f;
-               m_strafeSpeed = 0.0f;
-            }
-         }
-      }
-      else {
-         // some goal waypoints are map dependant so check it out...
-         if (game.mapIs (MapFlags::HostageRescue)) {
-            // CT Bot has some hostages following?
-            if (m_team == Team::CT && hasHostage ()) {
-               // and reached a rescue point?
-               if (m_path->flags & NodeFlag::Rescue) {
-                  m_hostages.clear ();
-               }
-            }
-            else if (m_team == Team::Terrorist && rg.chance (75)) {
-               int index = findDefendNode (m_path->origin);
+      //          m_moveSpeed = 0.0f;
+      //          m_strafeSpeed = 0.0f;
+      //       }
+      //    }
+      // }
+      // else {
+      //    // // some goal waypoints are map dependant so check it out...
+      //    // if (game.mapIs (MapFlags::HostageRescue)) {
+      //    //    // CT Bot has some hostages following?
+      //    //    if (m_team == Team::CT && hasHostage ()) {
+      //    //       // and reached a rescue point?
+      //    //       if (m_path->flags & NodeFlag::Rescue) {
+      //    //          m_hostages.clear ();
+      //    //       }
+      //    //    }
+      //    //    else if (m_team == Team::Terrorist && rg.chance (75)) {
+      //    //       int index = findDefendNode (m_path->origin);
 
-               startTask (Task::Camp, TaskPri::Camp, kInvalidNodeIndex, game.time () + rg.get (60.0f, 120.0f), true); // push camp task on to stack
-               startTask (Task::MoveToPosition, TaskPri::MoveToPosition, index, game.time () + rg.get (5.0f, 10.0f), true); // push move command
+      //    //       startTask (Task::Camp, TaskPri::Camp, kInvalidNodeIndex, game.time () + rg.get (60.0f, 120.0f), true); // push camp task on to stack
+      //    //       startTask (Task::MoveToPosition, TaskPri::MoveToPosition, index, game.time () + rg.get (5.0f, 10.0f), true); // push move command
 
-               //auto &path = graph[index];
+      //    //       //auto &path = graph[index];
 
-               // decide to duck or not to duck
-               // if (path.vis.crouch <= path.vis.stand) {
-               //    m_campButtons |= IN_DUCK;
-               // }
-               // else {
-               //    m_campButtons &= ~IN_DUCK;
-               // }
-               //qqq
-               m_campButtons &= ~IN_DUCK;
-               pushChatterMessage (Chatter::GoingToGuardVIPSafety); // play info about that
-            }
-         }
-         else if (game.mapIs (MapFlags::Demolition) && ((m_path->flags & NodeFlag::Goal) || m_inBombZone)) {
-            // is it a terrorist carrying the bomb?
-            if (m_hasC4) {
-               if ((m_states & Sense::SeeingEnemy) && numFriendsNear (pev->origin, 768.0f) == 0) {
-                  // request an help also
-                  pushRadioMessage (Radio::NeedBackup);
-                  pushChatterMessage (Chatter::ScaredEmotion);
+      //    //       // decide to duck or not to duck
+      //    //       // if (path.vis.crouch <= path.vis.stand) {
+      //    //       //    m_campButtons |= IN_DUCK;
+      //    //       // }
+      //    //       // else {
+      //    //       //    m_campButtons &= ~IN_DUCK;
+      //    //       // }
+      //    //       //qqq
+      //    //       m_campButtons &= ~IN_DUCK;
+      //    //       pushChatterMessage (Chatter::GoingToGuardVIPSafety); // play info about that
+      //    //    }
+      //    // }
+      //    // else if (game.mapIs (MapFlags::Demolition) && ((m_path->flags & NodeFlag::Goal) || m_inBombZone)) {
+      //    //    // is it a terrorist carrying the bomb?
+      //    //    if (m_hasC4) {
+      //    //       if ((m_states & Sense::SeeingEnemy) && numFriendsNear (pev->origin, 768.0f) == 0) {
+      //    //          // request an help also
+      //    //          pushRadioMessage (Radio::NeedBackup);
+      //    //          pushChatterMessage (Chatter::ScaredEmotion);
 
-                  startTask (Task::Camp, TaskPri::Camp, kInvalidNodeIndex, game.time () + rg.get (4.0f, 8.0f), true);
-               }
-               else {
-                  startTask (Task::PlantBomb, TaskPri::PlantBomb, kInvalidNodeIndex, 0.0f, false);
-               }
-            }
-            else if (m_team == Team::CT) {
-               if (!bots.isBombPlanted () && numFriendsNear (pev->origin, 210.0f) < 4) {
-                  int index = findDefendNode (m_path->origin);
+      //    //          startTask (Task::Camp, TaskPri::Camp, kInvalidNodeIndex, game.time () + rg.get (4.0f, 8.0f), true);
+      //    //       }
+      //    //       else {
+      //    //          startTask (Task::PlantBomb, TaskPri::PlantBomb, kInvalidNodeIndex, 0.0f, false);
+      //    //       }
+      //    //    }
+      //    //    else if (m_team == Team::CT) {
+      //    //       if (!bots.isBombPlanted () && numFriendsNear (pev->origin, 210.0f) < 4) {
+      //    //          int index = findDefendNode (m_path->origin);
 
-                  float campTime = rg.get (25.0f, 40.f);
+      //    //          float campTime = rg.get (25.0f, 40.f);
 
-                  // rusher bots don't like to camp too much
-                  if (m_personality == Personality::Rusher) {
-                     campTime *= 0.5f;
-                  }
-                  startTask (Task::Camp, TaskPri::Camp, kInvalidNodeIndex, game.time () + campTime, true); // push camp task on to stack
-                  startTask (Task::MoveToPosition, TaskPri::MoveToPosition, index, game.time () + rg.get (5.0f, 11.0f), true); // push move command
+      //    //          // rusher bots don't like to camp too much
+      //    //          if (m_personality == Personality::Rusher) {
+      //    //             campTime *= 0.5f;
+      //    //          }
+      //    //          startTask (Task::Camp, TaskPri::Camp, kInvalidNodeIndex, game.time () + campTime, true); // push camp task on to stack
+      //    //          startTask (Task::MoveToPosition, TaskPri::MoveToPosition, index, game.time () + rg.get (5.0f, 11.0f), true); // push move command
 
-                  //auto &path = graph[index];
+      //    //          //auto &path = graph[index];
 
-                  // decide to duck or not to duck
-                  // if (path.vis.crouch <= path.vis.stand) {
-                  //    m_campButtons |= IN_DUCK;
-                  // }
-                  // else {
-                  //    m_campButtons &= ~IN_DUCK;
-                  // }
-                  //qqq
-                  m_campButtons &= ~IN_DUCK;
-                  pushChatterMessage (Chatter::DefendingBombsite); // play info about that
-               }
-            }
-         }
-      }
+      //    //          // decide to duck or not to duck
+      //    //          // if (path.vis.crouch <= path.vis.stand) {
+      //    //          //    m_campButtons |= IN_DUCK;
+      //    //          // }
+      //    //          // else {
+      //    //          //    m_campButtons &= ~IN_DUCK;
+      //    //          // }
+      //    //          //qqq
+      //    //          m_campButtons &= ~IN_DUCK;
+      //    //          pushChatterMessage (Chatter::DefendingBombsite); // play info about that
+      //    //       }
+      //    //    }
+      //    // }
+      // }
    }
    // no more nodes to follow - search new ones (or we have a bomb)
    else if (!hasActiveGoal ()) {
-      //qqq
       m_moveSpeed = 0.0f;
-      if(!(m_states & Sense::SeeingEnemy) || usesKnife()) m_moveSpeed = pev->maxspeed;
+      //qqq
+      //if(!(m_states & Sense::SeeingEnemy) || usesKnife()) m_moveSpeed = pev->maxspeed;
       
       clearSearchNodes ();
       ignoreCollision ();
@@ -3354,9 +3353,9 @@ void Bot::normal_ () {
    else {
       //if (!(pev->flags & FL_DUCKING) && !cr::fequal (m_minSpeed, pev->maxspeed) && m_minSpeed > 1.0f) {
       if (!(pev->flags & FL_DUCKING)) {
-         //qqq
          m_moveSpeed = 0.0f;
-      if(!(m_states & Sense::SeeingEnemy) || usesKnife()) m_moveSpeed = pev->maxspeed;
+         //qqq
+      //if(!(m_states & Sense::SeeingEnemy) || usesKnife()) m_moveSpeed = pev->maxspeed;
       }
    }
    // qqq
@@ -3367,18 +3366,18 @@ void Bot::normal_ () {
    // }
 
    // bot hasn't seen anything in a long time and is asking his teammates to report in
-   if (cv_radio_mode.int_ () > 1 && bots.getLastRadio (m_team) != Radio::ReportInTeam && bots.getRoundStartTime () + 20.0f < game.time () && m_askCheckTime < game.time () && rg.chance (15) && m_seeEnemyTime + rg.get (45.0f, 80.0f) < game.time () && numFriendsNear (pev->origin, 1024.0f) == 0) {
-      pushRadioMessage (Radio::ReportInTeam);
+   // if (cv_radio_mode.int_ () > 1 && bots.getLastRadio (m_team) != Radio::ReportInTeam && bots.getRoundStartTime () + 20.0f < game.time () && m_askCheckTime < game.time () && rg.chance (15) && m_seeEnemyTime + rg.get (45.0f, 80.0f) < game.time () && numFriendsNear (pev->origin, 1024.0f) == 0) {
+   //    pushRadioMessage (Radio::ReportInTeam);
 
-      m_askCheckTime = game.time () + rg.get (45.0f, 80.0f);
+   //    m_askCheckTime = game.time () + rg.get (45.0f, 80.0f);
 
-      // make sure everyone else will not ask next few moments
-      for (const auto &bot : bots) {
-         if (bot->m_notKilled) {
-            bot->m_askCheckTime = game.time () + rg.get (5.0f, 30.0f);
-         }
-      }
-   }
+   //    // make sure everyone else will not ask next few moments
+   //    for (const auto &bot : bots) {
+   //       if (bot->m_notKilled) {
+   //          bot->m_askCheckTime = game.time () + rg.get (5.0f, 30.0f);
+   //       }
+   //    }
+   // }
 }
 
 void Bot::spraypaint_ () {
@@ -4857,9 +4856,9 @@ void Bot::logic () {
          m_maxViewDistance = 4096.0f;
       }
       
-      //qqq
       m_moveSpeed = 0.0f;
-      if(!(m_states & Sense::SeeingEnemy) || usesKnife()) m_moveSpeed = pev->maxspeed;
+      //qqq
+      //if(!(m_states & Sense::SeeingEnemy) || usesKnife()) m_moveSpeed = pev->maxspeed;
 
       // force strafe 4
       //qqq
