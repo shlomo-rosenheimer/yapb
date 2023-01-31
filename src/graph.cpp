@@ -1823,6 +1823,8 @@ bool BotGraph::saveGraphData () {
    auto options = StorageOption::Graph | StorageOption::Exten;
    String author;
 
+   new bool worked;
+
    if (game.isNullEntity (m_editor) && !m_tempStrings.empty ()) {
       author = m_tempStrings;
 
@@ -1850,7 +1852,34 @@ bool BotGraph::saveGraphData () {
    m_narrowChecked = false;
    initNarrowPlaces ();
 
-   return saveStorage <Path> ("graph", "Graph", static_cast <StorageOption> (options), StorageVersion::Graph, m_paths, &exten);
+   worked = return saveStorage <Path> ("graph", "Graph", static_cast <StorageOption> (options), StorageVersion::Graph, m_paths, &exten);
+
+   StringArray forErase;
+   bots.kickEveryone (true);
+
+   auto map = game.getMapName ();
+   auto data = getDataDirectory ();
+
+   // if we're delete graph, delete all corresponding to it files
+   forErase.push (strings.format ("%strain/%s.prc", data, map)); // corresponding to practice
+   forErase.push (strings.format ("%strain/%s.vis", data, map)); // corresponding to vistable
+   forErase.push (strings.format ("%strain/%s.pmx", data, map)); // corresponding to matrix
+
+   for (const auto &item : forErase) {
+      if (File::exists (item)) {
+         plat.removeFile (item.chars ());
+         ctrl.msg ("File %s, has been deleted from the hard disk", item);
+      }
+      else {
+         logger.error ("Unable to open %s", item);
+      }
+   }
+   reset (); // reintialize points
+   m_paths.clear ();
+
+   loadGraphData ();
+
+   return worked;
 }
 
 void BotGraph::saveOldFormat () {
