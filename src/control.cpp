@@ -555,7 +555,7 @@ int BotControl::cmdNodeDeleteAll () {
    for (int i = 0; i < graph.length (); ++i) {
       graph.clearConnections (i);
       graph.erase (i);
-      removed++
+      removed++;
    }
    msg ("Done. Removed %d nodes", removed);
 
