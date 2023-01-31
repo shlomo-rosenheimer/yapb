@@ -2774,7 +2774,7 @@ void BotGraph::addBasic () {
    auto autoCreateForEntity = [] (int type, const char *entity, int team) {
       int count = 0;
       game.searchEntities ("classname", entity, [&] (edict_t *ent) {
-         if(count == 0 && team == 1) type = NodeAddFlag::TerroristOnly;
+         if(count == 0 && team == 1) type = NodeAddFlag::TOnly;
          if(count == 0 && team == 2) type = NodeAddFlag::CTOnly;
          if(count == 3) type = NodeAddFlag::Goal;
          if(count == 8) type = NodeAddFlag::Goal;
