@@ -406,7 +406,7 @@ void BotManager::maintainQuota () {
    else {
       desiredBotCount = cr::min <int> (desiredBotCount, maxClients - humanPlayersInGame);
    }
-   int maxSpawnCount = game.getSpawnCount (Team::Terrorist) + game.getSpawnCount (Team::CT) - humanPlayersInGame;
+   //int maxSpawnCount = game.getSpawnCount (Team::Terrorist) + game.getSpawnCount (Team::CT) - humanPlayersInGame;
 
    // sent message only to console from here
    ctrl.setFromConsole (true);
