@@ -435,7 +435,8 @@ void BotManager::maintainQuota () {
          kickRandom (false, Team::Unassigned);
       }
    }
-   m_quotaMaintainTime = game.time () + 0.40f;
+   //m_quotaMaintainTime = game.time () + 0.40f;
+   m_quotaMaintainTime = game.time () + 0.10f;
 }
 
 void BotManager::maintainLeaders () {
