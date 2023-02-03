@@ -220,6 +220,11 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
 void Bot::trackEnemies () {
    if (lookupEnemies ()) {
       m_states |= Sense::SeeingEnemy;
+
+      // qqq
+      if(usesKnife()) {
+         selectBestWeapon ();
+      }
    }
    else {
       m_states &= ~Sense::SeeingEnemy;
@@ -329,7 +334,7 @@ bool Bot::lookupEnemies () {
       }
       //qqq
       //m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 0.5f, 0.75f);
-      m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 0.5f, 1.0f); // new
+      m_enemyUpdateTime = cr::clamp (game.time () + getFrameInterval () * 25.0f, 0.5f, 0.75f); // new
 
       if (game.isNullEntity (newEnemy) && !game.isNullEntity (shieldEnemy)) {
          newEnemy = shieldEnemy;
@@ -1017,7 +1022,7 @@ void Bot::fireWeapons () {
    // }
 
    // qqq knife
-   if (!game.isNullEntity (enemy) && (distance < 90.0f || (rg.chance(30) && distance < 120.0f))) {
+   if (!game.isNullEntity (enemy) && distance < 90.0f) {
       selectWeapons (distance, selectIndex, selectId, choosenWeapon);
       return;
    }
@@ -1228,7 +1233,7 @@ void Bot::attackMovement () {
       m_fightStyle = Fight::Strafe;
 
       // qqq 
-      if (usesSniper () || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
+      if ((usesSniper () && rg.chance(50)) || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
          m_fightStyle = Fight::Stay;
          m_lastFightStyleCheck = game.time ();
       }
@@ -1327,7 +1332,7 @@ void Bot::attackMovement () {
    }
 
    if (m_fightStyle == Fight::Stay || (m_duckTime > game.time () || m_sniperStopTime > game.time ())) {
-      if (m_moveSpeed > 0.0f && rg.chance(75) && !usesKnife ()) {
+      if (m_moveSpeed > 0.0f && rg.chance(55) && !usesKnife ()) {
          m_moveSpeed = 0.0f;
       }
    }
