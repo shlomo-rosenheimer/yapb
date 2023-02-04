@@ -643,6 +643,9 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
          if (m_collStateIndex < kMaxCollideMoves) {
             switch (m_collideMoves[m_collStateIndex]) {
             case CollisionState::Jump:
+               setStrafeSpeed (dirNormal, -pev->maxspeed);
+               //m_tryStuckMove = true;
+               //m_tryStuckMoveTime = game.time ();
                // qqq
                // if(rg.chance(10)) {
                //    if (isOnFloor () || isInWater ()) {
@@ -669,21 +672,21 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                //pev->button |= IN_BACK;
                //m_moveSpeed = -pev->maxspeed;
 
-               // m_tryStuckMove = true;
-               // m_tryStuckMoveTime = game.time ();
+               //m_tryStuckMove = true;
+               //m_tryStuckMoveTime = game.time ();
                break;
 
             case CollisionState::StrafeLeft:
                setStrafeSpeed (dirNormal, -pev->maxspeed);
-               // m_tryStuckMove = true;
-               // m_tryStuckMoveTime = game.time ();
+               //m_tryStuckMove = true;
+               //m_tryStuckMoveTime = game.time ();
 
                break;
 
             case CollisionState::StrafeRight:
                setStrafeSpeed (dirNormal, pev->maxspeed);
-               // m_tryStuckMove = true;
-               // m_tryStuckMoveTime = game.time ();
+               //m_tryStuckMove = true;
+               //m_tryStuckMoveTime = game.time ();
                break;
             }
          }
@@ -835,10 +838,10 @@ bool Bot::updateNavigation () {
    else if (m_path->flags & NodeFlag::Ladder) {
       desiredDistance = 15.0f;
    }
-   else if (m_currentTravelFlags & PathFlag::Jump) {
-      //qqq
-      //desiredDistance = 0.0f;
-   }
+   // else if (m_currentTravelFlags & PathFlag::Jump) {
+   //    //qqq
+   //    //desiredDistance = 0.0f;
+   // }
    else {
       desiredDistance = m_path->radius;
    }

@@ -222,9 +222,9 @@ void Bot::trackEnemies () {
       m_states |= Sense::SeeingEnemy;
 
       // qqq
-      if(usesKnife()) {
-         selectBestWeapon ();
-      }
+      // if(usesKnife()) {
+      //    selectBestWeapon ();
+      // }
    }
    else {
       m_states &= ~Sense::SeeingEnemy;
@@ -374,7 +374,7 @@ bool Bot::lookupEnemies () {
 
          //qqq
          if (usesSniper ()) {
-            m_enemySurpriseTime *= 0.6f;
+            m_enemySurpriseTime *= 0.7f;
          }
          m_enemySurpriseTime += game.time ();
 
@@ -919,7 +919,7 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
       m_navTimeset = game.time ();
 
       if (cr::abs (pev->velocity.x) > 5.0f || cr::abs (pev->velocity.y) > 5.0f || cr::abs (pev->velocity.z) > 5.0f) {
-         m_sniperStopTime = game.time () + 2.0f;
+         m_sniperStopTime = game.time () + 1.0f; // was 2.0
          return;
       }
    }
@@ -1233,11 +1233,11 @@ void Bot::attackMovement () {
       m_fightStyle = Fight::Strafe;
 
       // qqq 
-      if ((usesSniper () && rg.chance(50)) || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
-         m_fightStyle = Fight::Stay;
-         m_lastFightStyleCheck = game.time ();
-      }
-      else 
+      // if ((usesSniper () && rg.chance(50)) || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
+      //    m_fightStyle = Fight::Stay;
+      //    m_lastFightStyleCheck = game.time ();
+      // }
+      // else 
       if (usesRifle () || usesSubmachine ()) {
          if (m_lastFightStyleCheck + 3.0f < game.time ()) {
             m_fightStyle = Fight::Strafe;

@@ -3791,12 +3791,12 @@ void Bot::hide_ () {
 
    // half the reaction time if camping
    setIdealReactionTimers ();
-   //m_idealReactionTime *= 0.5f;
+   m_idealReactionTime *= 0.5f;
 
    m_navTimeset = game.time ();
    //qqq
    m_moveSpeed = 0.0f;
-   m_strafeSpeed = 0.0f;
+   //m_strafeSpeed = 0.0f;
 
    findValidNode ();
 

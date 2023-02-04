@@ -1487,8 +1487,7 @@ void BotGraph::initNodesTypes () {
          m_goalPoints.push (path.number);
       }
       else if (path.flags & NodeFlag::Camp) {
-         //qqq
-         //m_campPoints.push (path.number);
+         m_campPoints.push (path.number);
       }
       else if (path.flags & NodeFlag::Sniper) {
          m_sniperPoints.push (path.number);
@@ -2349,8 +2348,7 @@ void BotGraph::frame () {
          }
          // jump connection
          if (link.flags & PathFlag::Jump) {
-            //qqq
-            //game.drawLine (m_editor, path.origin, m_paths[link.index].origin, 5, 0, { 255, 0, 128 }, 200, 0, 10);
+            game.drawLine (m_editor, path.origin, m_paths[link.index].origin, 5, 0, { 255, 0, 128 }, 200, 0, 10);
          }
          else if (isConnected (link.index, nearestIndex)) { // twoway connection
             game.drawLine (m_editor, path.origin, m_paths[link.index].origin, 5, 0, { 255, 255, 0 }, 200, 0, 10);
