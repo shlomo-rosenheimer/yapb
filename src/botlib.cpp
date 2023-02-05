@@ -5099,6 +5099,9 @@ void Bot::logic () {
 }
 
 void Bot::spawned () {
+   m_seeEnemyTime = 0.0f;
+   m_enemy = nullptr;
+
    if (game.is (GameFlags::CSDM)) {
       newRound ();
    }

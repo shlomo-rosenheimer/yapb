@@ -368,7 +368,7 @@ bool Bot::lookupEnemies () {
          }
 
          // qqq
-         if(usesKnife()) {
+         if(m_enemy == nullptr && usesKnife()) {
             selectBestWeapon ();
          }
 
