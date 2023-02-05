@@ -734,13 +734,12 @@ void BotGraph::add (int type, const Vector &pos) {
       path->flags |= NodeFlag::Rescue;
       break;
 
-   //qqq
-   // case NodeAddFlag::Camp:
-   //    path->flags |= NodeFlag::Crossing;
-   //    path->flags |= NodeFlag::Camp;
+   case NodeAddFlag::Camp:
+      path->flags |= NodeFlag::Crossing;
+      path->flags |= NodeFlag::Camp;
 
-   //    path->start = m_editor->v.v_angle;
-   //    break;
+      path->start = m_editor->v.v_angle;
+      break;
 
    case NodeAddFlag::Goal:
       path->flags |= NodeFlag::Goal;

@@ -153,8 +153,8 @@ int Bot::findBestGoal () {
    // }
 
    //qqq
-   forwardDesire = 0.0f;
-   campDesire = 0.0f;
+   forwardDesire = 1.0f;
+   campDesire = 1.0f;
 
    if (goalDesire > tacticChoice) {
       tactic = 3;
@@ -418,7 +418,9 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             // m_tryStuckMoveTime = game.time ();
             }
 
-            
+            //qqq
+            m_moveSpeed = -pev->maxspeed;
+            if(rg.chance(30)) m_moveSpeed = 0.0f;
          }
          else {
             m_firstCollideTime = 0.0f;
@@ -1732,6 +1734,8 @@ float Bot::getReachTime () {
       if (longTermReachability) {
          estimatedTime *= 2.0f;
       }
+      //qqq
+      if(usesKnife()) estimatedTime *= 0.7f;
       estimatedTime = cr::clamp (estimatedTime, 2.0f, longTermReachability ? 8.0f : 5.0f);
    }
    return estimatedTime;

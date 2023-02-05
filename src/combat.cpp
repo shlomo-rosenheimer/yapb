@@ -222,9 +222,9 @@ void Bot::trackEnemies () {
       m_states |= Sense::SeeingEnemy;
 
       // qqq
-      // if(usesKnife()) {
-      //    selectBestWeapon ();
-      // }
+      if(usesKnife()) {
+         selectBestWeapon ();
+      }
    }
    else {
       m_states &= ~Sense::SeeingEnemy;

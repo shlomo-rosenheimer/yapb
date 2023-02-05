@@ -2825,20 +2825,20 @@ void Bot::updateAimDir () {
    }
    else if (flags & AimFlags::Camp) {
       // qqq 3
-      m_lookAt = m_destOrigin; // new
+      //m_lookAt = m_destOrigin; // new
       //qqq
-      if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
-         m_idealReactionTime = 0.01f; // 0.05
-          m_actualReactionTime = 0.015f; // 0.095
-         selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
+      // if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+      //    m_idealReactionTime = 0.01f; // 0.05
+      //     m_actualReactionTime = 0.015f; // 0.095
+      //    selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
 
       
-      }
-      if(usesKnife()) {
-               m_idealReactionTime = 0.01f; // 0.05
-                m_actualReactionTime = 0.015f; // 0.095
-            }
-      //m_lookAt = m_camp; // orig
+      // }
+      // if(usesKnife()) {
+      //          m_idealReactionTime = 0.01f; // 0.05
+      //           m_actualReactionTime = 0.015f; // 0.095
+      //       }
+      m_lookAt = m_camp; // orig
    }
    else if (flags & AimFlags::Nav) {
       auto smoothView = [&] (int32 index) -> Vector {
@@ -3569,7 +3569,7 @@ void Bot::seekCover_ () {
       }
       //qqq
       m_moveSpeed = 0.0f;
-      m_strafeSpeed = 0.0f;
+      //m_strafeSpeed = 0.0f;
 
       m_moveToGoal = false;
       m_checkTerrain = false;
