@@ -332,7 +332,7 @@ void BotManager::maintainQuota () {
 
    int maxClients = game.maxClients ();
 
-   maxClients = maxClients - 2;
+   //maxClients = maxClients - 2;
 
    if (graph.length () < 1 || graph.hasChanged ()) {
       if (cv_quota.int_ () > 0) {
