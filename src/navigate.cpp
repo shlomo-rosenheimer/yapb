@@ -2275,7 +2275,7 @@ bool Bot::advanceMovement () {
 
            
             //qqq
-            if (m_healthValue > 80.0f && !usesSniper () && (rg.chance(30) || (willJump && !usesKnife () && m_currentWeapon != Weapon::Scout && !m_isReloading && !usesPistol () && (jumpDistance > 200.0f || (dst.z - 32.0f > src.z && jumpDistance > 150.0f)))) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+            if (m_seeEnemyTime == 0.0f && m_enemy == nullptr && m_healthValue > 80.0f && !usesSniper () && (rg.chance(30) || (willJump && !usesKnife () && m_currentWeapon != Weapon::Scout && !m_isReloading && !usesPistol () && (jumpDistance > 200.0f || (dst.z - 32.0f > src.z && jumpDistance > 150.0f)))) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                m_idealReactionTime = 0.01f; // 0.05
           m_actualReactionTime = 0.015f; // 0.095
                selectWeaponByName ("weapon_knife"); // draw out the knife if we needed

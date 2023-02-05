@@ -16,8 +16,8 @@ ConVar cv_jasonmode ("yb_jasonmode", "0", "If enabled, all bots will be forced o
 ConVar cv_radio_mode ("yb_radio_mode", "2", "Allows bots to use radio or chattter.\nAllowed values: '0', '1', '2'.\nIf '0', radio and chatter is disabled.\nIf '1', only radio allowed.\nIf '2' chatter and radio allowed.", true, 0.0f, 2.0f);
 
 ConVar cv_economics_rounds ("yb_economics_rounds", "1", "Specifies whether bots able to use team economics, like do not buy any weapons for whole team to keep money for better guns.");
-ConVar cv_walking_allowed ("yb_walking_allowed", "1", "Specifies whether bots able to use 'shift' if they thinks that enemy is near.");
-ConVar cv_camping_allowed ("yb_camping_allowed", "1", "Allows or disallows bots to camp. Doesn't affects bomb/hostage defending tasks.");
+ConVar cv_walking_allowed ("yb_walking_allowed", "0", "Specifies whether bots able to use 'shift' if they thinks that enemy is near.");
+ConVar cv_camping_allowed ("yb_camping_allowed", "0", "Allows or disallows bots to camp. Doesn't affects bomb/hostage defending tasks.");
 
 ConVar cv_camping_time_min ("yb_camping_time_min", "15.0", "Lower bound of time from which time for camping is calculated", true, 5.0f, 90.0f);
 ConVar cv_camping_time_max ("yb_camping_time_max", "45.0", "Upper bound of time from which time for camping is calculated", true, 15.0f, 120.0f);
@@ -2810,7 +2810,7 @@ void Bot::updateAimDir () {
          // qqq 2
          m_lookAt = m_destOrigin; // new
          //qqq
-         if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+         if(m_seeEnemyTime == 0.0f && m_enemy == nullptr && m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
             m_idealReactionTime = 0.01f; // 0.05
           m_actualReactionTime = 0.015f; // 0.095
             selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
@@ -2861,7 +2861,7 @@ void Bot::updateAimDir () {
             m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex); // orig
             //m_lookAt = m_destOrigin; // new
             //qqq
-            if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+            if(m_seeEnemyTime == 0.0f && m_enemy == nullptr && m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                m_idealReactionTime = 0.01f; // 0.05
           m_actualReactionTime = 0.015f; // 0.095
                selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
@@ -2891,7 +2891,7 @@ void Bot::updateAimDir () {
             else {
                
                //qqq
-               if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+               if(m_seeEnemyTime == 0.0f && m_enemy == nullptr && m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                   m_idealReactionTime = 0.01f; // 0.05
           m_actualReactionTime = 0.015f; // 0.095
                   selectWeaponByName ("weapon_knife"); // draw out the knife if we needed

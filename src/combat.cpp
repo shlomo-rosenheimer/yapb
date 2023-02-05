@@ -220,11 +220,6 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
 void Bot::trackEnemies () {
    if (lookupEnemies ()) {
       m_states |= Sense::SeeingEnemy;
-
-      // qqq
-      if(usesKnife()) {
-         selectBestWeapon ();
-      }
    }
    else {
       m_states &= ~Sense::SeeingEnemy;
@@ -366,10 +361,15 @@ bool Bot::lookupEnemies () {
 
          //qqq
          if (cv_whose_your_daddy.bool_ () || usesKnife()) {
-            m_enemySurpriseTime = m_actualReactionTime * 0.8f;
+            m_enemySurpriseTime = m_actualReactionTime * 0.1f;
          }
          else {
             m_enemySurpriseTime = m_actualReactionTime;
+         }
+
+         // qqq
+         if(usesKnife()) {
+            selectBestWeapon ();
          }
 
          //qqq

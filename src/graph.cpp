@@ -1135,7 +1135,8 @@ void BotGraph::calculatePathRadius (int index) {
    auto &path = m_paths[index];
    Vector start, direction;
 
-   if ((path.flags & (NodeFlag::Ladder | NodeFlag::Goal | NodeFlag::Camp | NodeFlag::Rescue | NodeFlag::Crouch)) || m_jumpLearnNode) {
+   //if ((path.flags & (NodeFlag::Ladder | NodeFlag::Goal | NodeFlag::Camp | NodeFlag::Rescue | NodeFlag::Crouch)) || m_jumpLearnNode) {
+   if ((path.flags & (NodeFlag::Ladder | NodeFlag::Rescue))) {
       path.radius = 0.0f;
       return;
    }
