@@ -1728,14 +1728,15 @@ float Bot::getReachTime () {
       else {
          estimatedTime = 3.0f * distance / pev->maxspeed;
       }
-      bool longTermReachability = (m_path->flags & NodeFlag::Crouch) || (m_path->flags & NodeFlag::Ladder) || (pev->button & IN_DUCK) || (m_oldButtons & IN_DUCK);
+      //bool longTermReachability = (m_path->flags & NodeFlag::Crouch) || (m_path->flags & NodeFlag::Ladder) || (pev->button & IN_DUCK) || (m_oldButtons & IN_DUCK);
+      bool longTermReachability = (m_path->flags & NodeFlag::Ladder) || (pev->button & IN_DUCK) || (m_oldButtons & IN_DUCK);
 
       // check for special nodes, that can slowdown our movement
       if (longTermReachability) {
          estimatedTime *= 2.0f;
       }
       //qqq
-      if(usesKnife()) estimatedTime *= 0.7f;
+      if(usesKnife()) estimatedTime *= 0.5f;
       estimatedTime = cr::clamp (estimatedTime, 2.0f, longTermReachability ? 8.0f : 5.0f);
    }
    return estimatedTime;

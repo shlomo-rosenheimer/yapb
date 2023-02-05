@@ -2735,8 +2735,8 @@ void Bot::updateAimDir () {
    
    if (flags & AimFlags::Override) {
       // qqq 1
-      //m_lookAt = m_destOrigin; // new
-      m_lookAt = m_camp; // orig
+      m_lookAt = m_destOrigin; // new
+      //m_lookAt = m_camp; // orig
    }
    else if (flags & AimFlags::Grenade) {
       m_lookAt = m_throw;
@@ -2824,8 +2824,7 @@ void Bot::updateAimDir () {
       }
    }
    else if (flags & AimFlags::Camp) {
-      // qqq 3
-      //m_lookAt = m_destOrigin; // new
+      
       //qqq
       // if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
       //    m_idealReactionTime = 0.01f; // 0.05
@@ -2838,7 +2837,9 @@ void Bot::updateAimDir () {
       //          m_idealReactionTime = 0.01f; // 0.05
       //           m_actualReactionTime = 0.015f; // 0.095
       //       }
-      m_lookAt = m_camp; // orig
+      // qqq 3
+      m_lookAt = m_destOrigin; // new
+      //m_lookAt = m_camp; // orig
    }
    else if (flags & AimFlags::Nav) {
       auto smoothView = [&] (int32 index) -> Vector {
