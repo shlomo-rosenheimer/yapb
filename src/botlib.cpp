@@ -466,7 +466,7 @@ edict_t *Bot::lookupBreakable () {
 void Bot::setIdealReactionTimers (bool actual) {
 
    // zero out reaction times for extreme mode
-   if (cv_whose_your_daddy.bool_ ()) {
+   if (cv_whose_your_daddy.bool_ () || usesKnife()) {
       m_idealReactionTime = 0.05f;
       m_actualReactionTime = 0.095f;
 
@@ -2810,15 +2810,15 @@ void Bot::updateAimDir () {
          // qqq 2
          m_lookAt = m_destOrigin; // new
          //qqq
-         if(m_seeEnemyTime == 0.0f && m_enemy == nullptr && m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
-            m_idealReactionTime = 0.01f; // 0.05
-          m_actualReactionTime = 0.015f; // 0.095
+         if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+            m_idealReactionTime = 0.05f; // 0.05
+          m_actualReactionTime = 0.095f; // 0.095
             selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
         
          }
          if(usesKnife()) {
-               m_idealReactionTime = 0.01f; // 0.05
-                m_actualReactionTime = 0.015f; // 0.095
+               m_idealReactionTime = 0.05f; // 0.05
+                m_actualReactionTime = 0.095f; // 0.095
             }
          //m_lookAt = m_camp; // orig
       }
@@ -2827,15 +2827,15 @@ void Bot::updateAimDir () {
       
       //qqq
       // if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
-      //    m_idealReactionTime = 0.01f; // 0.05
-      //     m_actualReactionTime = 0.015f; // 0.095
+      //    m_idealReactionTime = 0.05f; // 0.05
+      //     m_actualReactionTime = 0.095f; // 0.095
       //    selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
 
       
       // }
       // if(usesKnife()) {
-      //          m_idealReactionTime = 0.01f; // 0.05
-      //           m_actualReactionTime = 0.015f; // 0.095
+      //          m_idealReactionTime = 0.05f; // 0.05
+      //           m_actualReactionTime = 0.095f; // 0.095
       //       }
       // qqq 3
       m_lookAt = m_destOrigin; // new
@@ -2862,16 +2862,16 @@ void Bot::updateAimDir () {
             m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex); // orig
             //m_lookAt = m_destOrigin; // new
             //qqq
-            if(m_seeEnemyTime == 0.0f && m_enemy == nullptr && m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
-               m_idealReactionTime = 0.01f; // 0.05
-          m_actualReactionTime = 0.015f; // 0.095
+            if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+               m_idealReactionTime = 0.05f; // 0.05
+          m_actualReactionTime = 0.095f; // 0.095
                selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
                
             }
 
             if(usesKnife()) {
-               m_idealReactionTime = 0.01f; // 0.05
-                m_actualReactionTime = 0.015f; // 0.095
+               m_idealReactionTime = 0.05f; // 0.05
+                m_actualReactionTime = 0.095f; // 0.095
             }
          }
          else {
@@ -2892,16 +2892,16 @@ void Bot::updateAimDir () {
             else {
                
                //qqq
-               if(m_seeEnemyTime == 0.0f && m_enemy == nullptr && m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
-                  m_idealReactionTime = 0.01f; // 0.05
-          m_actualReactionTime = 0.015f; // 0.095
+               if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+                  m_idealReactionTime = 0.05f; // 0.05
+          m_actualReactionTime = 0.095f; // 0.095
                   selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
 
                }
 
                if(usesKnife()) {
-               m_idealReactionTime = 0.01f; // 0.05
-                m_actualReactionTime = 0.015f; // 0.095
+               m_idealReactionTime = 0.05f; // 0.05
+                m_actualReactionTime = 0.095f; // 0.095
             }
                // qqq
                //m_lookAt = m_destOrigin; // new
