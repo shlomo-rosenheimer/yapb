@@ -811,7 +811,8 @@ bool Bot::needToPauseFiring (float distance) {
    const float yPunch = cr::deg2rad (pev->punchangle.y);
 
    const float interval = getFrameInterval ();
-   const float tolerance = (100.0f - m_difficulty * 25.0f) / 99.0f;
+   const float tolerance = (100.0f - m_difficulty * 10.0f) / 99.0f;
+   //const float tolerance = (100.0f - m_difficulty * 25.0f) / 99.0f;
 
    // check if we need to compensate recoil
    if (cr::tanf (cr::sqrtf (cr::abs (xPunch * xPunch) + cr::abs (yPunch * yPunch))) * distance > offset + 30.0f + tolerance) {
@@ -1016,8 +1017,8 @@ void Bot::fireWeapons () {
    //    return;
    // }
 
-   // qqq knife
-   if (!game.isNullEntity (enemy) && distance < 90.0f) {
+   // qqq knife, was 90.0
+   if (!game.isNullEntity (enemy) && distance < 70.0f) {
       selectWeapons (distance, selectIndex, selectId, choosenWeapon);
       return;
    }
@@ -1228,11 +1229,11 @@ void Bot::attackMovement () {
       m_fightStyle = Fight::Strafe;
 
       // qqq 
-      // if ((usesSniper () && rg.chance(50)) || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
-      //    m_fightStyle = Fight::Stay;
-      //    m_lastFightStyleCheck = game.time ();
-      // }
-      // else 
+      if ((usesSniper () && rg.chance(10)) || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
+         m_fightStyle = Fight::Stay;
+         m_lastFightStyleCheck = game.time ();
+      }
+      else 
       if (usesRifle () || usesSubmachine ()) {
          if (m_lastFightStyleCheck + 3.0f < game.time ()) {
             m_fightStyle = Fight::Strafe;

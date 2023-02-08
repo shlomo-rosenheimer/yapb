@@ -2849,7 +2849,7 @@ void Bot::updateAimDir () {
             //qqq
             //return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f);
             // qqq was 65.0
-            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (2.0f, 8.0f); // was 2.0 - 4.0
+            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (8.0f, 16.0f); // was 2.0 - 4.0
          }
          return nullptr;
       };
