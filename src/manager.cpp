@@ -627,7 +627,7 @@ void BotManager::kickFromTeam (Team team, bool removeAll) {
    bool ddd = false;
 
    for (const auto &bot : m_bots) {
-      if (team == bot->m_team && bot->m_healthValue > 99.0f) {
+      if (team == bot->m_team && bot->m_healthValue > 101.0f) {
          decrementQuota ();
          bot->kick ();
 
@@ -696,7 +696,7 @@ bool BotManager::kickRandom (bool decQuota, Team fromTeam) {
 
    // first try to kick the bot that is currently dead
    for (const auto &bot : m_bots) {
-      if (!bot->m_notKilled && belongsTeam (bot.get ()) && bot->m_healthValue > 99.0f) // is this slot used?
+      if (!bot->m_notKilled && belongsTeam (bot.get ()) && bot->m_healthValue > 101.0f) // is this slot used?
       {
          updateQuota ();
          bot->kick ();
@@ -716,7 +716,7 @@ bool BotManager::kickRandom (bool decQuota, Team fromTeam) {
 
    // search bots in this team
    for (const auto &bot : m_bots) {
-      if (bot->pev->frags < score && belongsTeam (bot.get ()) && bot->m_healthValue > 99.0f) {
+      if (bot->pev->frags < score && belongsTeam (bot.get ()) && bot->m_healthValue > 101.0f) {
          selected = bot.get ();
          score = bot->pev->frags;
       }
@@ -732,7 +732,7 @@ bool BotManager::kickRandom (bool decQuota, Team fromTeam) {
 
    // worst case, just kick some random bot
    for (const auto &bot : m_bots) {
-      if (belongsTeam (bot.get ()) && bot->m_healthValue > 99.0f) // is this slot used?
+      if (belongsTeam (bot.get ()) && bot->m_healthValue > 101.0f) // is this slot used?
       {
          updateQuota ();
          bot->kick ();
@@ -1105,7 +1105,7 @@ Bot::Bot (edict_t *bot, int difficulty, int personality, int team, int skin) {
    m_nextEmotionUpdate = game.time () + 0.5f;
    m_healthValue = bot->v.health;
    //qqq
-   m_healthValue = 99.0f;
+   m_healthValue = 101.0f;
 
    // just to be sure
    m_msgQueue.clear ();
@@ -1305,7 +1305,7 @@ void Bot::newRound () {
    m_askCheckTime = rg.get (30.0f, 90.0f);
    //qqq
    //m_minSpeed = 260.0f;
-   m_healthValue = 99.0f;
+   m_healthValue = 101.0f;
    m_minSpeed = 310.0f;
    m_prevSpeed = 0.0f;
    m_prevOrigin = Vector (kInfiniteDistance, kInfiniteDistance, kInfiniteDistance);
