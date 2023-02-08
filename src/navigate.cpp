@@ -1736,9 +1736,9 @@ float Bot::getReachTime () {
          estimatedTime *= 2.0f;
       }
       //qqq
-      if(usesKnife()) estimatedTime *= 0.8f;
-      // qqq min was 2.0
-      estimatedTime = cr::clamp (estimatedTime, 1.0f, longTermReachability ? 8.0f : 5.0f);
+      if(usesKnife()) estimatedTime *= 0.9f; // 0.8 was good
+      // qqq min was orig 2.0, new 1.0 was ok
+      estimatedTime = cr::clamp (estimatedTime, 0.5f, longTermReachability ? 8.0f : 5.0f);
    }
    return estimatedTime;
 }

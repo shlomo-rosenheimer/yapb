@@ -811,7 +811,7 @@ bool Bot::needToPauseFiring (float distance) {
    const float yPunch = cr::deg2rad (pev->punchangle.y);
 
    const float interval = getFrameInterval ();
-   const float tolerance = (100.0f - m_difficulty * 10.0f) / 99.0f;
+   const float tolerance = (100.0f - m_difficulty * 15.0f) / 99.0f;
    //const float tolerance = (100.0f - m_difficulty * 25.0f) / 99.0f;
 
    // check if we need to compensate recoil
@@ -911,7 +911,7 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
    // we're should stand still before firing sniper weapons, else sniping is useless..
    if (usesSniper () && (m_aimFlags & (AimFlags::Enemy | AimFlags::LastEnemy)) && !m_isReloading && pev->velocity.lengthSq () > 0.0f && getCurrentTaskId () != Task::SeekCover) {
       m_moveSpeed = 0.0f;
-      if(rg.chance(20)) m_strafeSpeed = 0.0f;
+      if(rg.chance(30)) m_strafeSpeed = 0.0f;
       m_navTimeset = game.time ();
 
       if (cr::abs (pev->velocity.x) > 5.0f || cr::abs (pev->velocity.y) > 5.0f || cr::abs (pev->velocity.z) > 5.0f) {
@@ -1229,11 +1229,11 @@ void Bot::attackMovement () {
       m_fightStyle = Fight::Strafe;
 
       // qqq 
-      if ((usesSniper () && rg.chance(10)) || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
-         m_fightStyle = Fight::Stay;
-         m_lastFightStyleCheck = game.time ();
-      }
-      else 
+      // if ((usesSniper () && rg.chance(10)) || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
+      //    m_fightStyle = Fight::Stay;
+      //    m_lastFightStyleCheck = game.time ();
+      // }
+      // else 
       if (usesRifle () || usesSubmachine ()) {
          if (m_lastFightStyleCheck + 3.0f < game.time ()) {
             m_fightStyle = Fight::Strafe;
@@ -1303,9 +1303,9 @@ void Bot::attackMovement () {
          // }
 
          //qqq
-         if (m_moveSpeed != 0.0f && rg.chance(95) && distance > 100.0f && !usesKnife ()) {
+         if (m_moveSpeed != 0.0f && rg.chance(85) && distance > 100.0f && !usesKnife ()) {
             m_moveSpeed = 0.0f;
-            if(rg.chance(10)) m_moveSpeed = -pev->maxspeed;
+            if(rg.chance(30)) m_moveSpeed = -pev->maxspeed;
             if(m_strafeSpeed == 0.0f) m_strafeSpeed = pev->maxspeed;
             m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f);
          }
