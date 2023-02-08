@@ -1104,6 +1104,8 @@ Bot::Bot (edict_t *bot, int difficulty, int personality, int team, int skin) {
    m_fearLevel = m_baseFearLevel;
    m_nextEmotionUpdate = game.time () + 0.5f;
    m_healthValue = bot->v.health;
+   //qqq
+   m_healthValue = 99.0f;
 
    // just to be sure
    m_msgQueue.clear ();
@@ -1303,6 +1305,7 @@ void Bot::newRound () {
    m_askCheckTime = rg.get (30.0f, 90.0f);
    //qqq
    //m_minSpeed = 260.0f;
+   m_healthValue = 99.0f;
    m_minSpeed = 310.0f;
    m_prevSpeed = 0.0f;
    m_prevOrigin = Vector (kInfiniteDistance, kInfiniteDistance, kInfiniteDistance);
