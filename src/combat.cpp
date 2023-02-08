@@ -811,7 +811,7 @@ bool Bot::needToPauseFiring (float distance) {
    const float yPunch = cr::deg2rad (pev->punchangle.y);
 
    const float interval = getFrameInterval ();
-   const float tolerance = (100.0f - m_difficulty * 15.0f) / 99.0f;
+   const float tolerance = (100.0f - m_difficulty * 20.0f) / 99.0f;
    //const float tolerance = (100.0f - m_difficulty * 25.0f) / 99.0f;
 
    // check if we need to compensate recoil
