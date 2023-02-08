@@ -19,7 +19,7 @@ int Bot::numFriendsNear (const Vector &origin, float radius) {
    int count = 0;
 
    for (const auto &client : util.getClients ()) {
-      if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team != m_team || client.ent == ent () || client.ent->v.health == 111.0f) {
+      if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team != m_team || client.ent == ent () || client.ent->v.health > 99.0f) {
          continue;
       }
 
@@ -34,7 +34,7 @@ int Bot::numEnemiesNear (const Vector &origin, float radius) {
    int count = 0;
 
    for (const auto &client : util.getClients ()) {
-      if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team == m_team || client.ent->v.health == 111.0f) {
+      if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team == m_team || client.ent->v.health > 99.0f) {
          continue;
       }
 
@@ -103,7 +103,7 @@ bool Bot::isEnemyInvincible (edict_t *enemy) {
    }
 
    // qqq
-   if (v.health == 111.0f) {
+   if (v.health > 99.0f) {
       return true;
    }
 
@@ -199,7 +199,7 @@ bool Bot::checkBodyParts (edict_t *target) {
 }
 
 bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
-   if (game.isNullEntity (player) || player->v.health == 111.0f) {
+   if (game.isNullEntity (player) || player->v.health > 99.0f) {
       return false;
    }
 
@@ -232,7 +232,7 @@ bool Bot::lookupEnemies () {
 
    // qqq
    // do not search for enemies while we're blinded, or shooting disabled by user
-   if (m_enemyIgnoreTimer > game.time () || m_blindTime > game.time () || cv_ignore_enemies.bool_ () || m_healthValue < 5.0f || m_healthValue == 111.0f) {
+   if (m_enemyIgnoreTimer > game.time () || m_blindTime > game.time () || cv_ignore_enemies.bool_ () || m_healthValue < 5.0f || m_healthValue > 99.0f) {
       return false;
    }
    edict_t *player, *newEnemy = nullptr;
@@ -293,7 +293,7 @@ bool Bot::lookupEnemies () {
 
       // search the world for players...
       for (const auto &client : util.getClients ()) {
-         if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team == m_team || client.ent == ent () || !client.ent || client.ent->v.health == 111.0f) {
+         if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team == m_team || client.ent == ent () || !client.ent || client.ent->v.health > 99.0f) {
             continue;
          }
          player = client.ent;
@@ -682,7 +682,7 @@ bool Bot::isFriendInLineOfFire (float distance) {
 
    // search the world for players
    for (const auto &client : util.getClients ()) {
-      if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team != m_team || client.ent == ent () || client.ent->v.health == 111.0f) {
+      if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team != m_team || client.ent == ent () || client.ent->v.health > 99.0f) {
          continue;
       }
       auto friendDistance = client.ent->v.origin.distanceSq (pev->origin);
@@ -1667,7 +1667,7 @@ void Bot::updateTeamCommands () {
 
    // search teammates seen by this bot
    for (const auto &client : util.getClients ()) {
-      if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team != m_team || client.ent == ent () || client.ent->v.health == 111.0f) {
+      if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team != m_team || client.ent == ent () || client.ent->v.health > 99.0f) {
          continue;
       }
       memberExists = true;
@@ -1701,7 +1701,7 @@ bool Bot::isGroupOfEnemies (const Vector &location, int numEnemies, float radius
 
    // search the world for enemy players...
    for (const auto &client : util.getClients ()) {
-      if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.ent == ent () || client.ent->v.health == 111.0f) {
+      if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.ent == ent () || client.ent->v.health > 99.0f) {
          continue;
       }
 
