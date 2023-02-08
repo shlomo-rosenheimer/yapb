@@ -2984,11 +2984,11 @@ void Bot::frame () {
    //qqq
    else if (m_notKilled && m_healthValue > 1.0f) {
       //qqq
-      if(m_healthValue <= 101.0f) updateLookAngles ();
+      if(m_healthValue < 111.0f) updateLookAngles ();
    }
 
    //qqq
-   if (m_healthValue > 101.0f || m_slowFrameTimestamp > game.time ()) {
+   if (m_healthValue == 111.0f || m_slowFrameTimestamp > game.time ()) {
       return;
    }
    m_numFriendsLeft = numFriendsNear (pev->origin, kInfiniteDistance);
@@ -3078,7 +3078,7 @@ void Bot::update () {
       botMovement = true;
    }
 
-   if(m_healthValue > 101.0f) 
+   if(m_healthValue == 111.0f) 
       botMovement = false;
 
    checkMsgQueue ();
@@ -3091,12 +3091,12 @@ void Bot::update () {
    //    //choiceFreezetimeEntity ();
    // }
 
-   if(m_healthValue <= 101.0f)
+   if(m_healthValue < 111.0f)
       runMovement ();
 
    // delay next execution
    // qqq
-   if(m_healthValue > 101.0f) {
+   if(m_healthValue == 111.0f) {
       m_updateTime = game.time () + 1.0f / 30.0f;
    } else {
       m_updateTime = game.time () + m_updateInterval;

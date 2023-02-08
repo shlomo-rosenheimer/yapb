@@ -110,7 +110,7 @@ bool BotSupport::isAlive (edict_t *ent) {
 
 bool BotSupport::isVisible (const Vector &origin, edict_t *ent) {
    // qqq
-   if (game.isNullEntity (ent) || ((ent->v.flags & FL_FAKECLIENT) && ent->v.health > 101.0f)) {
+   if (game.isNullEntity (ent) || ((ent->v.flags & FL_FAKECLIENT) && ent->v.health == 111.0f)) {
       return false;
    }
    TraceResult tr {};
@@ -343,7 +343,7 @@ bool BotSupport::findNearestPlayer (void **pvHolder, edict_t *to, float searchDi
    int toTeam = game.getTeam (to);
 
    for (const auto &client : m_clients) {
-      if (!(client.flags & ClientFlags::Used) || client.ent == to || (util.isFakeClient (client.ent) && client.ent->v.health > 101.0f)) {
+      if (!(client.flags & ClientFlags::Used) || client.ent == to || (util.isFakeClient (client.ent) && client.ent->v.health == 111.0f)) {
          continue;
       }
 
@@ -398,7 +398,7 @@ void BotSupport::listenNoise (edict_t *ent, StringRef sample, float volume) {
 
       // loop through all players
       for (auto &client : util.getClients ()) {
-         if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || (util.isFakeClient (client.ent) && client.ent->v.health > 101.0f)) {
+         if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || (util.isFakeClient (client.ent) && client.ent->v.health == 111.0f)) {
             continue;
          }
          auto distance = client.origin.distanceSq (origin);
