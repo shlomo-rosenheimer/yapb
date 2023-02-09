@@ -1137,13 +1137,13 @@ void BotGraph::calculatePathRadius (int index) {
 
    //if ((path.flags & (NodeFlag::Ladder | NodeFlag::Goal | NodeFlag::Camp | NodeFlag::Rescue | NodeFlag::Crouch)) || m_jumpLearnNode) {
    if ((path.flags & (NodeFlag::Ladder | NodeFlag::Rescue))) {
-      path.radius = 3.0f;
+      path.radius = 0.0f;
       return;
    }
 
    for (const auto &test : path.links) {
       if (test.index != kInvalidNodeIndex && (m_paths[test.index].flags & NodeFlag::Ladder)) {
-         path.radius = 3.0f;
+         path.radius = 0.0f;
          return;
       }
    }
@@ -1171,7 +1171,7 @@ void BotGraph::calculatePathRadius (int index) {
             game.testLine (radiusStart, radiusEnd, TraceIgnore::Monsters, nullptr, &tr);
 
             if (tr.pHit && strncmp ("func_door", tr.pHit->v.classname.chars (), 9) == 0) {
-               path.radius = 3.0f;
+               path.radius = 0.0f;
                wayBlocked = true;
 
                break;
@@ -1657,22 +1657,22 @@ template <typename U> bool BotGraph::loadStorage (StringRef ext, StringRef name,
 
    // downloader for graph
    auto download = [&] () -> bool {
-      if (!graph.canDownload ()) {
-         return false;
-      }
-      auto downloadAddress = cv_graph_url.str ();
+      // if (!graph.canDownload ()) {
+      //    return false;
+      // }
+      // auto downloadAddress = cv_graph_url.str ();
 
-      auto toDownload = strings.format ("%sgraph/%s", getDataDirectory (false), filename);
-      auto fromDownload = strings.format ("http://%s/graph/%s", downloadAddress, filename);
+      // auto toDownload = strings.format ("%sgraph/%s", getDataDirectory (false), filename);
+      // auto fromDownload = strings.format ("http://%s/graph/%s", downloadAddress, filename);
 
-      // try to download
-      if (http.downloadFile (fromDownload, toDownload))  {
-         ctrl.msg ("%s file '%s' successfully downloaded. Processing...", name, filename);
-         return true;
-      }
-      else {
-         ctrl.msg ("Can't download '%s' from '%s' to '%s'... (%d).", filename, fromDownload, toDownload, http.getLastStatusCode ());
-      }
+      // // try to download
+      // if (http.downloadFile (fromDownload, toDownload))  {
+      //    ctrl.msg ("%s file '%s' successfully downloaded. Processing...", name, filename);
+      //    return true;
+      // }
+      // else {
+      //    ctrl.msg ("Can't download '%s' from '%s' to '%s'... (%d).", filename, fromDownload, toDownload, http.getLastStatusCode ());
+      // }
       return false;
    };
 
@@ -1792,6 +1792,7 @@ bool BotGraph::loadGraphData () {
 
       // add data to buckets
       for (const auto &path : m_paths) {
+         if(path.radius < 1.0f) path.radius = 16.0f;
          addToBucket (path.origin, path.number);
       }
 
