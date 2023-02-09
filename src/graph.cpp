@@ -995,13 +995,9 @@ void BotGraph::pathCreate (char dir) {
 
    // qqq
    if (dir == PathConnection::Outgoing) {
-      //addPath (nodeFrom, nodeTo, distance);
       addPath (nodeFrom, nodeTo, distance);
-      addPath (nodeTo, nodeFrom, distance);
    }
    else if (dir == PathConnection::Incoming) {
-      //addPath (nodeTo, nodeFrom, distance);
-      addPath (nodeFrom, nodeTo, distance);
       addPath (nodeTo, nodeFrom, distance);
    }
    else {
@@ -2362,6 +2358,7 @@ void BotGraph::frame () {
             game.drawLine (m_editor, path.origin, m_paths[link.index].origin, 5, 0, { 255, 255, 0 }, 200, 0, 10);
          }
          else { // oneway connection
+            // qqq pink = going from where i am to there
             //game.drawLine (m_editor, path.origin, m_paths[link.index].origin, 5, 0, { 50, 250, 25 }, 200, 0, 10);
             game.drawLine (m_editor, path.origin, m_paths[link.index].origin, 5, 0, { 255, 50, 255 }, 200, 0, 10);
          }
@@ -2370,7 +2367,9 @@ void BotGraph::frame () {
       // now look for oneway incoming connections
       for (const auto &connected : m_paths) {
          if (isConnected (connected.number, path.number) && !isConnected (path.number, connected.number)) {
-            game.drawLine (m_editor, path.origin, connected.origin, 5, 0, { 0, 192, 96 }, 200, 0, 10);
+            // red = coming to me but not going there
+            game.drawLine (m_editor, path.origin, connected.origin, 5, 0, { 255, 37, 37 }, 200, 0, 10);
+            //game.drawLine (m_editor, path.origin, connected.origin, 5, 0, { 0, 192, 96 }, 200, 0, 10);
          }
       }
 

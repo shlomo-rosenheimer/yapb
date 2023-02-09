@@ -1305,7 +1305,7 @@ void Bot::attackMovement () {
          //qqq
          if (m_moveSpeed != 0.0f && rg.chance(85) && distance > 100.0f && !usesKnife ()) {
             m_moveSpeed = 0.0f;
-            if(rg.chance(30)) m_moveSpeed = -pev->maxspeed;
+            if(rg.chance(10)) m_moveSpeed = -pev->maxspeed;
             if(m_strafeSpeed == 0.0f) m_strafeSpeed = pev->maxspeed;
             m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f);
          }
