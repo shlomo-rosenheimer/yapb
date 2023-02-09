@@ -1237,10 +1237,14 @@ void Bot::findShortestPath (int srcIndex, int destIndex) {
 
    if (!graph.exists (srcIndex)){
       logger.error ("%s source path index not valid (%d).", __FUNCTION__, srcIndex);
+      bots.kickEveryone (true);
+      graph.loadGraphData ();
       return;
    }
    else if (!graph.exists (destIndex)) {
       logger.error ("%s destination path index not valid (%d).", __FUNCTION__, destIndex);
+      bots.kickEveryone (true);
+      graph.loadGraphData ();
       return;
    }
    clearSearchNodes ();
@@ -1415,11 +1419,15 @@ void Bot::findPath (int srcIndex, int destIndex, FindPath pathType /*= FindPath:
 
    if (!graph.exists (srcIndex)) {
       logger.error ("%s source path index not valid (%d).", __FUNCTION__, srcIndex);
+      bots.kickEveryone (true);
+      graph.loadGraphData ();
       return;
    }
    else if (!graph.exists (destIndex)) {
 
       logger.error ("%s destination path index not valid (%d).", __FUNCTION__, destIndex);
+      bots.kickEveryone (true);
+      graph.loadGraphData ();
       return;
    }
 

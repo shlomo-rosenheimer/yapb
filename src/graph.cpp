@@ -46,10 +46,9 @@ int BotGraph::clearConnections (int index) {
       ++numFixedLinks;
    };
 
-   //qqq
-   // if (bots.hasBotsOnline ()) {
-   //    bots.kickEveryone (true);
-   // }
+   if (bots.hasBotsOnline ()) {
+      bots.kickEveryone (true);
+   }
 
    struct Connection {
       int index {};
@@ -552,10 +551,9 @@ void BotGraph::add (int type, const Vector &pos) {
    bool addNewNode = true;
    Vector newOrigin = pos.empty () ? m_editor->v.origin : pos;
 
-   //qqq
-   // if (bots.hasBotsOnline ()) {
-   //    bots.kickEveryone (true);
-   // }
+   if (bots.hasBotsOnline ()) {
+      bots.kickEveryone (true);
+   }
    m_hasChanged = true;
 
    switch (type) {
@@ -826,10 +824,9 @@ void BotGraph::erase (int target) {
       return;
    }
 
-   //qqq
-   // if (bots.hasBotsOnline ()) {
-   //    bots.kickEveryone (true);
-   // }
+   if (bots.hasBotsOnline ()) {
+      bots.kickEveryone (true);
+   }
    const int index = (target == kInvalidNodeIndex) ? getEditorNeareset () : target;
 
    if (!exists (index)) {
@@ -1861,8 +1858,7 @@ bool BotGraph::saveGraphData () {
    worked = saveStorage <Path> ("graph", "Graph", static_cast <StorageOption> (options), StorageVersion::Graph, m_paths, &exten);
 
    StringArray forErase;
-   //qqq
-   //bots.kickEveryone (true);
+   bots.kickEveryone (true);
 
    auto map = game.getMapName ();
    auto data = getDataDirectory ();
@@ -2823,7 +2819,7 @@ void BotGraph::eraseFromDisk () {
    // this function removes graph file from the hard disk
 
    StringArray forErase;
-   //bots.kickEveryone (true);
+   bots.kickEveryone (true);
 
    auto map = game.getMapName ();
    auto data = getDataDirectory ();
