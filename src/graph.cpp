@@ -1232,7 +1232,7 @@ void BotGraph::calculatePathRadius (int index) {
    }
 
    // qqq
-   if(path.radius == 0.0f) path.radius = 16.0f;
+   //if(path.radius == 0.0f) path.radius = 16.0f;
 }
 
 void BotGraph::loadPractice () {
@@ -2824,7 +2824,7 @@ void BotGraph::eraseFromDisk () {
    // this function removes graph file from the hard disk
 
    StringArray forErase;
-   bots.kickEveryone (true);
+   //bots.kickEveryone (true);
 
    auto map = game.getMapName ();
    auto data = getDataDirectory ();
