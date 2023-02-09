@@ -1792,7 +1792,6 @@ bool BotGraph::loadGraphData () {
 
       // add data to buckets
       for (const auto &path : m_paths) {
-         if(path.radius < 1.0f) path.radius = 16.0f;
          addToBucket (path.origin, path.number);
       }
 
@@ -2515,7 +2514,9 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
    auto teleport = [&] (const Path &path) -> void {
       if (teleportPlayer) {
          engfuncs.pfnSetOrigin (m_editor, path.origin);
-         setEditFlag (GraphEdit::On | GraphEdit::Noclip);
+         //qqq
+         //setEditFlag (GraphEdit::On | GraphEdit::Noclip);
+         setEditFlag (GraphEdit::On);
       }
    };
 
@@ -2528,6 +2529,12 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
 
    for (const auto &path : m_paths) {
       int connections = 0;
+
+      // qqq
+      if(path.radius < 1.0f) {
+         ctrl.msg ("Node %d set radius to 32.0f", m_paths.index (path));
+         m_paths[m_paths.index (path)].radius = 32.0f;
+      }
 
       if (path.number != static_cast <int> (m_paths.index (path))) {
          ctrl.msg ("Node %d path differs from index %d.", path.number, m_paths.index (path));
