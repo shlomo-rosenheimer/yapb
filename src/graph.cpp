@@ -993,10 +993,15 @@ void BotGraph::pathCreate (char dir) {
 
    float distance = m_paths[nodeFrom].origin.distance (m_paths[nodeTo].origin);
 
+   // qqq
    if (dir == PathConnection::Outgoing) {
+      //addPath (nodeFrom, nodeTo, distance);
       addPath (nodeFrom, nodeTo, distance);
+      addPath (nodeTo, nodeFrom, distance);
    }
    else if (dir == PathConnection::Incoming) {
+      //addPath (nodeTo, nodeFrom, distance);
+      addPath (nodeFrom, nodeTo, distance);
       addPath (nodeTo, nodeFrom, distance);
    }
    else {
@@ -2357,7 +2362,8 @@ void BotGraph::frame () {
             game.drawLine (m_editor, path.origin, m_paths[link.index].origin, 5, 0, { 255, 255, 0 }, 200, 0, 10);
          }
          else { // oneway connection
-            game.drawLine (m_editor, path.origin, m_paths[link.index].origin, 5, 0, { 50, 250, 25 }, 200, 0, 10);
+            //game.drawLine (m_editor, path.origin, m_paths[link.index].origin, 5, 0, { 50, 250, 25 }, 200, 0, 10);
+            game.drawLine (m_editor, path.origin, m_paths[link.index].origin, 5, 0, { 255, 50, 255 }, 200, 0, 10);
          }
       }
 
@@ -2531,9 +2537,8 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
       int connections = 0;
 
       // qqq
-      if(path.radius < 1.0f) {
-         ctrl.msg ("Node %d set radius to 32.0f", m_paths.index (path));
-         m_paths[m_paths.index (path)].radius = 32.0f;
+      if(!(path.flags & NodeFlag::Ladder) && path.radius < 1.0f) {
+         m_paths[m_paths.index (path)].radius = 16.0f;
       }
 
       if (path.number != static_cast <int> (m_paths.index (path))) {
