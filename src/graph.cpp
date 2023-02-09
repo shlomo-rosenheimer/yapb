@@ -1137,13 +1137,13 @@ void BotGraph::calculatePathRadius (int index) {
 
    //if ((path.flags & (NodeFlag::Ladder | NodeFlag::Goal | NodeFlag::Camp | NodeFlag::Rescue | NodeFlag::Crouch)) || m_jumpLearnNode) {
    if ((path.flags & (NodeFlag::Ladder | NodeFlag::Rescue))) {
-      path.radius = 0.0f;
+      path.radius = 3.0f;
       return;
    }
 
    for (const auto &test : path.links) {
       if (test.index != kInvalidNodeIndex && (m_paths[test.index].flags & NodeFlag::Ladder)) {
-         path.radius = 0.0f;
+         path.radius = 3.0f;
          return;
       }
    }
@@ -1171,7 +1171,7 @@ void BotGraph::calculatePathRadius (int index) {
             game.testLine (radiusStart, radiusEnd, TraceIgnore::Monsters, nullptr, &tr);
 
             if (tr.pHit && strncmp ("func_door", tr.pHit->v.classname.chars (), 9) == 0) {
-               path.radius = 0.0f;
+               path.radius = 3.0f;
                wayBlocked = true;
 
                break;
