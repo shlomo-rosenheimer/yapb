@@ -1225,6 +1225,9 @@ void BotGraph::calculatePathRadius (int index) {
    if (path.radius < 0.0f) {
       path.radius = 0.0f;
    }
+
+   // qqq
+   if(path.radius == 0.0f) path.radius = 16.0f;
 }
 
 void BotGraph::loadPractice () {
