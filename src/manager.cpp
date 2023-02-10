@@ -330,10 +330,6 @@ void BotManager::maintainQuota () {
    // this function keeps number of bots up to date, and don't allow to maintain bot creation
    // while creation process in process.
 
-   int maxClients = game.maxClients ();
-
-   //maxClients = maxClients - 2;
-
    if (graph.length () < 1 || graph.hasChanged ()) {
       if (cv_quota.int_ () > 0) {
          ctrl.msg ("There is no graph found. Cannot create bot.");
@@ -373,6 +369,9 @@ void BotManager::maintainQuota () {
    if (m_quotaMaintainTime > game.time ()) {
       return;
    }
+
+   int maxClients = game.maxClients ();
+
    //cv_quota.set (cr::clamp <int> (cv_quota.int_ (), 0, game.maxClients ()));
    cv_quota.set (cr::clamp <int> (cv_quota.int_ (), 0, maxClients));
 
@@ -436,7 +435,7 @@ void BotManager::maintainQuota () {
       }
    }
    //m_quotaMaintainTime = game.time () + 0.40f;
-   m_quotaMaintainTime = game.time () + 0.10f;
+   m_quotaMaintainTime = game.time () + 0.40f;
 }
 
 void BotManager::maintainLeaders () {

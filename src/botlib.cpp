@@ -2994,24 +2994,24 @@ void Bot::frame () {
    m_numFriendsLeft = numFriendsNear (pev->origin, kInfiniteDistance);
    m_numEnemiesLeft = numEnemiesNear (pev->origin, kInfiniteDistance);
 
-   if (bots.isBombPlanted () && m_team == Team::CT && m_notKilled) {
-      const Vector &bombPosition = graph.getBombOrigin ();
+   // if (bots.isBombPlanted () && m_team == Team::CT && m_notKilled) {
+   //    const Vector &bombPosition = graph.getBombOrigin ();
 
-      if (!m_hasProgressBar && getCurrentTaskId () != Task::EscapeFromBomb && pev->origin.distanceSq (bombPosition) < cr::square (1540.0f) && !isBombDefusing (bombPosition)) {
-         m_itemIgnore = nullptr;
-         m_itemCheckTime = game.time ();
+   //    if (!m_hasProgressBar && getCurrentTaskId () != Task::EscapeFromBomb && pev->origin.distanceSq (bombPosition) < cr::square (1540.0f) && !isBombDefusing (bombPosition)) {
+   //       m_itemIgnore = nullptr;
+   //       m_itemCheckTime = game.time ();
 
-         clearTask (getCurrentTaskId ());
-      }
-   }
+   //       clearTask (getCurrentTaskId ());
+   //    }
+   // }
 
    checkSpawnConditions ();
    //checkForChat ();
    //checkBreakablesAround ();
 
-   if (game.is (GameFlags::HasBotVoice)) {
-      showChaterIcon (false); // end voice feedback
-   }
+   // if (game.is (GameFlags::HasBotVoice)) {
+   //    showChaterIcon (false); // end voice feedback
+   // }
 
    // clear enemy far away
    if (!m_lastEnemyOrigin.empty () && !game.isNullEntity (m_lastEnemy) && pev->origin.distanceSq (m_lastEnemyOrigin) >= cr::square (1600.0f)) {
@@ -3033,17 +3033,18 @@ void Bot::update () {
    m_team = game.getTeam (ent ());
    m_healthValue = cr::clamp (pev->health, 0.0f, 111.0f);
 
-   if (game.mapIs (MapFlags::Assassination) && !m_isVIP) {
-      m_isVIP = util.isPlayerVIP (ent ());
-   }
+   // if (game.mapIs (MapFlags::Assassination) && !m_isVIP) {
+   //    m_isVIP = util.isPlayerVIP (ent ());
+   // }
 
-   if (m_team == Team::Terrorist && game.mapIs (MapFlags::Demolition)) {
-      m_hasC4 = !!(pev->weapons & cr::bit (Weapon::C4));
+   // if (m_team == Team::Terrorist && game.mapIs (MapFlags::Demolition)) {
+   //    m_hasC4 = !!(pev->weapons & cr::bit (Weapon::C4));
 
-      if (m_hasC4 && cv_ignore_objectives.bool_ ()) {
-         m_hasC4 = false;
-      }
-   }
+   //    if (m_hasC4 && cv_ignore_objectives.bool_ ()) {
+   //       m_hasC4 = false;
+   //    }
+   // }
+   m_hasC4 = false;
 
    // is bot movement enabled
    bool botMovement = false;
