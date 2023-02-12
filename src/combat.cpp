@@ -198,7 +198,7 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
       return false;
    }
 
-   if ((usesKnife() && m_healthValue > 80.0f) || (cv_whose_your_daddy.bool_ () && util.isPlayer (pev->dmg_inflictor) && game.getTeam (pev->dmg_inflictor) != m_team)) {
+   if (usesKnife() || m_healthValue > 80.0f || (cv_whose_your_daddy.bool_ () && util.isPlayer (pev->dmg_inflictor) && game.getTeam (pev->dmg_inflictor) != m_team)) {
       ignoreFOV = true;
    }
 
@@ -206,6 +206,11 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
       m_seeEnemyTime = game.time ();
       m_lastEnemy = player;
       m_lastEnemyOrigin = m_enemyOrigin;
+
+      if(usesKnife() && (hasPrimaryWeapon () || hasSecondaryWeapon())) {
+         m_moveSpeed = 0.0f;
+         selectBestWeapon();
+      }
 
       return true;
    }
@@ -911,11 +916,11 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
    // we're should stand still before firing sniper weapons, else sniping is useless..
    if (usesSniper () && (m_aimFlags & (AimFlags::Enemy | AimFlags::LastEnemy)) && !m_isReloading && pev->velocity.lengthSq () > 0.0f && getCurrentTaskId () != Task::SeekCover) {
       m_moveSpeed = 0.0f;
-      if(rg.chance(50)) m_strafeSpeed = 0.0f;
+      if(rg.chance(70)) m_strafeSpeed = 0.0f;
       m_navTimeset = game.time ();
 
       if (cr::abs (pev->velocity.x) > 5.0f || cr::abs (pev->velocity.y) > 5.0f || cr::abs (pev->velocity.z) > 5.0f) {
-         m_sniperStopTime = game.time () + 2.0f; // was 2.0
+         m_sniperStopTime = game.time () + 1.0f; // was 2.0
          return;
       }
    }
@@ -1018,7 +1023,7 @@ void Bot::fireWeapons () {
    // }
 
    // qqq knife, was 90.0
-   if (!game.isNullEntity (enemy) && distance < 70.0f) {
+   if (!game.isNullEntity (enemy) && distance < 60.0f) {
       selectWeapons (distance, selectIndex, selectId, choosenWeapon);
       return;
    }
@@ -1244,6 +1249,10 @@ void Bot::attackMovement () {
          m_fightStyle = Fight::Strafe;
       }
 
+      if (usesSniper () || !(m_enemyParts & (Visibility::Body | Visibility::Head))) {
+         m_lastFightStyleCheck = game.time ();
+      }
+
       if (m_fightStyle == Fight::Strafe || ((pev->button & IN_RELOAD) || m_isReloading) || (usesPistol () && distance < 400.0f) || usesKnife ()) {
          if (m_strafeSetTime < game.time ()) {
 
@@ -1273,7 +1282,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Left;
-               m_strafeSetTime = game.time () + rg.get (0.8f, 3.1f); // was 0.8 - 1.1, new 1.8 - 3.1
+               m_strafeSetTime = game.time () + rg.get (0.8f, 2.1f); // was 0.8 - 1.1, new 1.8 - 3.1
             }
          }
          else {
@@ -1282,7 +1291,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Right;
-               m_strafeSetTime = game.time () + rg.get (0.8f, 3.1f); // was 0.8 - 1.1, new 1.8 - 3.1
+               m_strafeSetTime = game.time () + rg.get (0.8f, 2.1f); // was 0.8 - 1.1, new 1.8 - 3.1
             }
          }
 
@@ -1317,9 +1326,9 @@ void Bot::attackMovement () {
          if ((m_enemyParts & (Visibility::Head | Visibility::Body)) && !(m_enemyParts & Visibility::Other) && getCurrentTaskId () != Task::SeekCover && getCurrentTaskId () != Task::Hunt) {
             int enemyNearestIndex = graph.getNearest (m_enemy->v.origin);
 
-            if (graph.isDuckVisible (m_currentNodeIndex, enemyNearestIndex) && graph.isDuckVisible (enemyNearestIndex, m_currentNodeIndex)) {
-               m_duckTime = game.time () + 0.64f;
-            }
+            // if (graph.isDuckVisible (m_currentNodeIndex, enemyNearestIndex) && graph.isDuckVisible (enemyNearestIndex, m_currentNodeIndex)) {
+            //    m_duckTime = game.time () + 0.64f;
+            // }
          }
          m_moveSpeed = 0.0f;
          //if (rg.chance(30)) m_strafeSpeed = 0.0f;
@@ -1531,11 +1540,11 @@ void Bot::selectBestWeapon () {
    // this function chooses best weapon, from weapons that bot currently own, and change
    // current weapon to best one.
 
-   if (cv_jasonmode.bool_ ()) {
-      // if knife mode activated, force bot to use knife
-      //selectWeaponByName ("weapon_knife");
-      return;
-   }
+   // if (cv_jasonmode.bool_ ()) {
+   //    // if knife mode activated, force bot to use knife
+   //    //selectWeaponByName ("weapon_knife");
+   //    return;
+   // }
 
    if (m_isReloading) {
       return;

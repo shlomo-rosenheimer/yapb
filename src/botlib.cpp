@@ -2761,8 +2761,8 @@ void Bot::updateAimDir () {
       focusEnemy ();
    }
    else if (flags & AimFlags::Entity) {
-      //m_lookAt = m_entity; // orig
-      m_lookAt = m_destOrigin; // new
+      m_lookAt = m_entity; // orig
+      //m_lookAt = m_destOrigin; // new
    }
    else if (flags & AimFlags::LastEnemy) {
       //qqq
@@ -2771,7 +2771,7 @@ void Bot::updateAimDir () {
 
       // did bot just see enemy and is quite aggressive?
 
-      if ((m_seeEnemyTime + 1.0f - m_actualReactionTime + m_baseAgressionLevel > game.time ())) {
+      if ((m_seeEnemyTime + 1.0f - m_actualReactionTime + m_baseAgressionLevel > game.time ()) || rg.chance(50)) {
 
          // feel free to fire if shootable
          if (!usesSniper () && lastEnemyShootable ()) {
@@ -2837,8 +2837,8 @@ void Bot::updateAimDir () {
       //          m_idealReactionTime = 0.05f; // 0.05
       //           m_actualReactionTime = 0.095f; // 0.095
       //       }
-      // qqq 3
-      m_lookAt = m_destOrigin; // new
+      // qqq 3 nowhere
+      //m_lookAt = m_destOrigin; // new
       //m_lookAt = m_camp; // orig
    }
    else if (flags & AimFlags::Nav) {
@@ -2849,7 +2849,7 @@ void Bot::updateAimDir () {
             //qqq
             //return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f);
             // qqq was 65.0
-            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (0.5f, 1.5f); // was 2.0 - 4.0
+            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-70.0f, 70.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f); // was 2.0 - 4.0
          }
          return nullptr;
       };
@@ -3335,9 +3335,9 @@ void Bot::normal_ () {
    }
    // no more nodes to follow - search new ones (or we have a bomb)
    else if (!hasActiveGoal ()) {
-      //m_moveSpeed = 0.0f;
+      m_moveSpeed = 0.0f;
       //qqq
-      if(!(m_states & Sense::SeeingEnemy )) m_moveSpeed = pev->maxspeed;
+      //if(!(m_states & Sense::SeeingEnemy )) m_moveSpeed = pev->maxspeed;
       
       clearSearchNodes ();
       ignoreCollision ();

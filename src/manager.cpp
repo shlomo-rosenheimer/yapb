@@ -192,11 +192,7 @@ BotCreateResult BotManager::create (StringRef name, int difficulty, int personal
          }
       }
    }
-   // qqq
    
-   //personality = Personality::Careful;
-   //personality = Personality::Rusher;
-
    if (rg.chance (50)) {
       personality = Personality::Normal;
    }
@@ -208,6 +204,11 @@ BotCreateResult BotManager::create (StringRef name, int difficulty, int personal
          personality = Personality::Careful;
       }
    }
+
+   // qqq
+   
+   personality = Personality::Careful;
+   //personality = Personality::Rusher;
    
    BotName *botName = nullptr;
 
