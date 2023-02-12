@@ -1322,18 +1322,18 @@ void Bot::attackMovement () {
          //    m_strafeSpeed = 0.0f;
          // }
       }
-      else if (m_fightStyle == Fight::Stay) {
-         if ((m_enemyParts & (Visibility::Head | Visibility::Body)) && !(m_enemyParts & Visibility::Other) && getCurrentTaskId () != Task::SeekCover && getCurrentTaskId () != Task::Hunt) {
-            int enemyNearestIndex = graph.getNearest (m_enemy->v.origin);
+      // else if (m_fightStyle == Fight::Stay) {
+      //    if ((m_enemyParts & (Visibility::Head | Visibility::Body)) && !(m_enemyParts & Visibility::Other) && getCurrentTaskId () != Task::SeekCover && getCurrentTaskId () != Task::Hunt) {
+      //       int enemyNearestIndex = graph.getNearest (m_enemy->v.origin);
 
-            // if (graph.isDuckVisible (m_currentNodeIndex, enemyNearestIndex) && graph.isDuckVisible (enemyNearestIndex, m_currentNodeIndex)) {
-            //    m_duckTime = game.time () + 0.64f;
-            // }
-         }
-         m_moveSpeed = 0.0f;
-         //if (rg.chance(30)) m_strafeSpeed = 0.0f;
-         m_navTimeset = game.time ();
-      }
+      //       // if (graph.isDuckVisible (m_currentNodeIndex, enemyNearestIndex) && graph.isDuckVisible (enemyNearestIndex, m_currentNodeIndex)) {
+      //       //    m_duckTime = game.time () + 0.64f;
+      //       // }
+      //    }
+      //    m_moveSpeed = 0.0f;
+      //    //if (rg.chance(30)) m_strafeSpeed = 0.0f;
+      //    m_navTimeset = game.time ();
+      // }
    }
 
    if (m_fightStyle == Fight::Stay || (m_duckTime > game.time () || m_sniperStopTime > game.time ())) {
