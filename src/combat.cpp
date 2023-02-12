@@ -198,7 +198,7 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
       return false;
    }
 
-   if ((cv_whose_your_daddy.bool_ () && util.isPlayer (pev->dmg_inflictor) && game.getTeam (pev->dmg_inflictor) != m_team)) {
+   if ((usesKnife() && m_healthValue > 80.0f) || (cv_whose_your_daddy.bool_ () && util.isPlayer (pev->dmg_inflictor) && game.getTeam (pev->dmg_inflictor) != m_team)) {
       ignoreFOV = true;
    }
 
