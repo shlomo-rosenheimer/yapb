@@ -1027,15 +1027,16 @@ void Bot::fireWeapons () {
    //    selectWeapons (distance, selectIndex, selectId, choosenWeapon);
    //    return;
    // }
+   m_inKnifeDist = false;
+   
+   if(distance < 130.0f && usesKnife ()) m_inKnifeDist = true;
 
    // qqq knife, was 90.0
-   if (!game.isNullEntity (enemy) && distance < 110.0f) {
-      m_inKnifeDist = true;
+   if (!game.isNullEntity (enemy) && distance < 90.0f) {
+      
       selectWeapons (distance, selectIndex, selectId, choosenWeapon);
       return;
    }
-
-   m_inKnifeDist = false;
 
    // loop through all the weapons until terminator is found...
    while (tab[selectIndex].id) {
@@ -1130,10 +1131,12 @@ void Bot::focusEnemy () {
    } 
    float distance = m_lookAt.distance2d (getEyesPos ()); // how far away is the enemy scum?
 
+   m_inKnifeDist = false;
+   
+   if(distance < 130.0f && usesKnife ()) m_inKnifeDist = true;
+
    if (distance < 128.0f && !usesSniper ()) {
       if (usesKnife ()) {
-         m_inKnifeDist = true;
-
          if (distance < 110.0f) {
             m_wantsToFire = true;
          }
@@ -1142,7 +1145,6 @@ void Bot::focusEnemy () {
          }
       }
       else {
-         m_inKnifeDist = false;
          m_wantsToFire = true;
       }
    }
