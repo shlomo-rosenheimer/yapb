@@ -2256,11 +2256,11 @@ bool Bot::advanceMovement () {
                }
             }
             // check if bot is going to jump
-            bool willJump = false;
-            float jumpDistance = 0.0f;
+            // bool willJump = false;
+            // float jumpDistance = 0.0f;
 
-            Vector src;
-            Vector dst;
+            // Vector src;
+            // Vector dst;
 
             // try to find out about future connection flags
             // qqq
