@@ -5078,6 +5078,11 @@ void Bot::logic () {
                }
             }
 
+            if (m_moveSpeed < 0.0f) {
+               m_moveSpeed = 0.0f;
+               pev->button &= ~IN_BACK;
+            }
+
             if (!(pev->button & (IN_MOVELEFT | IN_MOVERIGHT))) {
                if (m_strafeSpeed > 0.0f) {
                   pev->button |= IN_MOVERIGHT;
