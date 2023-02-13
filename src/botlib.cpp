@@ -2086,9 +2086,9 @@ void Bot::startTask (Task id, float desire, int data, float time, bool resume) {
       updateTeamCommands (); // reorganize team if fleeing
    }
 
-   if (tid == Task::Camp) {
-      selectBestWeapon ();
-   }
+   // if (tid == Task::Camp) {
+   //    selectBestWeapon ();
+   // }
 
    // this is best place to handle some voice commands report team some info
    if (cv_radio_mode.int_ () > 1) {
@@ -2827,19 +2827,7 @@ void Bot::updateAimDir () {
       }
    }
    else if (flags & AimFlags::Camp) {
-      
-      //qqq
-      // if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
-      //    m_idealReactionTime = 0.05f; // 0.05
-      //     m_actualReactionTime = 0.095f; // 0.095
-      //    selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
 
-      
-      // }
-      // if(usesKnife()) {
-      //          m_idealReactionTime = 0.05f; // 0.05
-      //           m_actualReactionTime = 0.095f; // 0.095
-      //       }
       // qqq 3 nowhere
       m_lookAt = m_destOrigin; // new
       //m_lookAt = m_camp; // orig
@@ -3167,7 +3155,7 @@ void Bot::normal_ () {
       else {
          pev->button |= IN_ATTACK2;
       }
-      m_knifeAttackTime = game.time () + rg.get (2.5f, 6.0f);
+      m_knifeAttackTime = game.time () + rg.get (1.5f, 4.0f);
    }
    const auto &prop = conf.getWeaponProp (m_currentWeapon);
 
@@ -5905,9 +5893,9 @@ void Bot::updateHearing () {
    // did the bot hear someone ?
    if (player != nullptr && util.isPlayer (player)) {
       // change to best weapon if heard something
-      if (m_shootTime < game.time () - 5.0f && isOnFloor () && m_currentWeapon != Weapon::C4 && m_currentWeapon != Weapon::Explosive && m_currentWeapon != Weapon::Smoke && m_currentWeapon != Weapon::Flashbang && !cv_jasonmode.bool_ ()) {
-         selectBestWeapon ();
-      }
+      // if (m_shootTime < game.time () - 5.0f && isOnFloor () && m_currentWeapon != Weapon::C4 && m_currentWeapon != Weapon::Explosive && m_currentWeapon != Weapon::Smoke && m_currentWeapon != Weapon::Flashbang && !cv_jasonmode.bool_ ()) {
+      //    selectBestWeapon ();
+      // }
 
       m_heardSoundTime = game.time ();
       m_states |= Sense::HearingEnemy;

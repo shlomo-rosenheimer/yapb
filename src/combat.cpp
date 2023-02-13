@@ -198,7 +198,7 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
       return false;
    }
 
-   if (usesKnife() || m_healthValue > 80.0f || (cv_whose_your_daddy.bool_ () && util.isPlayer (pev->dmg_inflictor) && game.getTeam (pev->dmg_inflictor) != m_team)) {
+   if (usesKnife() || m_healthValue > 80.0f) {
       ignoreFOV = true;
    }
 
@@ -207,13 +207,14 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
       m_lastEnemy = player;
       m_lastEnemyOrigin = m_enemyOrigin;
 
-      if(usesKnife() && (hasPrimaryWeapon () || hasSecondaryWeapon())) {
+      if(usesKnife() && !game.isNullEntity (m_lastEnemy) && util.isAlive (m_lastEnemy) && (hasPrimaryWeapon () || hasSecondaryWeapon())) {
          m_moveSpeed = 0.0f;
          if(rg.chance(50)) {
             if(rg.chance(50)) m_strafeSpeed = pev->maxspeed;
             else m_strafeSpeed = -pev->maxspeed;
          }
          selectBestWeapon();
+         
       }
 
       return true;
@@ -378,7 +379,7 @@ bool Bot::lookupEnemies () {
 
          //qqq
          if (usesSniper ()) {
-            m_enemySurpriseTime *= 0.7f;
+            m_enemySurpriseTime *= 0.5f;
          }
          m_enemySurpriseTime += game.time ();
 
@@ -872,16 +873,16 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
    // if we're have a glock or famas vary burst fire mode
    checkBurstMode (distance);
 
-   if (hasShield () && m_shieldCheckTime < game.time () && getCurrentTaskId () != Task::Camp) // better shield gun usage
-   {
-      if (distance >= 750.0f && !isShieldDrawn ()) {
-         pev->button |= IN_ATTACK2; // draw the shield
-      }
-      else if (isShieldDrawn () || (!game.isNullEntity (m_enemy) && ((m_enemy->v.button & IN_RELOAD) || !seesEntity (m_enemy->v.origin)))) {
-         pev->button |= IN_ATTACK2; 
-      }
-      m_shieldCheckTime = game.time () + 1.0f;
-   }
+   // if (hasShield () && m_shieldCheckTime < game.time () && getCurrentTaskId () != Task::Camp) // better shield gun usage
+   // {
+   //    if (distance >= 750.0f && !isShieldDrawn ()) {
+   //       pev->button |= IN_ATTACK2; // draw the shield
+   //    }
+   //    else if (isShieldDrawn () || (!game.isNullEntity (m_enemy) && ((m_enemy->v.button & IN_RELOAD) || !seesEntity (m_enemy->v.origin)))) {
+   //       pev->button |= IN_ATTACK2; 
+   //    }
+   //    m_shieldCheckTime = game.time () + 1.0f;
+   // }
 
    // is the bot holding a sniper rifle?
    if (usesSniper () && m_zoomCheckTime < game.time ())  {
@@ -1015,10 +1016,10 @@ void Bot::fireWeapons () {
    int weapons = pev->weapons;
 
    // if jason mode use knife only
-   if (cv_jasonmode.bool_ ()) {
-      selectWeapons (distance, selectIndex, selectId, choosenWeapon);
-      return;
-   }
+   // if (cv_jasonmode.bool_ ()) {
+   //    selectWeapons (distance, selectIndex, selectId, choosenWeapon);
+   //    return;
+   // }
 
    // use knife if near and good difficulty (l33t dude!)
    // if (cv_stab_close_enemies.bool_ () && m_difficulty >= Difficulty::Normal && m_healthValue > 60.0f && !game.isNullEntity (enemy) && m_healthValue >= enemy->v.health && distance < 100.0f && !isOnLadder () && !isGroupOfEnemies (pev->origin)) {
