@@ -2762,12 +2762,10 @@ void Bot::updateAimDir () {
    }
    else if (flags & AimFlags::Entity) {
       m_lookAt = m_entity; // orig
-      //m_lookAt = m_destOrigin; // new
    }
    else if (flags & AimFlags::LastEnemy) {
       //qqq
       m_lookAt = m_lastEnemyOrigin; // orig
-      //m_lookAt = m_destOrigin; // new
 
       // did bot just see enemy and is quite aggressive?
 
@@ -2791,8 +2789,8 @@ void Bot::updateAimDir () {
 
          if (aimPoint != kInvalidNodeIndex) {
             // qqq 4
-            m_lookAt = m_destOrigin; // new
-            //m_lookAt = graph[aimPoint].origin; // orig
+            //m_lookAt = m_destOrigin; // new
+            m_lookAt = graph[aimPoint].origin; // orig
             m_camp = m_lookAt;
 
             m_timeNextTracking = game.time () + 0.5f;
