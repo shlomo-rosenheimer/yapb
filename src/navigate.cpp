@@ -419,7 +419,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             }
 
             //qqq
-            m_moveSpeed = -pev->maxspeed;
+            //m_moveSpeed = -pev->maxspeed;
             if(rg.chance(30)) m_moveSpeed = 0.0f;
          }
          else {

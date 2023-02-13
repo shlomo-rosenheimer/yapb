@@ -916,7 +916,7 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
    // we're should stand still before firing sniper weapons, else sniping is useless..
    if (usesSniper () && (m_aimFlags & (AimFlags::Enemy | AimFlags::LastEnemy)) && !m_isReloading && pev->velocity.lengthSq () > 0.0f && getCurrentTaskId () != Task::SeekCover) {
       m_moveSpeed = 0.0f;
-      if(rg.chance(70)) m_strafeSpeed = 0.0f;
+      if(rg.chance(80)) m_strafeSpeed = 0.0f;
       m_navTimeset = game.time ();
 
       if (cr::abs (pev->velocity.x) > 5.0f || cr::abs (pev->velocity.y) > 5.0f || cr::abs (pev->velocity.z) > 5.0f) {
@@ -1297,7 +1297,7 @@ void Bot::attackMovement () {
 
          // force strafe 3
          //qqq
-         if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right) {
+         if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right && rg.chance(50)) {
             if (!wallright) {
                m_strafeSpeed = pev->maxspeed;
             } else if (!wallright) {

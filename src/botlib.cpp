@@ -2790,8 +2790,8 @@ void Bot::updateAimDir () {
 
          if (aimPoint != kInvalidNodeIndex) {
             // qqq 4
-            m_lookAt = m_destOrigin; // new
-            //m_lookAt = graph[aimPoint].origin; // orig
+            //m_lookAt = m_destOrigin; // new
+            m_lookAt = graph[aimPoint].origin; // orig
             m_camp = m_lookAt;
 
             //m_timeNextTracking = game.time () + 0.5f; // orig
@@ -2841,7 +2841,7 @@ void Bot::updateAimDir () {
       //           m_actualReactionTime = 0.095f; // 0.095
       //       }
       // qqq 3 nowhere
-      //m_lookAt = m_destOrigin; // new
+      m_lookAt = m_destOrigin; // new
       //m_lookAt = m_camp; // orig
    }
    else if (flags & AimFlags::Nav) {
@@ -5071,9 +5071,9 @@ void Bot::logic () {
                if (m_moveSpeed > 0.0f) {
                   pev->button |= IN_FORWARD;
                }
-               else if (m_moveSpeed < 0.0f) {
-                  pev->button |= IN_BACK;
-               }
+               // else if (m_moveSpeed < 0.0f) {
+               //    pev->button |= IN_BACK;
+               // }
             }
 
             if (!(pev->button & (IN_MOVELEFT | IN_MOVERIGHT))) {
