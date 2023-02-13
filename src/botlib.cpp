@@ -2789,8 +2789,8 @@ void Bot::updateAimDir () {
 
          if (aimPoint != kInvalidNodeIndex) {
             // qqq 4
-            //m_lookAt = m_destOrigin; // new
-            m_lookAt = graph[aimPoint].origin; // orig
+            m_lookAt = m_destOrigin; // new
+            //m_lookAt = graph[aimPoint].origin; // orig
             m_camp = m_lookAt;
 
             //m_timeNextTracking = game.time () + 0.5f; // orig
