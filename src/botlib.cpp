@@ -2793,14 +2793,16 @@ void Bot::updateAimDir () {
             m_lookAt = graph[aimPoint].origin; // orig
             m_camp = m_lookAt;
 
-            m_timeNextTracking = game.time () + 0.5f;
+            //m_timeNextTracking = game.time () + 0.5f; // orig
+            m_timeNextTracking = game.time () + 3.0f; // new
             m_trackingEdict = m_lastEnemy;
          }
          else {
             m_aimFlags &= ~AimFlags::PredictPath;
 
             m_lookAt = m_destOrigin;
-            m_timeNextTracking = game.time () + 1.5f;
+            //m_timeNextTracking = game.time () + 1.5f; // prig
+            m_timeNextTracking = game.time () + 3.5f; // new
             m_trackingEdict = nullptr;
          }
       }
@@ -2847,7 +2849,7 @@ void Bot::updateAimDir () {
             //qqq
             //return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f);
             // qqq was 65.0
-            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-70.0f, 70.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f); // was 2.0 - 4.0
+            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-50.0f, 50.0f)), 0.0f).forward () * rg.get (0.5f, 1.5f); // was 2.0 - 4.0
          }
          return nullptr;
       };

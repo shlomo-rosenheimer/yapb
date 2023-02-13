@@ -706,7 +706,7 @@ bool Bot::updateNavigation () {
       
       // if graph node radius non zero vary origin a bit depending on the body angles
       if (m_path->radius > 0.0f) {
-         m_pathOrigin += Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-70.0f, 70.0f)), 0.0f).forward () * rg.get (0.0f, m_path->radius);
+         m_pathOrigin += Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-50.0f, 50.0f)), 0.0f).forward () * rg.get (0.0f, m_path->radius);
       }
       m_navTimeset = game.time ();
    }
@@ -2316,7 +2316,7 @@ bool Bot::advanceMovement () {
 
    // if wayzone radius non zero vary origin a bit depending on the body angles
    if (m_path->radius > 0.0f) {
-      m_pathOrigin += Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-70.0f, 70.0f)), 0.0f).forward () * rg.get (0.0f, m_path->radius);
+      m_pathOrigin += Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-50.0f, 50.0f)), 0.0f).forward () * rg.get (0.0f, m_path->radius);
    }
 
    if (isOnLadder ()) {
