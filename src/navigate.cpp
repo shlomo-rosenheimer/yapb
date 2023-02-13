@@ -816,6 +816,8 @@ bool Bot::updateNavigation () {
                m_states |= Sense::SeeingEnemy;
                m_aimFlags |= AimFlags::Enemy;
 
+               m_isKnifeRunning = false;
+
                m_lastEnemy = pent;
                m_enemy = pent;
                m_lastEnemyOrigin = pent->v.origin;
@@ -2286,6 +2288,7 @@ bool Bot::advanceMovement () {
            
             //qqq
             if (m_healthValue > 80.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+               m_isKnifeRunning = true;
                m_idealReactionTime = 0.05f; // 0.05
                m_actualReactionTime = 0.095f; // 0.095
                selectWeaponByName ("weapon_knife"); // draw out the knife if we needed

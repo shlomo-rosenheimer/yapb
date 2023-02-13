@@ -2814,6 +2814,7 @@ void Bot::updateAimDir () {
          m_lookAt = m_destOrigin; // new
          //qqq
          if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+            m_isKnifeRunning = true;
             m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
             selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
@@ -2854,6 +2855,7 @@ void Bot::updateAimDir () {
             //m_lookAt = m_destOrigin; // new
             //qqq
             if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+               m_isKnifeRunning = true;
                m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
                selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
@@ -2884,6 +2886,7 @@ void Bot::updateAimDir () {
                
                //qqq
                if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+                  m_isKnifeRunning = true;
                   m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
                   selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
@@ -5939,6 +5942,7 @@ void Bot::updateHearing () {
          m_lastEnemy = player;
          m_lastEnemyOrigin = m_enemyOrigin;
 
+         m_isKnifeRunning = false;
          m_states |= Sense::SeeingEnemy;
          m_seeEnemyTime = game.time ();
       }

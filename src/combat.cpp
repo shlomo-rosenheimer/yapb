@@ -208,13 +208,13 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
       m_lastEnemyOrigin = m_enemyOrigin;
 
       if(usesKnife() && !game.isNullEntity (m_lastEnemy) && util.isAlive (m_lastEnemy) && (hasPrimaryWeapon () || hasSecondaryWeapon())) {
-         m_moveSpeed = 0.0f;
          if(rg.chance(50)) {
             if(rg.chance(50)) m_strafeSpeed = pev->maxspeed;
             else m_strafeSpeed = -pev->maxspeed;
          }
+         m_isKnifeRunning = false;
          selectBestWeapon();
-         
+         if(!usesKnife()) m_moveSpeed = 0.0f;
       }
 
       return true;
@@ -224,6 +224,7 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
 
 void Bot::trackEnemies () {
    if (lookupEnemies ()) {
+      m_isKnifeRunning = false;
       m_states |= Sense::SeeingEnemy;
    }
    else {
@@ -1028,7 +1029,7 @@ void Bot::fireWeapons () {
    // }
 
    // qqq knife, was 90.0
-   if (!game.isNullEntity (enemy) && distance < 60.0f) {
+   if (!game.isNullEntity (enemy) && distance < 75.0f) {
       m_inKnifeDist = true;
       selectWeapons (distance, selectIndex, selectId, choosenWeapon);
       return;
@@ -1178,66 +1179,7 @@ void Bot::attackMovement () {
    bool wallright;
 
    if (m_lastUsedNodesTime + getFrameInterval () + 0.5f < game.time ()) {
-      // int approach;
-
-      // if (usesKnife ()) {
-      //    // qqq
-      //    approach = 150;
-      // } else {
-      //    approach = 29;
-      // }
-      //qqq
-      // else if ((m_states & Sense::SuspectEnemy) && !(m_states & Sense::SeeingEnemy)) {
-      //    approach = 49;
-      // }
-      // else if (m_isReloading || m_isVIP) {
-      //    approach = 29;
-      // }
-      // else {
-      //    approach = static_cast <int> (m_healthValue * m_agressionLevel);
-
-      //    if (usesSniper () && approach > 49) {
-      //       approach = 49;
-      //    }
-      // }
-
-      // only take cover when bomb is not planted and enemy can see the bot or the bot is VIP
-      //qqq
-      // if ((m_states & Sense::SeeingEnemy) && approach < 30 && !bots.isBombPlanted () && (isInViewCone (m_enemy->v.origin) || m_isVIP)) {
-      //    m_moveSpeed = -pev->maxspeed;
-      //    startTask (Task::SeekCover, TaskPri::SeekCover, kInvalidNodeIndex, 0.0f, true);
-      // }
-      // else if (approach < 50) {
-      //    m_moveSpeed = 0.0f;
-      // }
-      // else {
-      //    m_moveSpeed = pev->maxspeed;
-      // }
-
-      // if (distance < 96.0f && !usesKnife ()) {
-      //    m_moveSpeed = -pev->maxspeed;
-      // }
-
-      //if(rg.chance(20)) m_moveSpeed = pev->maxspeed;
-
-      // force strafe 1
-
-   //    if(rg.chance(60)) {
-   //       if(rg.chance(50)) {
-   //          if (!checkWallOnLeft () && m_strafeSpeed != pev->maxspeed) {
-   //             m_strafeSpeed = -pev->maxspeed;
-   //          }
-   //       } else {
-   //          if (!checkWallOnRight () && m_strafeSpeed != -pev->maxspeed) {
-   //             m_strafeSpeed = pev->maxspeed;
-   //          }
-   //       }
-   //    }
-
-   //    // force strafe 2
-   // //qqq
-   //    if(m_strafeSpeed == 0.0f && rg.chance(80)) m_strafeSpeed = pev->maxspeed;
-
+   
 
       m_fightStyle = Fight::Strafe;
 
@@ -1554,7 +1496,7 @@ void Bot::selectBestWeapon () {
    //    return;
    // }
 
-   if (m_isReloading || m_inKnifeDist) {
+   if (m_isReloading || m_inKnifeDist || m_isKnifeRunning) {
       return;
    }
    auto tab = conf.getRawWeapons ();

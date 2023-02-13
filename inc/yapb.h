@@ -686,7 +686,8 @@ private:
    bool m_tryStuckMove {}; // qqq stuck mov
    bool m_moveToGoal {}; // bot currently moving to goal??
    bool m_isStuck {}; // bot is stuck
-   bool m_inKnifeDist {}; // bot is stuck
+   bool m_inKnifeDist {}; 
+   bool m_isKnifeRunning {}; 
    bool m_isReloading {}; // bot is reloading a gun
    bool m_forceRadio; // should bot use radio anyway?
    bool m_defendedBomb {}; // defend action issued
