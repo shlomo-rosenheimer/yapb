@@ -1029,7 +1029,7 @@ void Bot::fireWeapons () {
    // }
 
    // qqq knife, was 90.0
-   if (!game.isNullEntity (enemy) && distance < 90.0f) {
+   if (!game.isNullEntity (enemy) && distance < 110.0f) {
       m_inKnifeDist = true;
       selectWeapons (distance, selectIndex, selectId, choosenWeapon);
       return;
@@ -1132,9 +1132,10 @@ void Bot::focusEnemy () {
 
    if (distance < 128.0f && !usesSniper ()) {
       if (usesKnife ()) {
+         m_inKnifeDist = true;
+
          if (distance < 110.0f) {
             m_wantsToFire = true;
-            m_inKnifeDist = true;
          }
          else if (distance > 120.0f) {
             m_wantsToFire = false;
