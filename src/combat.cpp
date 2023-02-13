@@ -209,6 +209,10 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
 
       if(usesKnife() && (hasPrimaryWeapon () || hasSecondaryWeapon())) {
          m_moveSpeed = 0.0f;
+         if(rg.chance(50)) {
+            if(rg.chance(50)) m_strafeSpeed = pev->maxspeed;
+            else m_strafeSpeed = -pev->maxspeed;
+         }
          selectBestWeapon();
       }
 
