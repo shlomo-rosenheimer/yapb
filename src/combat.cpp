@@ -1029,9 +1029,12 @@ void Bot::fireWeapons () {
 
    // qqq knife, was 90.0
    if (!game.isNullEntity (enemy) && distance < 60.0f) {
+      m_inKnifeDist = true;
       selectWeapons (distance, selectIndex, selectId, choosenWeapon);
       return;
    }
+
+   m_inKnifeDist = false;
 
    // loop through all the weapons until terminator is found...
    while (tab[selectIndex].id) {
@@ -1551,7 +1554,7 @@ void Bot::selectBestWeapon () {
    //    return;
    // }
 
-   if (m_isReloading) {
+   if (m_isReloading || m_inKnifeDist) {
       return;
    }
    auto tab = conf.getRawWeapons ();

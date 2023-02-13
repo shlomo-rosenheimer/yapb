@@ -1389,6 +1389,7 @@ void Bot::newRound () {
    m_jumpTime = 0.0f;
    m_jumpFinished = false;
    m_isStuck = false;
+   m_inKnifeDist = false;
 
    m_sayTextBuffer.timeNextChat = game.time ();
    m_sayTextBuffer.entityIndex = -1;
