@@ -2794,23 +2794,25 @@ void Bot::updateAimDir () {
             m_camp = m_lookAt;
 
             //m_timeNextTracking = game.time () + 0.5f; // orig
-            m_timeNextTracking = game.time () + 3.0f; // new
+            m_timeNextTracking = game.time () + 0.1f; // new
             m_trackingEdict = m_lastEnemy;
+            m_moveSpeed = 0.0f;
          }
          else {
             m_aimFlags &= ~AimFlags::PredictPath;
 
             m_lookAt = m_destOrigin;
             //m_timeNextTracking = game.time () + 1.5f; // orig
-            m_timeNextTracking = game.time () + 3.5f; // new
+            m_timeNextTracking = game.time () + 0.2f; // new
             m_trackingEdict = nullptr;
+            m_moveSpeed = 0.0f;
          }
       }
       else {
          // qqq 2
          m_lookAt = m_destOrigin; // new
          //qqq
-         if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+         if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
             m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
             selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
@@ -2826,7 +2828,7 @@ void Bot::updateAimDir () {
    else if (flags & AimFlags::Camp) {
       
       //qqq
-      // if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+      // if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
       //    m_idealReactionTime = 0.05f; // 0.05
       //     m_actualReactionTime = 0.095f; // 0.095
       //    selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
@@ -2862,7 +2864,7 @@ void Bot::updateAimDir () {
             m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex); // orig
             //m_lookAt = m_destOrigin; // new
             //qqq
-            if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+            if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
                selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
@@ -2892,7 +2894,7 @@ void Bot::updateAimDir () {
             else {
                
                //qqq
-               if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && rg.chance(50) && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+               if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                   m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
                   selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
