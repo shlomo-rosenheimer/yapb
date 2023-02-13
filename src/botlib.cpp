@@ -2797,7 +2797,7 @@ void Bot::updateAimDir () {
             //m_timeNextTracking = game.time () + 0.5f; // orig
             m_timeNextTracking = game.time () + 0.1f; // new
             m_trackingEdict = m_lastEnemy;
-            m_moveSpeed = 0.0f;
+            if(!usesKnife()) m_moveSpeed = 0.0f;
          }
          else {
             m_aimFlags &= ~AimFlags::PredictPath;
@@ -2806,7 +2806,7 @@ void Bot::updateAimDir () {
             //m_timeNextTracking = game.time () + 1.5f; // orig
             m_timeNextTracking = game.time () + 0.2f; // new
             m_trackingEdict = nullptr;
-            m_moveSpeed = 0.0f;
+            if(!usesKnife()) m_moveSpeed = 0.0f;
          }
       }
       else {
@@ -3564,7 +3564,7 @@ void Bot::seekCover_ () {
          m_reloadState = Reload::Primary;
       }
       //qqq
-      m_moveSpeed = 0.0f;
+      //m_moveSpeed = 0.0f;
       //m_strafeSpeed = 0.0f;
 
       m_moveToGoal = false;
@@ -5066,11 +5066,17 @@ void Bot::logic () {
                   // qqq
                   //pev->button |= IN_BACK;
                   m_moveSpeed = 0.0f;
+                  if(m_strafeSpeed == 0.0f && rg.chance(50)) {
+                     m_strafeSpeed = -pev->maxspeed;
+                  }
                }
             }
 
             if (m_moveSpeed < 0.0f) {
                m_moveSpeed = 0.0f;
+               if(m_strafeSpeed == 0.0f && rg.chance(50)) {
+                  m_strafeSpeed = pev->maxspeed;
+               }
                pev->button &= ~IN_BACK;
             }
 

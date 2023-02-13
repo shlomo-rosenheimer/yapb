@@ -1267,7 +1267,6 @@ void Bot::attackMovement () {
          //qqq
          if (m_moveSpeed != 0.0f && rg.chance(85) && distance > 100.0f && !usesKnife ()) {
             m_moveSpeed = 0.0f;
-            //if(rg.chance(10)) m_moveSpeed = -pev->maxspeed;
             if(m_strafeSpeed == 0.0f) m_strafeSpeed = pev->maxspeed;
             m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f);
          }
@@ -1289,11 +1288,11 @@ void Bot::attackMovement () {
       // }
    }
 
-   if (m_fightStyle == Fight::Stay || (m_duckTime > game.time () || m_sniperStopTime > game.time ())) {
-      if (m_moveSpeed > 0.0f && rg.chance(55) && !usesKnife ()) {
-         m_moveSpeed = 0.0f;
-      }
-   }
+   // if (m_fightStyle == Fight::Stay || (m_duckTime > game.time () || m_sniperStopTime > game.time ())) {
+   //    if (m_moveSpeed > 0.0f && rg.chance(55) && !usesKnife ()) {
+   //       m_moveSpeed = 0.0f;
+   //    }
+   // }
 
    if (!isInWater () && !isOnLadder () && (m_moveSpeed > 0.0f || m_strafeSpeed >= 0.0f)) {
       Vector right, forward;
@@ -1301,8 +1300,6 @@ void Bot::attackMovement () {
 
       if (isDeadlyMove (pev->origin + (forward * m_moveSpeed * 0.2f) + (right * m_strafeSpeed * 0.2f) + (pev->velocity * getFrameInterval ()))) {
          m_strafeSpeed = -m_strafeSpeed;
-         //qqq
-         //m_moveSpeed = -m_moveSpeed;
 
          pev->button &= ~IN_JUMP;
       }
