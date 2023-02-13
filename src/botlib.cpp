@@ -5071,9 +5071,11 @@ void Bot::logic () {
                if (m_moveSpeed > 0.0f) {
                   pev->button |= IN_FORWARD;
                }
-               // else if (m_moveSpeed < 0.0f) {
-               //    pev->button |= IN_BACK;
-               // }
+               else if (m_moveSpeed < 0.0f) {
+                  // qqq
+                  //pev->button |= IN_BACK;
+                  m_moveSpeed = 0.0f;
+               }
             }
 
             if (!(pev->button & (IN_MOVELEFT | IN_MOVERIGHT))) {
