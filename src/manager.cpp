@@ -1305,7 +1305,9 @@ void Bot::newRound () {
    //qqq
    //m_minSpeed = 260.0f;
 
-   m_minSpeed = 310.0f;
+   //m_minSpeed = 310.0f;
+   //m_minSpeed = 319.0f;
+   m_minSpeed = 350.0f;
    m_prevSpeed = 0.0f;
    m_prevOrigin = Vector (kInfiniteDistance, kInfiniteDistance, kInfiniteDistance);
    m_prevTime = game.time ();
