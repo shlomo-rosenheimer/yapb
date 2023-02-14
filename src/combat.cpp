@@ -207,12 +207,14 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
       m_lastEnemy = player;
       m_lastEnemyOrigin = m_enemyOrigin;
 
+      m_isKnifeRunning = false;
+
       if(usesKnife() && !game.isNullEntity (m_lastEnemy) && util.isAlive (m_lastEnemy) && (hasPrimaryWeapon () || hasSecondaryWeapon())) {
          if(rg.chance(50)) {
             if(rg.chance(50)) m_strafeSpeed = pev->maxspeed;
             else m_strafeSpeed = -pev->maxspeed;
          }
-         m_isKnifeRunning = false;
+         
          selectBestWeapon();
          if(!usesKnife()) m_moveSpeed = 0.0f;
       }
@@ -1029,13 +1031,16 @@ void Bot::fireWeapons () {
    // }
    m_inKnifeDist = false;
    
-   if(distance < 130.0f) m_inKnifeDist = true;
+   
 
    // qqq knife, was 90.0
-   if (!game.isNullEntity (enemy) && distance < 100.0f) {
-      
-      selectWeapons (distance, selectIndex, selectId, choosenWeapon);
-      return;
+   if (!game.isNullEntity (enemy)) {
+      if(distance < 130.0f) m_inKnifeDist = true;
+
+      if(distance < 100.0f) {
+         selectWeapons (distance, selectIndex, selectId, choosenWeapon);
+         return;
+      }
    }
 
    // loop through all the weapons until terminator is found...
@@ -1120,6 +1125,7 @@ bool Bot::isWeaponBadAtDistance (int weaponIndex, float distance) {
 
 void Bot::focusEnemy () {
    if (game.isNullEntity (m_enemy)) {
+      m_inKnifeDist = false;
       return;
    }
 
