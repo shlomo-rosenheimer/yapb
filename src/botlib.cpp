@@ -2769,11 +2769,11 @@ void Bot::updateAimDir () {
 
       // did bot just see enemy and is quite aggressive?
 
-      if ((m_seeEnemyTime + 2.0f - m_actualReactionTime + m_baseAgressionLevel > game.time ()) || rg.chance(50)) {
+      if ((m_seeEnemyTime + 2.0f - m_actualReactionTime + m_baseAgressionLevel > game.time ()) || rg.chance(75)) {
       //if ((m_seeEnemyTime + 1.0f - m_actualReactionTime + m_baseAgressionLevel > game.time ()) || rg.chance(50)) {
 
          // feel free to fire if shootable
-         if ((!usesSniper () || rg.chance(50)) && lastEnemyShootable ()) {
+         if ((!usesSniper () || rg.chance(60)) && lastEnemyShootable ()) {
             m_wantsToFire = true;
          }
       }
