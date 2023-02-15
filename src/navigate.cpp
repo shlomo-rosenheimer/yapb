@@ -1160,10 +1160,14 @@ void Bot::findPath (int srcIndex, int destIndex, FindPath pathType /*= FindPath:
          }
       }
    }
-   logger.error ("A* Search for bot \"%s\" has failed. Falling back to shortest-path algorithm. Seems to be graph is broken.", pev->netname.chars ());
+
+   // qqq broken graph, respawn the bot
+   kill ();
+
+   //logger.error ("A* Search for bot \"%s\" has failed. Falling back to shortest-path algorithm. Seems to be graph is broken.", pev->netname.chars ());
 
    // fallback to shortest path
-   findShortestPath (srcIndex, destIndex); // A* found no path, try floyd pathfinder instead
+   //findShortestPath (srcIndex, destIndex); // A* found no path, try floyd pathfinder instead
 }
 
 void Bot::clearSearchNodes () {
