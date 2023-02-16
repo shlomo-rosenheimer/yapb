@@ -320,10 +320,10 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
    // Standing still, no need to check?
    // FIXME: doesn't care for ladder movement (handled separately) should be included in some way
    //qqq was 10.0f, new 1.0
-   if ((m_moveSpeed >= 1.0f || m_strafeSpeed >= 1.0f) && m_lastCollTime < game.time () && m_seeEnemyTime + 0.8f < game.time () && getCurrentTaskId () != Task::Attack) {
+   if ((m_moveSpeed >= 10.0f || m_strafeSpeed >= 10.0f) && m_lastCollTime < game.time () && m_seeEnemyTime + 0.8f < game.time () && getCurrentTaskId () != Task::Attack) {
 
       // didn't we move enough previously?
-      if (movedDistance < 2.0f && m_prevSpeed >= 100.0f) { // was 20.0 , new 2.0
+      if (movedDistance < 20.0f && m_prevSpeed >= 100.0f) { // was 20.0 , new 2.0
          m_prevTime = game.time (); // then consider being stuck
          m_isStuck = true;
 
@@ -331,7 +331,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
          // m_tryStuckMoveTime = game.time ();
 
          if (cr::fzero (m_firstCollideTime)) {
-            m_firstCollideTime = game.time () + 0.7; // qqq was 0.2, new 0.7 ok
+            m_firstCollideTime = game.time () + 0.2; // qqq was 0.2, new 0.7 ok
          }
       }
       // not stuck yet
@@ -339,7 +339,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
          // test if there's something ahead blocking the way
          if (cantMoveForward (dirNormal, &tr) && !isOnLadder ()) {
             if (cr::fzero (m_firstCollideTime)) {
-               m_firstCollideTime = game.time () + 0.7f; // qqq was 0.2, new 0.7 ok
+               m_firstCollideTime = game.time () + 0.2f; // qqq was 0.2, new 0.7 ok
             }
             else if (m_firstCollideTime <= game.time ()) {
                m_isStuck = true;
@@ -349,7 +349,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             }
 
             //qqq
-            if(!usesKnife()) m_moveSpeed = 0.0f;
+            //if(!usesKnife()) m_moveSpeed = 0.0f;
          }
          else {
             m_firstCollideTime = 0.0f;
@@ -358,7 +358,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
 
       // not stuck?
       if (!m_isStuck) {
-         if (m_probeTime + 0.9f < game.time ()) { // qqq was 0.5,, new 0.9
+         if (m_probeTime + 0.5f < game.time ()) { // qqq was 0.5,, new 0.9
             resetCollision (); // reset collision memory if not being stuck for 0.5 secs
          }
          // qqq
@@ -1244,7 +1244,7 @@ bool Bot::findBestNearestNode () {
       // skip current and recent previous nodes
       for (int j = 0; j < numToSkip; ++j) {
          // qqq
-         if (rg.chance (50) && at == m_previousNodes[j]) {
+         if (rg.chance (90) && at == m_previousNodes[j]) {
             skip = true;
             break;
          }
