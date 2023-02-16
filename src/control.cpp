@@ -736,6 +736,11 @@ int BotControl::cmdNodePathSetAutoDistance () {
 int BotControl::cmdNodeAcquireEditor () {
    enum args { graph_cmd = 1 };
 
+   if (!cr::fequal (m_ent->v.takedamage, DAMAGE_NO)) {
+      logger.error ("wrong editor");
+      return BotCommandResult::Handled;
+   }
+
    if (game.isNullEntity (m_ent)) {
       msg ("This command should not be executed from HLDS console.");
       return BotCommandResult::Handled;
