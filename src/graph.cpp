@@ -1478,7 +1478,7 @@ void BotGraph::initNodesTypes () {
 
    for (const auto &path : m_paths) {
       // qqq
-      if(!(path.flags & NodeFlag::Ladder) && path.radius <= 16.0f) {
+      if(!(path.flags & NodeFlag::Ladder) && path.radius <= 8.0f) {
          m_paths[m_paths.index (path)].radius = 0.0f;
       }
 
@@ -2540,7 +2540,7 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
       int connections = 0;
 
       // qqq
-      if(!(path.flags & NodeFlag::Ladder) && path.radius == 16.0f) {
+      if(!(path.flags & NodeFlag::Ladder) && path.radius <= 8.0f) {
          m_paths[m_paths.index (path)].radius = 0.0f;
       }
 
