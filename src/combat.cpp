@@ -210,7 +210,7 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
       m_isKnifeRunning = false;
 
       if(usesKnife() && !game.isNullEntity (m_lastEnemy) && util.isAlive (m_lastEnemy) && (hasPrimaryWeapon () || hasSecondaryWeapon())) {
-         if(rg.chance(50)) {
+         if(rg.chance(30)) {
             if(rg.chance(50)) m_strafeSpeed = pev->maxspeed;
             else m_strafeSpeed = -pev->maxspeed;
          }
@@ -924,7 +924,7 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
    // we're should stand still before firing sniper weapons, else sniping is useless..
    if (usesSniper () && (m_aimFlags & (AimFlags::Enemy | AimFlags::LastEnemy)) && !m_isReloading && pev->velocity.lengthSq () > 0.0f && getCurrentTaskId () != Task::SeekCover) {
       m_moveSpeed = 0.0f;
-      if(rg.chance(80)) m_strafeSpeed = 0.0f;
+      if(rg.chance(90)) m_strafeSpeed = 0.0f;
       m_navTimeset = game.time ();
 
       if (cr::abs (pev->velocity.x) > 5.0f || cr::abs (pev->velocity.y) > 5.0f || cr::abs (pev->velocity.z) > 5.0f) {
@@ -1231,7 +1231,7 @@ void Bot::attackMovement () {
             if (rg.chance (20)) {
                m_combatStrafeDir = (m_combatStrafeDir == Dodge::Left ? Dodge::Right : Dodge::Left);
             }
-            m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f); // was 0.5 - 3.0, new 1.5 - 3.0
+            m_strafeSetTime = game.time () + rg.get (0.5f, 2.5f); // was 0.5 - 3.0, new 1.5 - 3.0
          }
 
          wallleft = checkWallOnLeft ();
@@ -1243,7 +1243,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Left;
-               m_strafeSetTime = game.time () + rg.get (0.8f, 2.1f); // was 0.8 - 1.1, new 1.8 - 3.1
+               m_strafeSetTime = game.time () + rg.get (0.8f, 1.8f); // was 0.8 - 1.1, new 1.8 - 2.1
             }
          }
          else {
@@ -1252,7 +1252,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Right;
-               m_strafeSetTime = game.time () + rg.get (0.8f, 2.1f); // was 0.8 - 1.1, new 1.8 - 3.1
+               m_strafeSetTime = game.time () + rg.get (0.8f, 1.8f); // was 0.8 - 1.1, new 1.8 - 2.1
             }
          }
 
@@ -1273,10 +1273,10 @@ void Bot::attackMovement () {
          // }
 
          //qqq
-         if (m_moveSpeed != 0.0f && rg.chance(55) && distance > 100.0f && !usesKnife ()) {
+         if (m_moveSpeed != 0.0f && rg.chance(30) && distance > 200.0f && !usesKnife ()) {
             m_moveSpeed = 0.0f;
             if(m_strafeSpeed == 0.0f) m_strafeSpeed = pev->maxspeed;
-            m_strafeSetTime = game.time () + rg.get (1.5f, 3.0f);
+            m_strafeSetTime = game.time () + rg.get (1.1f, 2.5f); // 1.5, 3.0
          }
          // if (usesKnife ()) {
          //    m_strafeSpeed = 0.0f;
