@@ -1475,7 +1475,8 @@ void Bot::newRound () {
    // if (rg.chance (50)) {
    //    pushChatterMessage (Chatter::NewRound);
    // }
-   m_updateInterval = game.is (GameFlags::Legacy | GameFlags::Xash3D) ? 0.0f : (1.0f / cr::clamp (cv_think_fps.float_ (), 30.0f, 60.0f));
+   //qqq, 30.0
+   m_updateInterval = game.is (GameFlags::Legacy | GameFlags::Xash3D) ? 0.0f : (1.0f / cr::clamp (cv_think_fps.float_ (), 10.0f, 60.0f));
 }
 
 void Bot::resetPathSearchType () {
