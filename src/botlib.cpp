@@ -5069,15 +5069,17 @@ void Bot::logic () {
                   //pev->button |= IN_BACK;
                   pev->button &= ~IN_BACK;
                   m_moveSpeed = 0.0f;
-                  if(m_strafeSpeed == 0.0f && rg.chance(50)) {
+
+                  if(m_strafeSpeed == 0.0f && rg.chance(30)) {
                      m_strafeSpeed = -pev->maxspeed;
                   }
                }
             }
 
-            if (m_moveSpeed < 0.0f) {
+            if (m_moveSpeed < 0.0f || (pev->button & IN_BACK)) {
                m_moveSpeed = 0.0f;
-               if(m_strafeSpeed == 0.0f && rg.chance(50)) {
+
+               if(m_strafeSpeed == 0.0f && rg.chance(30)) {
                   m_strafeSpeed = pev->maxspeed;
                }
                pev->button &= ~IN_BACK;
@@ -5368,8 +5370,8 @@ void Bot::takeBlind (int alpha) {
       return;
    }
 
-   m_blindMoveSpeed = -pev->maxspeed;
-   m_blindSidemoveSpeed = 0.0f;
+   m_blindMoveSpeed = 0.0f;
+   //m_blindSidemoveSpeed = 0.0f;
 
    if (rg.chance (50)) {
       m_blindSidemoveSpeed = pev->maxspeed;
@@ -5378,18 +5380,18 @@ void Bot::takeBlind (int alpha) {
       m_blindSidemoveSpeed = -pev->maxspeed;
    }
 
-   if (m_healthValue < 85.0f) {
-      m_blindMoveSpeed = -pev->maxspeed;
-   }
-   else if (m_personality == Personality::Careful) {
-      //qqq
-      // m_blindMoveSpeed = 0.0f;
-      // m_blindButton = IN_DUCK;
-      m_blindMoveSpeed = pev->maxspeed;
-   }
-   else {
-      m_blindMoveSpeed = pev->maxspeed;
-   }
+   // if (m_healthValue < 85.0f) {
+   //    m_blindMoveSpeed = -pev->maxspeed;
+   // }
+   // else if (m_personality == Personality::Careful) {
+   //    //qqq
+   //    // m_blindMoveSpeed = 0.0f;
+   //    // m_blindButton = IN_DUCK;
+   //    m_blindMoveSpeed = pev->maxspeed;
+   // }
+   // else {
+   //    m_blindMoveSpeed = pev->maxspeed;
+   // }
 }
 
 void Bot::updatePracticeValue (int damage) {

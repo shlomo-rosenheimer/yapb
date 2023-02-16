@@ -1312,6 +1312,9 @@ void Bot::attackMovement () {
          pev->button &= ~IN_JUMP;
       }
    }
+
+   if(m_moveSpeed < 0.0f) m_moveSpeed = 0.0f;
+
    ignoreCollision ();
 }
 
