@@ -545,21 +545,21 @@ const Vector &Bot::getEnemyBodyOffset () {
 
       if ((m_enemyParts & Visibility::Body)) {
          if (distance > 800.0f) {
-            aimPos.x += 0.3f;
-            aimPos.y += 0.4f;
+            aimPos.x += 2.3f;
+            aimPos.y += 2.4f;
          } 
          if (distance > 1200.0f) {
-            aimPos.x += 1.2f;
-            aimPos.y += 1.1f;
+            aimPos.x += 3.2f;
+            aimPos.y += 3.1f;
          } 
 
-         aimPos.z += rg.get (-13.5f, 2.5f);
-         aimPos.x += rg.get (-0.5f, 0.5f);
+         aimPos.z += rg.get (-15.5f, 5.5f);
+         aimPos.x += rg.get (-2.5f, 2.5f);
       } 
       
       if ((m_enemyParts & Visibility::Head) && !(m_enemyParts & Visibility::Body)) {
-         aimPos.x += rg.get (-3.5f, 3.5f);
-         aimPos.y += rg.get (-3.5f, 3.5f);
+         aimPos.x += rg.get (-5.5f, 5.5f);
+         aimPos.y += rg.get (-5.5f, 5.5f);
       }
 
       m_enemyParts &= ~Visibility::Head;
@@ -628,7 +628,7 @@ const Vector &Bot::getEnemyBodyOffset () {
    // add some error to unskilled bots
    // qqq
    //if (m_difficulty < Difficulty::Hard) {
-   if(rg.chance(50)) {
+   if(rg.chance(70)) {
       m_enemyOrigin += getBodyOffsetError (distance);
    }
    return m_enemyOrigin;
