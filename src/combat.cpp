@@ -1262,10 +1262,11 @@ void Bot::attackMovement () {
          if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right && rg.chance(20)) {
             if (!wallright) {
                m_strafeSpeed = pev->maxspeed;
+               m_strafeSetTime = game.time () + rg.get (0.5f, 2.0f); // was 0.5 - 3.0
             } else if (!wallright) {
                m_strafeSpeed = pev->maxspeed;
+               m_strafeSetTime = game.time () + rg.get (0.5f, 2.0f); // was 0.5 - 3.0
             }
-            m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f); // was 0.5 - 3.0
          }
 
          // qqq
@@ -1274,10 +1275,10 @@ void Bot::attackMovement () {
          // }
 
          //qqq
-         if (m_moveSpeed != 0.0f && rg.chance(30) && distance > 200.0f && !usesKnife ()) {
-            m_moveSpeed = 0.0f;
-            if(m_strafeSpeed == 0.0f) m_strafeSpeed = pev->maxspeed;
-            m_strafeSetTime = game.time () + rg.get (1.1f, 2.5f); // 1.5, 3.0
+         if (m_moveSpeed != 0.0f && rg.chance(30) && distance > 200.0f && !usesKnife () && m_strafeSpeed == 0.0f && !wallright) {
+               m_moveSpeed = 0.0f;
+               m_strafeSpeed = pev->maxspeed;
+               m_strafeSetTime = game.time () + rg.get (1.1f, 2.5f); // 1.5, 3.0
          }
          // if (usesKnife ()) {
          //    m_strafeSpeed = 0.0f;
