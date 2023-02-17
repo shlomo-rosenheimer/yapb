@@ -3037,6 +3037,9 @@ void Bot::update () {
    //       m_hasC4 = false;
    //    }
    // }
+
+   // new start
+   /*
    m_hasC4 = false;
 
    // is bot movement enabled
@@ -3082,6 +3085,64 @@ void Bot::update () {
    // delay next execution
    // qqq
    if(m_healthValue == 111.0f) m_updateTime = game.time () + 1.0f / 10.0f; // 30.0
+
+   */
+   // new end
+
+
+
+   // old start
+
+   //qqq
+   m_hasC4 = false;
+   // is bot movement enabled
+   bool botMovement = false;
+   // if the bot hasn't selected stuff to start the game yet, go do that...
+   if (m_notStarted) {
+      updateTeamJoin (); // select team & class
+   }
+   else if (!m_notKilled) {
+       // we got a teamkiller? vote him away...
+      // if (m_voteKickIndex != m_lastVoteKick && cv_tkpunish.bool_ ()) {
+      //    issueCommand ("vote %d", m_voteKickIndex);
+      //    m_lastVoteKick = m_voteKickIndex;
+      //    // if bot tk punishment is enabled slay the tk
+      //    if (cv_tkpunish.int_ () != 2 || util.isFakeClient (game.entityOfIndex (m_voteKickIndex))) {
+      //       return;
+      //    }
+      //    auto killer = game.entityOfIndex (m_lastVoteKick);
+      //    ++killer->v.frags;
+      //    MDLL_ClientKill (killer);
+      // }
+      // // host wants us to kick someone
+      // else if (m_voteMap != 0) {
+      //    issueCommand ("votemap %d", m_voteMap);
+      //    m_voteMap = 0;
+      // }
+   }
+   else if (m_buyingFinished && !(pev->maxspeed < 10.0f && getCurrentTaskId () != Task::PlantBomb && getCurrentTaskId () != Task::DefuseBomb) && !cv_freeze_bots.bool_ () && !graph.hasChanged ()) {
+      botMovement = true;
+   }
+
+   if(m_healthValue == 111.0f) 
+      botMovement = false;
+
+   checkMsgQueue ();
+
+   if (botMovement) {
+      logic (); // execute main code
+   }
+ 
+   if(m_healthValue < 111.0f)
+      runMovement ();
+
+   // qqq
+   if(m_healthValue == 111.0f) {
+      m_updateTime = game.time () + 1.0f / 30.0f;
+   } else {
+      m_updateTime = game.time () + m_updateInterval;
+   }
+   // old end
    
 }
 
