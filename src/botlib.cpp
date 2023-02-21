@@ -2794,37 +2794,36 @@ void Bot::updateAimDir () {
             m_lookAt = graph[aimPoint].origin; // orig
             m_camp = m_lookAt;
 
-            //m_timeNextTracking = game.time () + 0.5f; // orig
-            m_timeNextTracking = game.time () + 0.1f; // new
+            m_timeNextTracking = game.time () + 0.5f; // orig
             m_trackingEdict = m_lastEnemy;
-            if(!usesKnife()) m_moveSpeed = 0.0f;
+            //if(!usesKnife()) m_moveSpeed = 0.0f;
          }
          else {
             m_aimFlags &= ~AimFlags::PredictPath;
 
             m_lookAt = m_destOrigin;
-            //m_timeNextTracking = game.time () + 1.5f; // orig
-            m_timeNextTracking = game.time () + 0.2f; // new
+            m_timeNextTracking = game.time () + 1.5f; // orig
             m_trackingEdict = nullptr;
-            if(!usesKnife()) m_moveSpeed = 0.0f;
+            //if(!usesKnife()) m_moveSpeed = 0.0f;
          }
       }
       else {
-         // qqq 2
-         m_lookAt = m_destOrigin; // new
          //qqq
          if(m_healthValue > 80.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
             m_isKnifeRunning = true;
             m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
             selectWeaponByName ("weapon_knife"); // draw out the knife if we needed
-        
          }
          if(usesKnife()) {
                m_idealReactionTime = 0.05f; // 0.05
                 m_actualReactionTime = 0.095f; // 0.095
             }
+            // qqq 2
+         //m_lookAt = m_destOrigin; // new
          //m_lookAt = m_camp; // orig
+         if(rg.chance(50)) m_lookAt = m_destOrigin;
+         else m_lookAt = m_camp;
       }
    }
    else if (flags & AimFlags::Camp) {
@@ -6011,17 +6010,17 @@ void Bot::updateHearing () {
       }
 
       // check if heard enemy can be shoot through some obstacle
-      else {
-         if (cv_shoots_thru_walls.bool_ () && m_difficulty > Difficulty::Normal && m_lastEnemy == player && rg.chance (conf.getDifficultyTweaks (m_difficulty)->hearThruPct) && m_seeEnemyTime + 3.0f > game.time () && isPenetrableObstacle (player->v.origin)) {
-            m_enemy = player;
-            m_lastEnemy = player;
-            m_enemyOrigin = player->v.origin;
-            m_lastEnemyOrigin = player->v.origin;
+      // else {
+      //    if (cv_shoots_thru_walls.bool_ () && m_difficulty > Difficulty::Normal && m_lastEnemy == player && rg.chance (conf.getDifficultyTweaks (m_difficulty)->hearThruPct) && m_seeEnemyTime + 3.0f > game.time () && isPenetrableObstacle (player->v.origin)) {
+      //       m_enemy = player;
+      //       m_lastEnemy = player;
+      //       m_enemyOrigin = player->v.origin;
+      //       m_lastEnemyOrigin = player->v.origin;
 
-            m_states |= (Sense::SeeingEnemy | Sense::SuspectEnemy);
-            m_seeEnemyTime = game.time ();
-         }
-      }
+      //       m_states |= (Sense::SeeingEnemy | Sense::SuspectEnemy);
+      //       m_seeEnemyTime = game.time ();
+      //    }
+      // }
    }
 }
 

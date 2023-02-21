@@ -406,8 +406,8 @@ int BotControl::cmdNodeOn () {
    }
 
    if (graph.hasEditFlag (GraphEdit::On)) {
-      mp_roundtime.set (9);
-      mp_freezetime.set (0);
+      //mp_roundtime.set (9);
+      //mp_freezetime.set (0);
       //mp_timelimit.set (0);
    }
    return BotCommandResult::Handled;
@@ -736,10 +736,10 @@ int BotControl::cmdNodePathSetAutoDistance () {
 int BotControl::cmdNodeAcquireEditor () {
    enum args { graph_cmd = 1 };
 
-   if (!cr::fequal (m_ent->v.takedamage, DAMAGE_NO)) {
-      logger.error ("wrong editor");
-      return BotCommandResult::Handled;
-   }
+   // if (!cr::fequal (m_ent->v.takedamage, DAMAGE_NO)) {
+   //    logger.error ("wrong editor");
+   //    return BotCommandResult::Handled;
+   // }
 
    if (game.isNullEntity (m_ent)) {
       msg ("This command should not be executed from HLDS console.");

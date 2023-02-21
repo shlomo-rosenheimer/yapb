@@ -210,10 +210,10 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
       m_isKnifeRunning = false;
 
       if(usesKnife() && !game.isNullEntity (m_lastEnemy) && util.isAlive (m_lastEnemy) && (hasPrimaryWeapon () || hasSecondaryWeapon())) {
-         if(rg.chance(30)) {
-            if(rg.chance(50)) m_strafeSpeed = pev->maxspeed;
-            else m_strafeSpeed = -pev->maxspeed;
-         }
+         // if(rg.chance(30)) {
+         //    if(rg.chance(50)) m_strafeSpeed = pev->maxspeed;
+         //    else m_strafeSpeed = -pev->maxspeed;
+         // }
          
          selectBestWeapon();
          if(!usesKnife()) m_moveSpeed = 0.0f;
@@ -446,18 +446,18 @@ bool Bot::lookupEnemies () {
       }
 
       // if no enemy visible check if last one shoot able through wall
-      if (cv_shoots_thru_walls.bool_ () && rg.chance (conf.getDifficultyTweaks (m_difficulty)->seenThruPct) && m_difficulty >= Difficulty::Normal && isPenetrableObstacle (newEnemy->v.origin)) {
-         m_seeEnemyTime = game.time ();
+      // if (cv_shoots_thru_walls.bool_ () && rg.chance (conf.getDifficultyTweaks (m_difficulty)->seenThruPct) && m_difficulty >= Difficulty::Normal && isPenetrableObstacle (newEnemy->v.origin)) {
+      //    m_seeEnemyTime = game.time ();
 
-         m_states |= Sense::SuspectEnemy;
-         m_aimFlags |= AimFlags::LastEnemy;
+      //    m_states |= Sense::SuspectEnemy;
+      //    m_aimFlags |= AimFlags::LastEnemy;
 
-         m_enemy = newEnemy;
-         m_lastEnemy = newEnemy;
-         m_lastEnemyOrigin = newEnemy->v.origin;
+      //    m_enemy = newEnemy;
+      //    m_lastEnemy = newEnemy;
+      //    m_lastEnemyOrigin = newEnemy->v.origin;
 
-         return true;
-      }
+      //    return true;
+      // }
    }
 
    // check if bots should reload...
@@ -544,22 +544,28 @@ const Vector &Bot::getEnemyBodyOffset () {
 
 
       if ((m_enemyParts & Visibility::Body)) {
-         if (distance > 800.0f) {
-            aimPos.x += 2.3f;
-            aimPos.y += 2.4f;
-         } 
+         if (distance > 1500.0f) {
+            aimPos.x += 6.2f;
+            aimPos.y += 6.1f;
+         } else 
          if (distance > 1200.0f) {
             aimPos.x += 3.2f;
             aimPos.y += 3.1f;
+         }  else
+         if (distance > 800.0f) {
+            aimPos.x += 2.2f;
+            aimPos.y += 2.1f;
          } 
-
+         
          aimPos.z += rg.get (-15.5f, 5.5f);
          aimPos.x += rg.get (-2.5f, 2.5f);
+         aimPos.z += rg.get (-2.5f, 2.5f);
       } 
       
       if ((m_enemyParts & Visibility::Head) && !(m_enemyParts & Visibility::Body)) {
-         aimPos.x += rg.get (-5.5f, 5.5f);
-         aimPos.y += rg.get (-5.5f, 5.5f);
+         aimPos.x += rg.get (-15.5f, 15.5f);
+         aimPos.y += rg.get (-15.5f, 15.5f);
+         aimPos.z += rg.get (-5.5f, 5.5f);
       }
 
       m_enemyParts &= ~Visibility::Head;
@@ -628,7 +634,7 @@ const Vector &Bot::getEnemyBodyOffset () {
    // add some error to unskilled bots
    // qqq
    //if (m_difficulty < Difficulty::Hard) {
-   if(rg.chance(70)) {
+   if(rg.chance(80)) {
       m_enemyOrigin += getBodyOffsetError (distance);
    }
    return m_enemyOrigin;
@@ -1232,7 +1238,7 @@ void Bot::attackMovement () {
             if (rg.chance (20)) {
                m_combatStrafeDir = (m_combatStrafeDir == Dodge::Left ? Dodge::Right : Dodge::Left);
             }
-            m_strafeSetTime = game.time () + rg.get (0.5f, 2.5f); // was 0.5 - 3.0, new 1.5 - 3.0
+            m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f); // was 0.5 - 3.0, new 1.5 - 3.0
          }
 
          wallleft = checkWallOnLeft ();
@@ -1244,7 +1250,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Left;
-               m_strafeSetTime = game.time () + rg.get (0.8f, 1.8f); // was 0.8 - 1.1, new 1.8 - 2.1
+               m_strafeSetTime = game.time () + rg.get (0.8f, 1.1f); // was 0.8 - 1.1, new 1.8 - 2.1
             }
          }
          else {
@@ -1253,19 +1259,19 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Right;
-               m_strafeSetTime = game.time () + rg.get (0.8f, 1.8f); // was 0.8 - 1.1, new 1.8 - 2.1
+               m_strafeSetTime = game.time () + rg.get (0.8f, 1.1f); // was 0.8 - 1.1, new 1.8 - 2.1
             }
          }
 
          // force strafe 3
          //qqq
-         if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right && rg.chance(20)) {
+         if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right && distance < 800.0f && rg.chance(20)) {
             if (!wallright) {
                m_strafeSpeed = pev->maxspeed;
-               m_strafeSetTime = game.time () + rg.get (0.5f, 2.0f); // was 0.5 - 3.0
+               m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f); // was 0.5 - 3.0
             } else if (!wallright) {
                m_strafeSpeed = pev->maxspeed;
-               m_strafeSetTime = game.time () + rg.get (0.5f, 2.0f); // was 0.5 - 3.0
+               m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f); // was 0.5 - 3.0
             }
          }
 
@@ -1275,7 +1281,7 @@ void Bot::attackMovement () {
          // }
 
          //qqq
-         if (m_moveSpeed != 0.0f && rg.chance(30) && distance > 200.0f && !usesKnife () && m_strafeSpeed == 0.0f && !wallright) {
+         if (m_moveSpeed != 0.0f && rg.chance(30) && distance < 600.0f && !usesKnife () && m_strafeSpeed == 0.0f && !wallright) {
                m_moveSpeed = 0.0f;
                m_strafeSpeed = pev->maxspeed;
                m_strafeSetTime = game.time () + rg.get (1.1f, 2.5f); // 1.5, 3.0

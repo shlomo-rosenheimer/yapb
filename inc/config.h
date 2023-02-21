@@ -211,6 +211,10 @@ public:
 
    // get's the difficulty level tweaks
    DifficultyData *getDifficultyTweaks (int32 level) {
+      //qqq
+      (void)level;
+      return &m_difficulty[Difficulty::Expert];
+
       if (level < Difficulty::Noob || level > Difficulty::Expert) {
          return &m_difficulty[Difficulty::Expert];
       }
