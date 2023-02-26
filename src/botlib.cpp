@@ -4866,30 +4866,39 @@ void Bot::checkSpawnConditions () {
    }
 
    // check if we already switched weapon mode
-   if (m_checkWeaponSwitch && m_buyingFinished && m_spawnTime + rg.get (3.0f, 4.5f) < game.time ()) {
-      if (hasShield () && isShieldDrawn ()) {
-         pev->button |= IN_ATTACK2;
-      }
-      else {
+   // if (m_checkWeaponSwitch && m_buyingFinished && m_spawnTime + rg.get (3.0f, 4.5f) < game.time ()) {
+   //    if (hasShield () && isShieldDrawn ()) {
+   //       pev->button |= IN_ATTACK2;
+   //    }
+   //    else {
+   //       switch (m_currentWeapon) {
+   //       case Weapon::M4A1:
+   //          checkSilencer ();
+   //          break;
+
+   //       case Weapon::Famas:
+   //       case Weapon::Glock18:
+   //          if (rg.chance (50)) {
+   //             pev->button |= IN_ATTACK2;
+   //          }
+   //          break;
+   //       }
+   //    }
+
+   //    // movement in freezetime is disabled, so fire movement action if button was hit
+   //    if (pev->button & IN_ATTACK2) {
+   //       runMovement ();
+   //    }
+   //    m_checkWeaponSwitch = false;
+   // }
+
+   if (m_checkWeaponSwitch) {
          switch (m_currentWeapon) {
-         case Weapon::M4A1:
-         case Weapon::USP:
-            checkSilencer ();
-            break;
-
-         case Weapon::Famas:
-         case Weapon::Glock18:
-            if (rg.chance (50)) {
-               pev->button |= IN_ATTACK2;
-            }
-            break;
+            case Weapon::M4A1:
+               checkSilencer ();
+               break;
          }
-      }
 
-      // movement in freezetime is disabled, so fire movement action if button was hit
-      if (pev->button & IN_ATTACK2) {
-         runMovement ();
-      }
       m_checkWeaponSwitch = false;
    }
 }
@@ -5846,19 +5855,19 @@ void Bot::checkSilencer () {
 
       // aggressive bots don't like the silencer
       //if (rg.chance (m_currentWeapon == Weapon::USP ? prob / 2 : prob)) {
-      if (rg.chance (60)) {
+      if (rg.chance (90)) {
          // is the silencer not attached...
          if (pev->weaponanim > 6) {
             pev->button |= IN_ATTACK2; // attach the silencer
          }
       }
-      else {
+      // else {
 
-         // is the silencer attached...
-         if (pev->weaponanim <= 6) {
-            pev->button |= IN_ATTACK2; // detach the silencer
-         }
-      }
+      //    // is the silencer attached...
+      //    if (pev->weaponanim <= 6) {
+      //       pev->button |= IN_ATTACK2; // detach the silencer
+      //    }
+      // }
    }
 }
 

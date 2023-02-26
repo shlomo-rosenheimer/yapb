@@ -837,7 +837,7 @@ bool Bot::needToPauseFiring (float distance) {
       if (m_firePause < game.time ()) {
          //qqq
          //m_firePause = rg.get (0.65f, 0.65f + 0.3f * tolerance);
-         m_firePause = rg.get (0.05f, 0.35f + 0.3f * tolerance);
+         m_firePause = rg.get (0.05f, 0.45f + 0.3f * tolerance);
       }
       m_firePause -= interval;
       m_firePause += game.time ();
@@ -1561,7 +1561,7 @@ void Bot::selectBestWeapon () {
       selectWeaponByName (tab[selectIndex].name);
    }
 
-   if(m_currentWeapon == Weapon::M4A1 && !(m_states & (Sense::SeeingEnemy)) && rg.chance(30)) checkSilencer ();
+   if(m_currentWeapon == Weapon::M4A1 && !(m_states & (Sense::SeeingEnemy)) && rg.chance(90)) checkSilencer ();
 
    m_isReloading = false;
    m_reloadState = Reload::None;
