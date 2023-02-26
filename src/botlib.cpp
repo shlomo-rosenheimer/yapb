@@ -2952,20 +2952,20 @@ void Bot::checkDarkness () {
 void Bot::checkParachute () {
    static auto parachute = engfuncs.pfnCVarGetPointer (conf.fetchCustom ("AMXParachuteCvar").chars ());
 
-   // if no cvar or it's not enabled do not bother
-   // if (parachute && parachute->value > 0.0f) {
-   //    if (isOnLadder () || pev->velocity.z > -50.0f || isOnFloor ()) {
-   //       m_fallDownTime = 0.0f;
-   //    }
-   //    else if (cr::fzero (m_fallDownTime)) {
-   //       m_fallDownTime = game.time ();
-   //    }
+   if no cvar or it's not enabled do not bother
+   if (parachute && parachute->value > 0.0f) {
+      if (isOnLadder () || pev->velocity.z > -50.0f || isOnFloor ()) {
+         m_fallDownTime = 0.0f;
+      }
+      else if (cr::fzero (m_fallDownTime)) {
+         m_fallDownTime = game.time ();
+      }
 
-   //    // press use anyway
-   //    if (!cr::fzero (m_fallDownTime) && m_fallDownTime + 0.35f < game.time ()) {
-   //       pev->button |= IN_USE;
-   //    }
-   // }
+      // press use anyway
+      if (!cr::fzero (m_fallDownTime) && m_fallDownTime + 0.35f < game.time ()) {
+         pev->button |= IN_USE;
+      }
+   }
 }
 
 void Bot::frame () {
