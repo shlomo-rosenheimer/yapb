@@ -5126,7 +5126,7 @@ void Bot::logic () {
                   pev->button &= ~IN_BACK;
                   m_moveSpeed = 0.0f;
 
-                  if(m_strafeSpeed == 0.0f && rg.chance(30)) {
+                  if(m_strafeSpeed == 0.0f && rg.chance(10)) {
                      m_strafeSpeed = -pev->maxspeed;
                   }
                }
@@ -5135,7 +5135,7 @@ void Bot::logic () {
             if (m_moveSpeed < 0.0f || (pev->button & IN_BACK)) {
                m_moveSpeed = 0.0f;
 
-               if(m_strafeSpeed == 0.0f && rg.chance(30)) {
+               if(m_strafeSpeed == 0.0f && rg.chance(10)) {
                   m_strafeSpeed = pev->maxspeed;
                }
                pev->button &= ~IN_BACK;
@@ -5154,6 +5154,8 @@ void Bot::logic () {
                   pev->button |= IN_MOVELEFT;
                }
             }
+
+            pev->button &= ~IN_BACK;
 
 
 
