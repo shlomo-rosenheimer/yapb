@@ -837,7 +837,7 @@ bool Bot::needToPauseFiring (float distance) {
       if (m_firePause < game.time ()) {
          //qqq
          //m_firePause = rg.get (0.65f, 0.65f + 0.3f * tolerance);
-         m_firePause = rg.get (0.15f, 0.45f + 0.3f * tolerance);
+         m_firePause = rg.get (0.05f, 0.35f + 0.3f * tolerance);
       }
       m_firePause -= interval;
       m_firePause += game.time ();
