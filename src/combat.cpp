@@ -542,6 +542,11 @@ const Vector &Bot::getEnemyBodyOffset () {
    if (util.isPlayer (m_enemy)) {
       // qqq, always body
 
+      if ((m_enemyParts & Visibility::Head) && !(m_enemyParts & Visibility::Body)) {
+         aimPos.x += rg.get (-15.5f, 15.5f);
+         aimPos.y += rg.get (-15.5f, 15.5f);
+         aimPos.z += rg.get (-5.5f, 5.5f);
+      }
 
       if ((m_enemyParts & Visibility::Body)) {
          if (distance > 1500.0f) {
@@ -557,16 +562,16 @@ const Vector &Bot::getEnemyBodyOffset () {
             aimPos.y += 2.1f;
          } 
          
-         aimPos.z += rg.get (-15.5f, 5.5f);
+         aimPos.z += rg.get (-15.5f, 15.5f);
          aimPos.x += rg.get (-2.5f, 2.5f);
          aimPos.z += rg.get (-2.5f, 2.5f);
-      } 
-      
-      if ((m_enemyParts & Visibility::Head) && !(m_enemyParts & Visibility::Body)) {
+      } else {
+         aimPos.z += rg.get (-15.5f, 15.5f);
          aimPos.x += rg.get (-15.5f, 15.5f);
-         aimPos.y += rg.get (-15.5f, 15.5f);
-         aimPos.z += rg.get (-5.5f, 5.5f);
+         aimPos.z += rg.get (-15.5f, 15.5f);
       }
+      
+      
 
       m_enemyParts &= ~Visibility::Head;
 
@@ -837,7 +842,7 @@ bool Bot::needToPauseFiring (float distance) {
       if (m_firePause < game.time ()) {
          //qqq
          //m_firePause = rg.get (0.65f, 0.65f + 0.3f * tolerance);
-         m_firePause = rg.get (0.05f, 0.45f + 0.3f * tolerance);
+         m_firePause = rg.get (0.20f, 0.55f + 0.3f * tolerance);
       }
       m_firePause -= interval;
       m_firePause += game.time ();
@@ -994,7 +999,8 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
          }
 
          const float minDelay[] = { 0.0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.6f };
-         const float maxDelay[] = { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.7f };
+         //const float maxDelay[] = { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.7f };
+         const float maxDelay[] = { 0.2f, 0.2f, 0.3f, 0.4f, 0.5f, 0.7f }; // new
 
          const int offset = cr::abs <int> (m_difficulty * 25 / 20 - 5);
 
