@@ -2840,7 +2840,7 @@ void Bot::updateAimDir () {
             //qqq
             //return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f);
             // qqq was 65.0
-            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-44.0f, 44.0f)), 0.0f).forward () * rg.get (0.5f, 1.5f); // was 2.0 - 4.0
+            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-75.0f, 75.0f)), 0.0f).forward () * rg.get (0.5f, 1.5f); // was 2.0 - 4.0
          }
          return nullptr;
       };
@@ -4892,15 +4892,15 @@ void Bot::checkSpawnConditions () {
    //    m_checkWeaponSwitch = false;
    // }
 
-   if (m_checkWeaponSwitch) {
-         switch (m_currentWeapon) {
-            case Weapon::M4A1:
-               checkSilencer ();
-               break;
-         }
+   // if (m_checkWeaponSwitch && m_buyingFinished) {
+   //       switch (m_currentWeapon) {
+   //          case Weapon::M4A1:
+   //             checkSilencer ();
+   //             break;
+   //       }
 
-      m_checkWeaponSwitch = false;
-   }
+   //    m_checkWeaponSwitch = false;
+   // }
 }
 
 void Bot::logic () {
