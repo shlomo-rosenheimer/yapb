@@ -301,7 +301,7 @@ bool Bot::lookupEnemies () {
 
       // search the world for players...
       for (const auto &client : util.getClients ()) {
-         if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team == m_team || client.ent == ent () || !client.ent || (util.isFakeClient (client.ent) && client.ent->v.health == 111.0f)) {
+         if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team == m_team || client.ent == ent () || !client.ent || (util.isFakeClient (client.ent) && client.ent->v.health == 111.0f) || !(client.ent->v.flags & FL_ONGROUND)) {
             continue;
          }
          player = client.ent;
@@ -1287,10 +1287,10 @@ void Bot::attackMovement () {
          // }
 
          //qqq
-         if (m_moveSpeed != 0.0f && rg.chance(30) && distance < 600.0f && !usesKnife () && m_strafeSpeed == 0.0f && !wallright) {
+         //if (m_moveSpeed != 0.0f && rg.chance(50) && distance < 600.0f && !usesKnife () && m_strafeSpeed == 0.0f && !wallright) {
+         if (m_moveSpeed != 0.0f && rg.chance(50) && distance > 400.0f && !usesKnife ()) {
                m_moveSpeed = 0.0f;
-               m_strafeSpeed = pev->maxspeed;
-               m_strafeSetTime = game.time () + rg.get (1.1f, 2.5f); // 1.5, 3.0
+               //m_strafeSetTime = game.time () + rg.get (1.1f, 2.5f); // 1.5, 3.0
          }
          // if (usesKnife ()) {
          //    m_strafeSpeed = 0.0f;

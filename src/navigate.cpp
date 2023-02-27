@@ -1908,7 +1908,7 @@ bool Bot::advanceMovement () {
 
            
             //qqq
-            if (m_healthValue > 70.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+            if (m_healthValue > 60.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                m_isKnifeRunning = true;
                m_idealReactionTime = 0.05f; // 0.05
                m_actualReactionTime = 0.095f; // 0.095

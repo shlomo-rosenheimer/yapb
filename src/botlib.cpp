@@ -2769,11 +2769,10 @@ void Bot::updateAimDir () {
 
       // did bot just see enemy and is quite aggressive?
 
-      if ((m_seeEnemyTime + 2.0f - m_actualReactionTime + m_baseAgressionLevel > game.time ()) || rg.chance(75)) {
-      //if ((m_seeEnemyTime + 1.0f - m_actualReactionTime + m_baseAgressionLevel > game.time ()) || rg.chance(50)) {
+      if ((m_seeEnemyTime + 1.0f - m_actualReactionTime + m_baseAgressionLevel > game.time ()) || rg.chance(30)) {
 
          // feel free to fire if shootable
-         if ((!usesSniper () || rg.chance(60)) && lastEnemyShootable ()) {
+         if ((!usesSniper () || rg.chance(30)) && lastEnemyShootable ()) {
             m_wantsToFire = true;
          }
       }
@@ -2809,7 +2808,7 @@ void Bot::updateAimDir () {
       }
       else {
          //qqq
-         if(m_healthValue > 70.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+         if(m_healthValue > 60.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
             m_isKnifeRunning = true;
             m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
@@ -2851,7 +2850,7 @@ void Bot::updateAimDir () {
             m_lookAt = graph[nextPathIndex].origin + pev->view_ofs + smoothView (nextPathIndex); // orig
             //m_lookAt = m_destOrigin; // new
             //qqq
-            if(m_healthValue > 70.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+            if(m_healthValue > 60.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                m_isKnifeRunning = true;
                m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
@@ -2882,7 +2881,7 @@ void Bot::updateAimDir () {
             else {
                
                //qqq
-               if(m_healthValue > 70.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+               if(m_healthValue > 60.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                   m_isKnifeRunning = true;
                   m_idealReactionTime = 0.05f; // 0.05
           m_actualReactionTime = 0.095f; // 0.095
