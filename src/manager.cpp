@@ -209,7 +209,8 @@ BotCreateResult BotManager::create (StringRef name, int difficulty, int personal
    
    // careful walks back too much
    //personality = Personality::Careful;
-   personality = Personality::Rusher;
+   //personality = Personality::Rusher;
+   personality = Personality::Careful;
    
    BotName *botName = nullptr;
 

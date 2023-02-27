@@ -1244,7 +1244,7 @@ void Bot::attackMovement () {
             if (rg.chance (20)) {
                m_combatStrafeDir = (m_combatStrafeDir == Dodge::Left ? Dodge::Right : Dodge::Left);
             }
-            m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f); // was 0.5 - 3.0, new 1.5 - 3.0
+            m_strafeSetTime = game.time () + rg.get (0.1f, 3.0f); // was 0.5 - 3.0, new 1.5 - 3.0
          }
 
          wallleft = checkWallOnLeft ();
@@ -1256,7 +1256,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Left;
-               m_strafeSetTime = game.time () + rg.get (0.8f, 1.1f); // was 0.8 - 1.1, new 1.8 - 2.1
+               m_strafeSetTime = game.time () + rg.get (0.1f, 1.1f); // was 0.8 - 1.1, new 1.8 - 2.1
             }
          }
          else {
@@ -1265,7 +1265,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Right;
-               m_strafeSetTime = game.time () + rg.get (0.8f, 1.1f); // was 0.8 - 1.1, new 1.8 - 2.1
+               m_strafeSetTime = game.time () + rg.get (0.1f, 1.1f); // was 0.8 - 1.1, new 1.8 - 2.1
             }
          }
 
@@ -1274,10 +1274,10 @@ void Bot::attackMovement () {
          if(m_strafeSpeed == 0.0f && m_combatStrafeDir != Dodge::Left && m_combatStrafeDir != Dodge::Right && distance < 800.0f && rg.chance(20)) {
             if (!wallright) {
                m_strafeSpeed = pev->maxspeed;
-               m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f); // was 0.5 - 3.0
+               m_strafeSetTime = game.time () + rg.get (0.1f, 3.0f); // was 0.5 - 3.0
             } else if (!wallright) {
                m_strafeSpeed = pev->maxspeed;
-               m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f); // was 0.5 - 3.0
+               m_strafeSetTime = game.time () + rg.get (0.1f, 3.0f); // was 0.5 - 3.0
             }
          }
 
@@ -1290,6 +1290,7 @@ void Bot::attackMovement () {
          //if (m_moveSpeed != 0.0f && rg.chance(50) && distance < 600.0f && !usesKnife () && m_strafeSpeed == 0.0f && !wallright) {
          if (m_moveSpeed != 0.0f && rg.chance(50) && distance > 400.0f && !usesKnife ()) {
                m_moveSpeed = 0.0f;
+               if(rg.chance(50)) m_strafeSpeed = 0.0f;
                //m_strafeSetTime = game.time () + rg.get (1.1f, 2.5f); // 1.5, 3.0
          }
          // if (usesKnife ()) {
