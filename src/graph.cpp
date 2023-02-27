@@ -2294,8 +2294,8 @@ void BotGraph::frame () {
                game.drawLine (m_editor, path.origin - Vector (0, 0, nodeHalfHeight - nodeHeight * 0.75f), path.origin + Vector (0, 0, nodeHalfHeight), nodeWidth, 0, nodeFlagColor, 250, 0, 10); // draw additional path
             }
 
-            if (distance < 128.0f) {
-               // qqq add radius
+            if (distance < 256.0f) {
+               // qqq radius
                Vector origin = (path.flags & NodeFlag::Crouch) ? path.origin : path.origin - Vector (0.0f, 0.0f, 18.0f);
                Color radiusColor { 0, 0, 255 };
 
@@ -2386,7 +2386,9 @@ void BotGraph::frame () {
          }
          // jump connection
          if (link.flags & PathFlag::Jump) {
-            game.drawLine (m_editor, path.origin, m_paths[link.index].origin, 5, 0, { 255, 0, 128 }, 200, 0, 10);
+            //game.drawLine (m_editor, path.origin, m_paths[link.index].origin, 5, 0, { 255, 0, 128 }, 200, 0, 10);
+            // qqq turqious
+            game.drawLine (m_editor, path.origin, m_paths[link.index].origin, 5, 0, { 51, 255, 255 }, 200, 0, 10);
          }
          else if (isConnected (link.index, nearestIndex)) { // twoway connection
             game.drawLine (m_editor, path.origin, m_paths[link.index].origin, 5, 0, { 255, 255, 0 }, 200, 0, 10);
@@ -2485,31 +2487,32 @@ void BotGraph::frame () {
                               "      Flags: %s\n"
                               "      Origin: %s\n\n", nearestIndex, m_paths.length () - 1, path.radius, path.light, getFlagsAsStr (nearestIndex), pathOriginStr (nearestIndex));
 
+      // qqq off
       // if node is not changed display experience also
-      if (!m_hasChanged) {
-         int dangerIndexCT = getDangerIndex (Team::CT, nearestIndex, nearestIndex);
-         int dangerIndexT = getDangerIndex (Team::Terrorist, nearestIndex, nearestIndex);
+      // if (!m_hasChanged) {
+      //    int dangerIndexCT = getDangerIndex (Team::CT, nearestIndex, nearestIndex);
+      //    int dangerIndexT = getDangerIndex (Team::Terrorist, nearestIndex, nearestIndex);
 
-         graphMessage.appendf ("      Experience Info:\n"
-                                       "      CT: %d / %d dmg\n"
-                                       "      T: %d / %d dmg\n", dangerIndexCT, dangerIndexCT != kInvalidNodeIndex ? getDangerDamage (Team::CT, nearestIndex, dangerIndexCT) : 0, dangerIndexT, dangerIndexT != kInvalidNodeIndex ? getDangerDamage (Team::Terrorist, nearestIndex, dangerIndexT) : 0);
-      }
+      //    graphMessage.appendf ("      Experience Info:\n"
+      //                                  "      CT: %d / %d dmg\n"
+      //                                  "      T: %d / %d dmg\n", dangerIndexCT, dangerIndexCT != kInvalidNodeIndex ? getDangerDamage (Team::CT, nearestIndex, dangerIndexCT) : 0, dangerIndexT, dangerIndexT != kInvalidNodeIndex ? getDangerDamage (Team::Terrorist, nearestIndex, dangerIndexT) : 0);
+      // }
 
-      // check if we need to show the cached point index
-      if (m_cacheNodeIndex != kInvalidNodeIndex) {
-         graphMessage.appendf ("\n    Cached Node Information:\n\n"
-                                       "      Node %d of %d, Radius: %.1f\n"
-                                       "      Flags: %s\n"
-                                       "      Origin: %s\n", m_cacheNodeIndex, m_paths.length () - 1, m_paths[m_cacheNodeIndex].radius, getFlagsAsStr (m_cacheNodeIndex), pathOriginStr (m_cacheNodeIndex));
-      }
+      // // check if we need to show the cached point index
+      // if (m_cacheNodeIndex != kInvalidNodeIndex) {
+      //    graphMessage.appendf ("\n    Cached Node Information:\n\n"
+      //                                  "      Node %d of %d, Radius: %.1f\n"
+      //                                  "      Flags: %s\n"
+      //                                  "      Origin: %s\n", m_cacheNodeIndex, m_paths.length () - 1, m_paths[m_cacheNodeIndex].radius, getFlagsAsStr (m_cacheNodeIndex), pathOriginStr (m_cacheNodeIndex));
+      // }
 
-      // check if we need to show the facing point index
-      if (m_facingAtIndex != kInvalidNodeIndex) {
-         graphMessage.appendf ("\n    Facing Node Information:\n\n"
-                                       "      Node %d of %d, Radius: %.1f\n"
-                                       "      Flags: %s\n"
-                                       "      Origin: %s\n", m_facingAtIndex, m_paths.length () - 1, m_paths[m_facingAtIndex].radius, getFlagsAsStr (m_facingAtIndex), pathOriginStr (m_facingAtIndex));
-      }
+      // // check if we need to show the facing point index
+      // if (m_facingAtIndex != kInvalidNodeIndex) {
+      //    graphMessage.appendf ("\n    Facing Node Information:\n\n"
+      //                                  "      Node %d of %d, Radius: %.1f\n"
+      //                                  "      Flags: %s\n"
+      //                                  "      Origin: %s\n", m_facingAtIndex, m_paths.length () - 1, m_paths[m_facingAtIndex].radius, getFlagsAsStr (m_facingAtIndex), pathOriginStr (m_facingAtIndex));
+      // }
 
       // draw entire message
       MessageWriter (MSG_ONE_UNRELIABLE, SVC_TEMPENTITY, nullptr, m_editor)
@@ -2569,6 +2572,20 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
    for (const auto &path : m_paths) {
       int connections = 0;
 
+      // qqq check for djump
+      if (path.flags & NodeFlag::DoubleJump) {
+            ctrl.msg ("Node %d is a double jump.", path.number);
+            teleport (path);
+            return false;
+      }
+
+      // qqq check for crouch
+      if (path.flags & NodeFlag::Crouch) {
+            ctrl.msg ("Node %d is a crouch.", path.number);
+            teleport (path);
+            return false;
+      }
+
       // qqq
       if(!(path.flags & NodeFlag::Ladder) && path.radius <= 8.0f) {
          m_paths[m_paths.index (path)].radius = 0.0f;
@@ -2592,11 +2609,23 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
             ++connections;
             break;
          }
+
+         if (test.index == kInvalidNodeIndex) {
+            continue;
+         }
+
+         // qqq jump flag
+         if (test.flags & PathFlag::Jump) {
+            ctrl.msg ("Node %d is a jump node.", path.number);
+            teleport (path);
+            return false;
+         }
       }
 
       if (connections == 0) {
          if (!isConnected (path.number)) {
             ctrl.msg ("Node %d isn't connected with any other node.", path.number);
+            teleport (path);
             return false;
          }
       }
