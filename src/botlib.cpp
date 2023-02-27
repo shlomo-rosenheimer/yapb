@@ -2820,10 +2820,8 @@ void Bot::updateAimDir () {
                 m_actualReactionTime = 0.095f; // 0.095
             }
             // qqq 2
-         //m_lookAt = m_destOrigin; // new
+         m_lookAt = m_destOrigin; // new
          //m_lookAt = m_camp; // orig
-         if(rg.chance(50)) m_lookAt = m_destOrigin;
-         else m_lookAt = m_camp;
       }
    }
    else if (flags & AimFlags::Camp) {
