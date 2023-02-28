@@ -2619,6 +2619,20 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
             //return false;
       }
 
+      if (path.flags & NodeFlag::TerroristOnly) {
+            m_paths[m_paths.index (path)].flags &= ~NodeFlag::TerroristOnly;
+
+            ctrl.msg ("Node %d is a T only.", path.number);
+      }
+
+      if (path.flags & NodeFlag::CTOnly) {
+            m_paths[m_paths.index (path)].flags &= ~NodeFlag::CTOnly;
+
+            ctrl.msg ("Node %d is a CT only.", path.number);
+      }
+
+      
+
       // qqq
       if(!(path.flags & NodeFlag::Ladder) && path.radius <= 8.0f) {
          m_paths[m_paths.index (path)].radius = 0.0f;

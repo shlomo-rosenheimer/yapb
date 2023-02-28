@@ -574,7 +574,9 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
          if (m_collStateIndex < kMaxCollideMoves) {
             switch (m_collideMoves[m_collStateIndex]) {
             case CollisionState::Jump:
-               setStrafeSpeed (dirNormal, -pev->maxspeed);
+            // qqq last
+               //setStrafeSpeed (dirNormal, pev->maxspeed);
+
                //m_tryStuckMove = true;
                //m_tryStuckMoveTime = game.time ();
                // qqq
@@ -594,11 +596,13 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                break;
 
             case CollisionState::Duck:
+            // qqq last
+               //setStrafeSpeed (dirNormal, pev->maxspeed);
+
                // qqq
                // if (isOnFloor () || isInWater ()) {
                //    pev->button |= IN_DUCK;
                // }
-               setStrafeSpeed (dirNormal, pev->maxspeed);
                //qqq
                //pev->button |= IN_BACK;
                //m_moveSpeed = -pev->maxspeed;
