@@ -752,14 +752,14 @@ int BotControl::cmdNodeAcquireEditor () {
    }
 
    if (graph.hasEditor ()) {
-      logger.error ("[yapb] clear editor");
+      logger.error ("[yapb] clear existing editor");
 
       graph.setEditor (nullptr);
       //msg ("Sorry, players \"%s\" already acquired rights to edit graph on this server.", graph.getEditor ()->v.netname.chars ());
       msg ("Removed editor \"%s\" on this server.", graph.getEditor ()->v.netname.chars ());
-      //return BotCommandResult::Handled;
+      return BotCommandResult::Handled;
    }
-   logger.error ("[yapb] set editor");
+   logger.error ("[yapb] set new editor");
    graph.setEditor (m_ent);
    msg ("You're acquired rights to edit graph on this server. You're now able to use graph commands.");
 
@@ -774,7 +774,7 @@ int BotControl::cmdNodeReleaseEditor () {
       msg ("No one is currently has rights to edit. Nothing to release.");
       return BotCommandResult::Handled;
    }
-   logger.error ("[yapb] clear editor");
+   logger.error ("[yapb] clear existing editor");
    graph.setEditor (nullptr);
    msg ("Graph editor rights freed. You're now not able to use graph commands.");
 
@@ -1418,32 +1418,32 @@ int BotControl::menuGraphType (int item) {
 int BotControl::menuGraphFlag (int item) {
    closeMenu (); // reset menu display
 
-   switch (item) {
-   case 1:
-      graph.toggleFlags (NodeFlag::NoHostage);
-      showMenu (Menu::NodeFlag);
-      break;
+   // switch (item) {
+   // case 1:
+   //    graph.toggleFlags (NodeFlag::NoHostage);
+   //    showMenu (Menu::NodeFlag);
+   //    break;
 
-   case 2:
-      graph.toggleFlags (NodeFlag::TerroristOnly);
-      showMenu (Menu::NodeFlag);
-      break;
+   // case 2:
+   //    graph.toggleFlags (NodeFlag::TerroristOnly);
+   //    showMenu (Menu::NodeFlag);
+   //    break;
 
-   case 3:
-      graph.toggleFlags (NodeFlag::CTOnly);
-      showMenu (Menu::NodeFlag);
-      break;
+   // case 3:
+   //    graph.toggleFlags (NodeFlag::CTOnly);
+   //    showMenu (Menu::NodeFlag);
+   //    break;
 
-   case 4:
-      graph.toggleFlags (NodeFlag::Lift);
-      showMenu (Menu::NodeFlag);
-      break;
+   // case 4:
+   //    graph.toggleFlags (NodeFlag::Lift);
+   //    showMenu (Menu::NodeFlag);
+   //    break;
 
-   case 5:
-      graph.toggleFlags (NodeFlag::Sniper);
-      showMenu (Menu::NodeFlag);
-      break;
-   }
+   // case 5:
+   //    graph.toggleFlags (NodeFlag::Sniper);
+   //    showMenu (Menu::NodeFlag);
+   //    break;
+   // }
    return BotCommandResult::Handled;
 }
 
