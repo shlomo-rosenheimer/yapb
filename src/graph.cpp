@@ -1492,15 +1492,16 @@ void BotGraph::initNodesTypes () {
       else if (path.flags & NodeFlag::Goal) {
          m_goalPoints.push (path.number);
       }
-      else if (path.flags & NodeFlag::Camp) {
-         m_campPoints.push (path.number);
-      }
-      else if (path.flags & NodeFlag::Sniper) {
-         m_sniperPoints.push (path.number);
-      }
-      else if (path.flags & NodeFlag::Rescue) {
-         m_rescuePoints.push (path.number);
-      }
+      //qqq
+      // else if (path.flags & NodeFlag::Camp) {
+      //    m_campPoints.push (path.number);
+      // }
+      // else if (path.flags & NodeFlag::Sniper) {
+      //    m_sniperPoints.push (path.number);
+      // }
+      // else if (path.flags & NodeFlag::Rescue) {
+      //    m_rescuePoints.push (path.number);
+      // }
    }
 }
 
@@ -2368,22 +2369,23 @@ void BotGraph::frame () {
       auto &path = m_paths[nearestIndex];
 
       // draw the camplines
-      if (path.flags & NodeFlag::Camp) {
-         float height = 36.0f;
+      //qqq
+      // if (path.flags & NodeFlag::Camp) {
+      //    float height = 36.0f;
 
-         // check if it's a source
-         // qqq
-         // if (path.flags & NodeFlag::Crouch) {
-         //    height = 18.0f;
-         // }
-         const auto &source = Vector (path.origin.x, path.origin.y, path.origin.z + height); // source
-         const auto &start = path.origin + Vector (path.start.x, path.start.y, 0.0f).forward () * 500.0f; // camp start
-         const auto &end = path.origin + Vector (path.end.x, path.end.y, 0.0f).forward () * 500.0f; // camp end
+      //    // check if it's a source
+      //    // qqq
+      //    // if (path.flags & NodeFlag::Crouch) {
+      //    //    height = 18.0f;
+      //    // }
+      //    const auto &source = Vector (path.origin.x, path.origin.y, path.origin.z + height); // source
+      //    const auto &start = path.origin + Vector (path.start.x, path.start.y, 0.0f).forward () * 500.0f; // camp start
+      //    const auto &end = path.origin + Vector (path.end.x, path.end.y, 0.0f).forward () * 500.0f; // camp end
          
-         // draw it now
-         game.drawLine (m_editor, source, start, 10, 0, { 255, 0, 0 }, 200, 0, 10);
-         game.drawLine (m_editor, source, end, 10, 0, { 255, 0, 0 }, 200, 0, 10);
-      }
+      //    // draw it now
+      //    game.drawLine (m_editor, source, start, 10, 0, { 255, 0, 0 }, 200, 0, 10);
+      //    game.drawLine (m_editor, source, end, 10, 0, { 255, 0, 0 }, 200, 0, 10);
+      // }
 
       // draw the connections
       for (const auto &link : path.links) {
@@ -2585,6 +2587,20 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
          m_paths[m_paths.index (path)].flags &= ~NodeFlag::DoubleJump;
 
             ctrl.msg ("Node %d is a double jump.", path.number);
+            //teleport (path);
+            //return false;
+      }
+
+      // qqq check for crouch
+      if (path.flags & NodeFlag::Camp) {
+            m_paths[m_paths.index (path)].flags &= ~NodeFlag::Camp;
+
+             //remove
+            //m_paths[index].flags &= ~toggleFlag;
+            // add
+            //m_paths[index].flags |= toggleFlag;
+
+            ctrl.msg ("Node %d is a camp.", path.number);
             //teleport (path);
             //return false;
       }
