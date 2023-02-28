@@ -2619,17 +2619,17 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
             //return false;
       }
 
-      if (path.flags & NodeFlag::TerroristOnly) {
-            m_paths[m_paths.index (path)].flags &= ~NodeFlag::TerroristOnly;
+      // if (path.flags & NodeFlag::TerroristOnly) {
+      //       m_paths[m_paths.index (path)].flags &= ~NodeFlag::TerroristOnly;
 
-            ctrl.msg ("Node %d is a T only.", path.number);
-      }
+      //       ctrl.msg ("Node %d is a T only.", path.number);
+      // }
 
-      if (path.flags & NodeFlag::CTOnly) {
-            m_paths[m_paths.index (path)].flags &= ~NodeFlag::CTOnly;
+      // if (path.flags & NodeFlag::CTOnly) {
+      //       m_paths[m_paths.index (path)].flags &= ~NodeFlag::CTOnly;
 
-            ctrl.msg ("Node %d is a CT only.", path.number);
-      }
+      //       ctrl.msg ("Node %d is a CT only.", path.number);
+      // }
 
       
 
@@ -2727,14 +2727,15 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
          return false;
       }
    }
-   if (terrPoints == 0) {
-      ctrl.msg ("You didn't set any terrorist important point.");
-      return false;
-   }
-   else if (ctPoints == 0) {
-      ctrl.msg ("You didn't set any CT important point.");
-      return false;
-   }
+   //qqq
+   // if (terrPoints == 0) {
+   //    ctrl.msg ("You didn't set any terrorist important point.");
+   //    return false;
+   // }
+   // else if (ctPoints == 0) {
+   //    ctrl.msg ("You didn't set any CT important point.");
+   //    return false;
+   // }
    else if (goalPoints == 0) {
       ctrl.msg ("You didn't set any goal point.");
       return false;
