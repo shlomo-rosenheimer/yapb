@@ -394,13 +394,13 @@ int BotControl::cmdNodeOn () {
       m_ent->v.movetype = MOVETYPE_NOCLIP;
 
       graph.setEditFlag (GraphEdit::On | GraphEdit::Noclip);
-      //enableDrawModels (true);
+      enableDrawModels (true);
 
       msg ("Graph editor has been enabled with noclip mode. Models OFF");
    }
    else if (strValue (option) == "auto") {
       graph.setEditFlag (GraphEdit::On | GraphEdit::Auto);
-      //enableDrawModels (true);
+      enableDrawModels (true);
       logger.error ("[yapb] auto graph on");
       msg ("Graph editor has been enabled with auto add node mode. Models OFF");
    }
@@ -1209,12 +1209,16 @@ int BotControl::menuGraphPage1 (int item) {
          graph.clearEditFlag (GraphEdit::On);
          enableDrawModels (false);
 
+         logger.error ("[yapb] hide graph");
+
          msg ("Graph editor has been disabled.");
       }
       else {
          graph.setEditFlag (GraphEdit::On);
-         //enableDrawModels (true);
+         enableDrawModels (true);
          enableDrawModels (false);
+
+         logger.error ("[yapb] show graph");
 
          msg ("Graph editor has been enabled. Models OFF");
       }
