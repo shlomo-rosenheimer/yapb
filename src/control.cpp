@@ -1418,32 +1418,32 @@ int BotControl::menuGraphType (int item) {
 int BotControl::menuGraphFlag (int item) {
    closeMenu (); // reset menu display
 
-   // switch (item) {
-   // case 1:
-   //    graph.toggleFlags (NodeFlag::NoHostage);
-   //    showMenu (Menu::NodeFlag);
-   //    break;
+   switch (item) {
+   case 1:
+      graph.toggleFlags (NodeFlag::NoHostage);
+      showMenu (Menu::NodeFlag);
+      break;
 
-   // case 2:
-   //    graph.toggleFlags (NodeFlag::TerroristOnly);
-   //    showMenu (Menu::NodeFlag);
-   //    break;
+   case 2:
+      graph.toggleFlags (NodeFlag::TerroristOnly);
+      showMenu (Menu::NodeFlag);
+      break;
 
-   // case 3:
-   //    graph.toggleFlags (NodeFlag::CTOnly);
-   //    showMenu (Menu::NodeFlag);
-   //    break;
+   case 3:
+      graph.toggleFlags (NodeFlag::CTOnly);
+      showMenu (Menu::NodeFlag);
+      break;
 
-   // case 4:
-   //    graph.toggleFlags (NodeFlag::Lift);
-   //    showMenu (Menu::NodeFlag);
-   //    break;
+   case 4:
+      graph.toggleFlags (NodeFlag::Lift);
+      showMenu (Menu::NodeFlag);
+      break;
 
-   // case 5:
-   //    graph.toggleFlags (NodeFlag::Sniper);
-   //    showMenu (Menu::NodeFlag);
-   //    break;
-   // }
+   case 5:
+      graph.toggleFlags (NodeFlag::Sniper);
+      showMenu (Menu::NodeFlag);
+      break;
+   }
    return BotCommandResult::Handled;
 }
 
