@@ -752,9 +752,9 @@ int BotControl::cmdNodeAcquireEditor () {
    }
 
    if (graph.hasEditor ()) {
-      logger.error ("[yapb] clear existing editor");
+      logger.error ("[yapb] existing editor \"%s\" on this server.", graph.getEditor ()->v.netname.chars ());
 
-      graph.setEditor (nullptr);
+      //graph.setEditor (nullptr);
       //msg ("Sorry, players \"%s\" already acquired rights to edit graph on this server.", graph.getEditor ()->v.netname.chars ());
       msg ("Removed editor \"%s\" on this server.", graph.getEditor ()->v.netname.chars ());
       return BotCommandResult::Handled;
