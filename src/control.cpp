@@ -1416,7 +1416,7 @@ int BotControl::menuGraphType (int item) {
 }
 
 int BotControl::menuGraphFlag (int item) {
-   closeMenu (); // reset menu display
+   closeMenu (); // reset menu display fff
 
    switch (item) {
    case 1:
