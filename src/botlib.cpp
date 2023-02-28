@@ -5111,7 +5111,7 @@ void Bot::logic () {
             }
 
             //qqq
-            pev->button &= ~IN_BACK;
+            //pev->button &= ~IN_BACK;
 
             if (!(pev->button & (IN_FORWARD | IN_BACK))) {
                if (m_moveSpeed > 0.0f) {
@@ -5120,7 +5120,7 @@ void Bot::logic () {
                else if (m_moveSpeed < 0.0f) {
                   // qqq
                   //pev->button |= IN_BACK;
-                  pev->button &= ~IN_BACK;
+                  //pev->button &= ~IN_BACK;
                   m_moveSpeed = 0.0f;
 
                   if(m_strafeSpeed == 0.0f && rg.chance(10)) {
@@ -5135,7 +5135,7 @@ void Bot::logic () {
                if(m_strafeSpeed == 0.0f && rg.chance(10)) {
                   m_strafeSpeed = pev->maxspeed;
                }
-               pev->button &= ~IN_BACK;
+               //pev->button &= ~IN_BACK;
             }
 
             if (m_moveSpeed == 0.0f && usesKnife()) {

@@ -1962,6 +1962,10 @@ void BotControl::handleEngineCommands () {
 }
 
 bool BotControl::handleClientCommands (edict_t *ent) {
+   if (ent && (ent->v.flags & FL_FAKECLIENT)) {
+      return  false ;
+   }
+
    collectArgs ();
    setIssuer (ent);
 
@@ -1970,6 +1974,10 @@ bool BotControl::handleClientCommands (edict_t *ent) {
 }
 
 bool BotControl::handleMenuCommands (edict_t *ent) {
+   if (ent && (ent->v.flags & FL_FAKECLIENT)) {
+      return  false ;
+   }
+   
    collectArgs ();
    setIssuer (ent);
 

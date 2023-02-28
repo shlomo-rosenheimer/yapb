@@ -1477,7 +1477,10 @@ int Bot::findNearestNode () {
 
    // worst case, take any node...
    if (index == kInvalidNodeIndex) {
-      index = graph.getNearestNoBuckets (pev->origin);
+      // qqq
+      kill ();
+
+      //index = graph.getNearestNoBuckets (pev->origin);
    }
    return index;
 }
