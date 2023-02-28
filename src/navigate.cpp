@@ -908,9 +908,9 @@ void Bot::findPath (int srcIndex, int destIndex, FindPath pathType /*= FindPath:
          }
       }
 
-      if (current.flags & NodeFlag::Crouch) {
-         cost *= 1.5f;
-      }
+      // if (current.flags & NodeFlag::Crouch) {
+      //    cost *= 1.5f;
+      // }
       return cost + dangerFactor ();
    };
 

@@ -732,12 +732,12 @@ void BotGraph::add (int type, const Vector &pos) {
       path->flags |= NodeFlag::Rescue;
       break;
 
-   case NodeAddFlag::Camp:
-      path->flags |= NodeFlag::Crossing;
-      path->flags |= NodeFlag::Camp;
+   // case NodeAddFlag::Camp:
+   //    path->flags |= NodeFlag::Crossing;
+   //    path->flags |= NodeFlag::Camp;
 
-      path->start = m_editor->v.v_angle;
-      break;
+   //    path->start = m_editor->v.v_angle;
+   //    break;
 
    case NodeAddFlag::Goal:
       path->flags |= NodeFlag::Goal;
@@ -1133,7 +1133,8 @@ void BotGraph::calculatePathRadius (int index) {
    auto &path = m_paths[index];
    Vector start, direction;
 
-   if ((path.flags & (NodeFlag::Ladder | NodeFlag::Goal | NodeFlag::Camp | NodeFlag::Rescue | NodeFlag::Crouch)) || m_jumpLearnNode) {
+   //if ((path.flags & (NodeFlag::Ladder | NodeFlag::Goal | NodeFlag::Camp | NodeFlag::Rescue | NodeFlag::Crouch)) || m_jumpLearnNode) {
+   if ((path.flags & (NodeFlag::Ladder | NodeFlag::Rescue)) || m_jumpLearnNode) {
       path.radius = 0.0f;
       return;
    }
@@ -2037,14 +2038,15 @@ void BotGraph::rebuildVisibility () {
       Vector sourceDuck = vis.origin;
       Vector sourceStand = vis.origin;
 
-      if (vis.flags & NodeFlag::Crouch) {
-         sourceDuck.z += 12.0f;
-         sourceStand.z += 18.0f + 28.0f;
-      }
-      else {
+      // qqq
+      // if (vis.flags & NodeFlag::Crouch) {
+      //    sourceDuck.z += 12.0f;
+      //    sourceStand.z += 18.0f + 28.0f;
+      // }
+      // else {
          sourceDuck.z += -18.0f + 12.0f;
          sourceStand.z += 28.0f;
-      }
+      // }
       uint16 standCount = 0, crouchCount = 0;
 
       for (const auto &path : m_paths) {
@@ -2073,12 +2075,13 @@ void BotGraph::rebuildVisibility () {
             dest = path.origin;
 
             // first check ducked visibility
-            if (path.flags & NodeFlag::Crouch) {
-               dest.z += 18.0f + 28.0f;
-            }
-            else {
+            // qqq
+            // if (path.flags & NodeFlag::Crouch) {
+            //    dest.z += 18.0f + 28.0f;
+            // }
+            // else {
                dest.z += 28.0f;
-            }
+            // }
             game.testLine (sourceDuck, dest, TraceIgnore::Monsters, nullptr, &tr);
 
             // check if line of sight to object is not blocked (i.e. visible)
@@ -2233,12 +2236,13 @@ void BotGraph::frame () {
             float nodeHeight = 0.0f;
 
             // check the node height
-            if (path.flags & NodeFlag::Crouch) {
-               nodeHeight = 36.0f;
-            }
-            else {
+            // qqq
+            // if (path.flags & NodeFlag::Crouch) {
+            //    nodeHeight = 36.0f;
+            // }
+            // else {
                nodeHeight = 72.0f;
-            }
+            // }
             float nodeHalfHeight = nodeHeight * 0.5f;
 
             // all nodes are by default are green
@@ -2296,7 +2300,8 @@ void BotGraph::frame () {
 
             if (distance < 256.0f) {
                // qqq radius
-               Vector origin = (path.flags & NodeFlag::Crouch) ? path.origin : path.origin - Vector (0.0f, 0.0f, 18.0f);
+               //Vector origin = (path.flags & NodeFlag::Crouch) ? path.origin : path.origin - Vector (0.0f, 0.0f, 18.0f);
+               Vector origin = path.origin - Vector (0.0f, 0.0f, 18.0f);
                Color radiusColor { 0, 0, 255 };
 
                // if radius is nonzero, draw a full circle
@@ -2367,9 +2372,10 @@ void BotGraph::frame () {
          float height = 36.0f;
 
          // check if it's a source
-         if (path.flags & NodeFlag::Crouch) {
-            height = 18.0f;
-         }
+         // qqq
+         // if (path.flags & NodeFlag::Crouch) {
+         //    height = 18.0f;
+         // }
          const auto &source = Vector (path.origin.x, path.origin.y, path.origin.z + height); // source
          const auto &start = path.origin + Vector (path.start.x, path.start.y, 0.0f).forward () * 500.0f; // camp start
          const auto &end = path.origin + Vector (path.end.x, path.end.y, 0.0f).forward () * 500.0f; // camp end
@@ -2410,7 +2416,9 @@ void BotGraph::frame () {
       }
 
       // draw the radius circle
-      Vector origin = (path.flags & NodeFlag::Crouch) ? path.origin : path.origin - Vector (0.0f, 0.0f, 18.0f);
+      // Vector origin = (path.flags & NodeFlag::Crouch) ? path.origin : path.origin - Vector (0.0f, 0.0f, 18.0f);
+      // Color radiusColor { 0, 0, 255 }; 
+      Vector origin = path.origin - Vector (0.0f, 0.0f, 18.0f);
       Color radiusColor { 0, 0, 255 };
 
       // if radius is nonzero, draw a full circle
@@ -2574,16 +2582,25 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
 
       // qqq check for djump
       if (path.flags & NodeFlag::DoubleJump) {
+         m_paths[m_paths.index (path)].flags &= ~NodeFlag::DoubleJump;
+
             ctrl.msg ("Node %d is a double jump.", path.number);
-            teleport (path);
-            return false;
+            //teleport (path);
+            //return false;
       }
 
       // qqq check for crouch
       if (path.flags & NodeFlag::Crouch) {
+            m_paths[m_paths.index (path)].flags &= ~NodeFlag::Crouch;
+
+             //remove
+            //m_paths[index].flags &= ~toggleFlag;
+            // add
+            //m_paths[index].flags |= toggleFlag;
+
             ctrl.msg ("Node %d is a crouch.", path.number);
-            teleport (path);
-            return false;
+            //teleport (path);
+            //return false;
       }
 
       // qqq
@@ -2616,9 +2633,16 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
 
          // qqq jump flag
          if (test.flags & PathFlag::Jump) {
+            m_paths[m_paths.index (path)].flags &= ~PathFlag::Jump;
+
+             //remove
+            //m_paths[index].flags &= ~toggleFlag;
+            // add
+            //m_paths[index].flags |= toggleFlag;
+
             ctrl.msg ("Node %d is a jump node.", path.number);
-            teleport (path);
-            return false;
+            //teleport (path);
+            //return false;
          }
       }
 

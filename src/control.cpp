@@ -387,7 +387,7 @@ int BotControl::cmdNodeOn () {
    if (strValue (option).empty () || strValue (option) == "display" || strValue (option) == "models") {
       graph.setEditFlag (GraphEdit::On);
       if(strValue (option) == "models") enableDrawModels (true);
-
+      logger.error ("[yapb] show graph");
       msg ("Graph editor has been enabled. Models OFF");
    }
    else if (strValue (option) == "noclip") {
@@ -401,7 +401,7 @@ int BotControl::cmdNodeOn () {
    else if (strValue (option) == "auto") {
       graph.setEditFlag (GraphEdit::On | GraphEdit::Auto);
       //enableDrawModels (true);
-
+      logger.error ("[yapb] auto graph on");
       msg ("Graph editor has been enabled with auto add node mode. Models OFF");
    }
 
@@ -421,6 +421,8 @@ int BotControl::cmdNodeOff () {
       graph.clearEditFlag (GraphEdit::On | GraphEdit::Auto | GraphEdit::Noclip);
       enableDrawModels (false);
 
+      logger.error ("[yapb] hide graph");
+
       msg ("Graph editor has been disabled.");
    }
    else if (strValue (option) == "models") {
@@ -436,6 +438,7 @@ int BotControl::cmdNodeOff () {
    }
    else if (strValue (option) == "auto") {
       graph.clearEditFlag (GraphEdit::Auto);
+      logger.error ("[yapb] auto graph off");
       msg ("Graph editor has disabled auto add node mode.");
    }
    return BotCommandResult::Handled;
@@ -681,7 +684,8 @@ int BotControl::cmdNodeTeleport () {
       msg ("You have been teleported to node %d.", index);
 
       // turn graph on
-      graph.setEditFlag (GraphEdit::On | GraphEdit::Noclip);
+      //graph.setEditFlag (GraphEdit::On | GraphEdit::Noclip);
+      graph.setEditFlag (GraphEdit::On);
    }
    else {
       msg ("Could not teleport to node %d.", index);
@@ -742,14 +746,20 @@ int BotControl::cmdNodeAcquireEditor () {
    // }
 
    if (game.isNullEntity (m_ent)) {
+      logger.error ("[yapb] no player editor");
       msg ("This command should not be executed from HLDS console.");
       return BotCommandResult::Handled;
    }
 
    if (graph.hasEditor ()) {
-      msg ("Sorry, players \"%s\" already acquired rights to edit graph on this server.", graph.getEditor ()->v.netname.chars ());
-      return BotCommandResult::Handled;
+      logger.error ("[yapb] clear editor");
+
+      graph.setEditor (nullptr);
+      //msg ("Sorry, players \"%s\" already acquired rights to edit graph on this server.", graph.getEditor ()->v.netname.chars ());
+      msg ("Removed editor \"%s\" on this server.", graph.getEditor ()->v.netname.chars ());
+      //return BotCommandResult::Handled;
    }
+   logger.error ("[yapb] set editor");
    graph.setEditor (m_ent);
    msg ("You're acquired rights to edit graph on this server. You're now able to use graph commands.");
 
@@ -760,9 +770,11 @@ int BotControl::cmdNodeReleaseEditor () {
    enum args { graph_cmd = 1 };
 
    if (!graph.hasEditor ()) {
+      logger.error ("[yapb] no editor to clear");
       msg ("No one is currently has rights to edit. Nothing to release.");
       return BotCommandResult::Handled;
    }
+   logger.error ("[yapb] clear editor");
    graph.setEditor (nullptr);
    msg ("Graph editor rights freed. You're now not able to use graph commands.");
 
