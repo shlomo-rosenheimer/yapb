@@ -869,8 +869,6 @@ void BotGraph::erase (int target) {
 void BotGraph::toggleFlags (int toggleFlag) {
    // this function allow manually changing flags
 
-   (void)toggleFlag
-
    int index = getEditorNeareset ();
 
    if (index != kInvalidNodeIndex) {
