@@ -13,7 +13,7 @@ ConVar cv_quota ("yb_quota", "9", "Specifies the number bots to be added to the 
 ConVar cv_quota_mode ("yb_quota_mode", "normal", "Specifies the type of quota.\nAllowed values: 'normal', 'fill', and 'match'.\nIf 'fill', the server will adjust bots to keep N players in the game, where N is yb_quota.\nIf 'match', the server will maintain a 1:N ratio of humans to bots, where N is yb_quota_match.", false);
 ConVar cv_quota_match ("yb_quota_match", "0", "Number of players to match if yb_quota_mode set to 'match'", true, 0.0f, static_cast <float> (kGameMaxPlayers));
 ConVar cv_think_fps ("yb_think_fps", "26.0", "Specifies how many times per second bot code will run.", true, 24.0f, 90.0f);
-ConVar cv_autokill_delay ("yb_autokill_delay", "0.0", "Specifies amount of time in seconds when bots will be killed if no humans left alive.", true, 0.0f, 90.0f);
+ConVar cv_autokill_delay ("yb_autokill_delay", "0.0", "Specifies amount of time in seconds when bots will be killed if no humans left alive.", true, 0.0f, 80.0f);
 
 ConVar cv_join_after_player ("yb_join_after_player", "0", "Specifies whether bots should join server, only when at least one human player in game.");
 ConVar cv_join_team ("yb_join_team", "any", "Forces all bots to join team specified here.", false);
@@ -1479,7 +1479,7 @@ void Bot::newRound () {
    //qqq, 30.0
    
    //m_updateInterval = game.is (GameFlags::Legacy | GameFlags::Xash3D) ? 0.0f : (1.0f / cr::clamp (cv_think_fps.float_ (), 10.0f, 60.0f));
-   m_updateInterval = game.is (GameFlags::Legacy | GameFlags::Xash3D) ? 0.0f : (1.0f / cr::clamp (cv_think_fps.float_ (), 1.0f, 90.0f));
+   m_updateInterval = game.is (GameFlags::Legacy | GameFlags::Xash3D) ? 0.0f : (1.0f / cr::clamp (cv_think_fps.float_ (), 1.0f, 80.0f));
 }
 
 void Bot::resetPathSearchType () {

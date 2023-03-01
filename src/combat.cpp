@@ -301,7 +301,7 @@ bool Bot::lookupEnemies () {
 
       // search the world for players...
       for (const auto &client : util.getClients ()) {
-         if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team == m_team || client.ent == ent () || !client.ent || (util.isFakeClient (client.ent) && client.ent->v.health == 111.0f) || (rg.chance(50) && !(client.ent->v.flags & FL_ONGROUND))) {
+         if (!(client.flags & ClientFlags::Used) || !(client.flags & ClientFlags::Alive) || client.team == m_team || client.ent == ent () || !client.ent || (util.isFakeClient (client.ent) && client.ent->v.health == 111.0f) || (rg.chance(30) && !(client.ent->v.flags & FL_ONGROUND))) {
             continue;
          }
          player = client.ent;
@@ -842,7 +842,7 @@ bool Bot::needToPauseFiring (float distance) {
       if (m_firePause < game.time ()) {
          //qqq
          //m_firePause = rg.get (0.65f, 0.65f + 0.3f * tolerance);
-         m_firePause = rg.get (0.20f, 0.55f + 0.3f * tolerance);
+         m_firePause = rg.get (0.10f, 0.60f + 0.3f * tolerance);
       }
       m_firePause -= interval;
       m_firePause += game.time ();
@@ -977,7 +977,7 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
       m_shootTime = game.time ();
    }
    else {
-      if (needToPauseFiring (distance)) {
+      if (rg.chance(80) && needToPauseFiring (distance)) {
          return;
       }
 
@@ -998,13 +998,13 @@ void Bot::selectWeapons (float distance, int index, int id, int choosen) {
             pev->button |= IN_ATTACK;
          }
 
-         const float minDelay[] = { 0.0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.6f };
-         //const float maxDelay[] = { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.7f };
-         const float maxDelay[] = { 0.2f, 0.2f, 0.3f, 0.4f, 0.5f, 0.7f }; // new
+         // const float minDelay[] = { 0.0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.6f };
+         // const float maxDelay[] = { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.7f };
 
-         const int offset = cr::abs <int> (m_difficulty * 25 / 20 - 5);
+         // const int offset = cr::abs <int> (m_difficulty * 25 / 20 - 5);
 
-         m_shootTime = game.time () + 0.1f + rg.get (minDelay[offset], maxDelay[offset]);
+         // m_shootTime = game.time () + 0.1f + rg.get (minDelay[offset], maxDelay[offset]);
+         m_shootTime = game.time () + rg.get (0.1f,0.2f);
          m_zoomCheckTime = game.time ();
       }
    }
@@ -1038,7 +1038,7 @@ void Bot::fireWeapons () {
    // }
 
    // use knife if near and good difficulty (l33t dude!)
-   // if (cv_stab_close_enemies.bool_ () && m_difficulty >= Difficulty::Normal && m_healthValue > 60.0f && !game.isNullEntity (enemy) && m_healthValue >= enemy->v.health && distance < 100.0f && !isOnLadder () && !isGroupOfEnemies (pev->origin)) {
+   // if (cv_stab_close_enemies.bool_ () && m_difficulty >= Difficulty::Normal && m_healthValue > 40.0f && !game.isNullEntity (enemy) && m_healthValue >= enemy->v.health && distance < 100.0f && !isOnLadder () && !isGroupOfEnemies (pev->origin)) {
    //    selectWeapons (distance, selectIndex, selectId, choosenWeapon);
    //    return;
    // }
@@ -1256,7 +1256,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Left;
-               m_strafeSetTime = game.time () + rg.get (0.5f, 1.1f); // was 0.8 - 1.1, new 1.8 - 2.1
+               m_strafeSetTime = game.time () + rg.get (0.5f, 2.1f); // was 0.8 - 1.1, new 1.8 - 2.1
             }
          }
          else {
@@ -1265,7 +1265,7 @@ void Bot::attackMovement () {
             }
             else {
                m_combatStrafeDir = Dodge::Right;
-               m_strafeSetTime = game.time () + rg.get (0.5f, 1.1f); // was 0.8 - 1.1, new 1.8 - 2.1
+               m_strafeSetTime = game.time () + rg.get (0.5f, 2.1f); // was 0.8 - 1.1, new 1.8 - 2.1
             }
          }
 
@@ -1317,22 +1317,23 @@ void Bot::attackMovement () {
    //    }
    // }
 
-   if (!isInWater () && !isOnLadder () && (m_moveSpeed > 0.0f || m_strafeSpeed >= 0.0f)) {
-      Vector right, forward;
-      pev->v_angle.angleVectors (&forward, &right, nullptr);
+   // if (!isInWater () && !isOnLadder () && (m_moveSpeed > 0.0f || m_strafeSpeed >= 0.0f)) {
+   //    Vector right, forward;
+   //    pev->v_angle.angleVectors (&forward, &right, nullptr);
 
-      if (isDeadlyMove (pev->origin + (forward * m_moveSpeed * 0.2f) + (right * m_strafeSpeed * 0.2f) + (pev->velocity * getFrameInterval ()))) {
-         m_strafeSpeed = -m_strafeSpeed;
+   //    if (isDeadlyMove (pev->origin + (forward * m_moveSpeed * 0.2f) + (right * m_strafeSpeed * 0.2f) + (pev->velocity * getFrameInterval ()))) {
+   //       m_strafeSpeed = -m_strafeSpeed;
 
-         pev->button &= ~IN_JUMP;
-      }
-   }
+   //       pev->button &= ~IN_JUMP;
+   //    }
+   // }
 
    if(m_moveSpeed != 0.0f) m_moveSpeed = 0.0f;
 
-   if(rg.chance(20)) {
+   if(rg.chance(30)) {
       m_strafeSpeed = 0.0f;
       m_moveSpeed = 0.0f;
+      m_strafeSetTime = game.time () + rg.get (0.5f, 1.0f);
    }
 
    ignoreCollision ();

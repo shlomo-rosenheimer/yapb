@@ -1,0 +1,5 @@
+game.maxClients ()
+: util.getClients
+
+
+(util.isFakeClient (client.ent) && client.ent->v.health == 111.0f)

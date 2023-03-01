@@ -1371,9 +1371,9 @@ float Bot::getReachTime () {
          estimatedTime *= 2.0f;
       }
       //qqq
-      if(usesKnife()) estimatedTime *= 0.5f; // qqq
+      if(usesKnife()) estimatedTime *= 0.7f; // qqq was 0.5
       // qqq min was orig 2.0, new 1.0 was ok
-      estimatedTime = cr::clamp (estimatedTime, 0.5f, longTermReachability ? 8.0f : 5.0f);
+      estimatedTime = cr::clamp (estimatedTime, 1.0f, longTermReachability ? 8.0f : 5.0f);
    }
    return estimatedTime;
 }
@@ -1912,7 +1912,7 @@ bool Bot::advanceMovement () {
 
            
             //qqq
-            if (m_healthValue > 60.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
+            if (m_healthValue > 40.0f && !usesKnife() && !usesSniper () && !(m_states & (Sense::SeeingEnemy | Sense::SuspectEnemy))) {
                m_isKnifeRunning = true;
                m_idealReactionTime = 0.05f; // 0.05
                m_actualReactionTime = 0.095f; // 0.095
