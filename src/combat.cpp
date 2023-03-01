@@ -1330,10 +1330,10 @@ void Bot::attackMovement () {
 
    if(m_moveSpeed != 0.0f) m_moveSpeed = 0.0f;
 
-   if(rg.chance(30)) {
+   if(rg.chance(20)) {
       m_strafeSpeed = 0.0f;
       m_moveSpeed = 0.0f;
-      m_strafeSetTime = game.time () + rg.get (0.5f, 1.0f);
+      m_strafeSetTime = game.time () + rg.get (0.5f, 3.0f);
    }
 
    ignoreCollision ();

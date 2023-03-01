@@ -4927,7 +4927,7 @@ void Bot::logic () {
       // orig
       m_moveSpeed = 0.0f;
       //qqq
-      //if(!(m_states & Sense::SeeingEnemy )) m_moveSpeed = pev->maxspeed;
+      if(!(m_states & Sense::SeeingEnemy )) m_moveSpeed = pev->maxspeed;
 
       // force strafe 4
       //qqq

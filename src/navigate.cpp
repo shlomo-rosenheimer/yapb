@@ -349,7 +349,9 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             }
 
             //qqq
-            //if(!usesKnife()) m_moveSpeed = 0.0f;
+            if(!usesKnife()) {
+               m_moveSpeed = 0.0f;
+            }
          }
          else {
             m_firstCollideTime = 0.0f;
@@ -383,7 +385,8 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             bits |= (CollisionProbe::Jump | CollisionProbe::Strafe);
          }
          else {
-            bits |= (CollisionProbe::Strafe | CollisionProbe::Jump);
+            //bits |= (CollisionProbe::Strafe | CollisionProbe::Jump);
+            bits |= (CollisionProbe::Strafe);
          }
 
          // collision check allowed if not flying through the air
@@ -574,6 +577,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
          if (m_collStateIndex < kMaxCollideMoves) {
             switch (m_collideMoves[m_collStateIndex]) {
             case CollisionState::Jump:
+            setStrafeSpeed (dirNormal, -pev->maxspeed);
             // qqq last
                //setStrafeSpeed (dirNormal, pev->maxspeed);
 
@@ -596,6 +600,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
                break;
 
             case CollisionState::Duck:
+            setStrafeSpeed (dirNormal, pev->maxspeed);
             // qqq last
                //setStrafeSpeed (dirNormal, pev->maxspeed);
 
@@ -1373,7 +1378,7 @@ float Bot::getReachTime () {
       //qqq
       if(usesKnife()) estimatedTime *= 0.7f; // qqq was 0.5
       // qqq min was orig 2.0, new 1.0 was ok
-      estimatedTime = cr::clamp (estimatedTime, 1.0f, longTermReachability ? 8.0f : 5.0f);
+      estimatedTime = cr::clamp (estimatedTime, 0.5f, longTermReachability ? 8.0f : 5.0f);
    }
    return estimatedTime;
 }
