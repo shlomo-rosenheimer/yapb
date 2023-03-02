@@ -2647,6 +2647,15 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
          break;
       }
 
+      // qqq
+      if (path.flags & PathFlag::Jump) {
+         m_paths[m_paths.index (path)].flags &= ~PathFlag::Jump;
+
+         erase (m_paths.index (path));
+
+         ctrl.msg ("Node %d is a jump node.", path.number);
+      }
+
       for (const auto &test : path.links) {
          if (test.index != kInvalidNodeIndex) {
             if (test.index > length ()) {
@@ -2665,19 +2674,19 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
 
          // qqq jump flag
          if (test.flags & PathFlag::Jump) {
-            m_paths[m_paths.index (path)].flags &= ~PathFlag::Jump;
+            //m_paths[m_paths.index (path)].flags &= ~PathFlag::Jump;
 
              //remove
             //m_paths[index].flags &= ~toggleFlag;
             // add
             //m_paths[index].flags |= toggleFlag;
 
-            ctrl.msg ("Node %d is a jump node.", path.number);
+            ctrl.msg ("Link %d has a jump node.", path.number);
 
-            unassignPath (m_paths.index (path), path.number);
+            //unassignPath (m_paths.index (path), path.number);
 
-            //teleport (path);
-            //return false;
+            teleport (path);
+            return false;
          }
       }
 
