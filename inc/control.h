@@ -228,8 +228,8 @@ template <typename ...Args> inline void BotControl::msg (const char *fmt, Args &
    auto result = strings.format (conf.translate (fmt), cr::forward <Args> (args)...);
 
    //qqq
-   if (graph.hasEditor () && !game.isNullEntity (graph.getEditor ())) {
-      game.centerPrint (graph.getEditor (), result);
+   if (graph.hasEditor ()) {
+      //game.centerPrint (graph.getEditor (), result);
       game.clientPrint (graph.getEditor (), result);
    }
 

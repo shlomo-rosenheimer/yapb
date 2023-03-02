@@ -470,10 +470,13 @@ uint8 *Game::getVisibilitySet (Bot *bot, bool pvs) {
 
 void Game::sendClientMessage (bool console, edict_t *ent, StringRef message) {
    // helper to sending the client message
-   if(1==1) return;
+   
+   // qqq
+   //if(1==1) return;
 
    // do not send messages to fakeclients
-   if (!util.isPlayer (ent) || util.isFakeClient (ent)) {
+   // qqq
+   if (graph.getEditor () != ent || !util.isPlayer (ent) || util.isFakeClient (ent)) {
       return;
    }
    const String &buffer = message;
