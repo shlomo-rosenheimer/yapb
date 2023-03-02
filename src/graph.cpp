@@ -2654,8 +2654,9 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
          }
          // jump connection
          if (link.flags & PathFlag::Jump) {
-            ctrl.msg ("Node %d is a jump link.", path.number);
+            ctrl.msg ("Node %d has a jump link.", path.number);
             teleport (path);
+            unassignPath (m_paths.index (path), link.index);
             return false;
          }
       }
