@@ -2648,12 +2648,12 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
       }
 
 
-      auto destroy = [] (PathLink &link) -> void {
-         link.index = kInvalidNodeIndex;
-         link.distance = 0;
-         link.flags = 0;
-         link.velocity = nullptr;
-      };
+      // auto destroy = [] (PathLink &link) -> void {
+      //    link.index = kInvalidNodeIndex;
+      //    link.distance = 0;
+      //    link.flags = 0;
+      //    link.velocity = nullptr;
+      // };
 
       for (auto &link : m_paths[m_paths.index (path)].links) {
          if (link.index == kInvalidNodeIndex) {
