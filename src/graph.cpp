@@ -2668,7 +2668,7 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
             teleport (path);
             
              for (auto &link : m_paths[m_paths.index (path)].links) {
-               if (link.index == m_paths.index (path)) {
+               if (link.index == path.number) {
                   destroy (link);
                }
             }
