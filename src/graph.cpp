@@ -2655,25 +2655,38 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
          link.velocity = nullptr;
       };
 
-  
-
-      // qqq
-      for (const auto &link : path.links) {
+      for (auto &link : m_paths[m_paths.index (path)].links) {
          if (link.index == kInvalidNodeIndex) {
             continue;
          }
          // jump connection
          if (link.flags & PathFlag::Jump) {
             ctrl.msg ("Node %d has a jump link.", path.number);
-            teleport (path);
-            
-             for (auto &link : m_paths[m_paths.index (path)].links) {
                if (link.index == path.number) {
                   destroy (link);
                }
             }
-         }
       }
+
+      // qqq
+      // for (auto &link : path.links) {
+      //    if (link.index == kInvalidNodeIndex) {
+      //       continue;
+      //    }
+      //    // jump connection
+      //    if (link.flags & PathFlag::Jump) {
+      //       ctrl.msg ("Node %d has a jump link.", path.number);
+      //       teleport (path);
+
+         
+            
+      //       //  for (auto &link : m_paths[m_paths.index (path)].links) {
+      //       //    if (link.index == path.number) {
+      //       //       destroy (link);
+      //       //    }
+      //       // }
+      //    }
+      // }
 
       // qqq
       if (path.flags & PathFlag::Jump) {
