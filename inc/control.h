@@ -245,19 +245,19 @@ template <typename ...Args> inline void BotControl::msg (const char *fmt, Args &
       return;
    }
 
-   if (m_isFromConsole || strnlen (result, StringBuffer::StaticBufferSize) > 56 || m_rapidOutput) {
-      if (m_rapidOutput) {
-         m_printQueue.emplaceLast (PrintQueueDestination::ClientConsole, result);
-      }
-      else {
-         //game.clientPrint (m_ent, result);
-      }
-   }
-   else {
-      //qqq
-      //game.centerPrint (m_ent, result);
-      //game.clientPrint (m_ent, result);
-   }
+   // if (m_isFromConsole || strnlen (result, StringBuffer::StaticBufferSize) > 56 || m_rapidOutput) {
+   //    if (m_rapidOutput) {
+   //       m_printQueue.emplaceLast (PrintQueueDestination::ClientConsole, result);
+   //    }
+   //    else {
+   //       //game.clientPrint (m_ent, result);
+   //    }
+   // }
+   // else {
+   //    //qqq
+   //    //game.centerPrint (m_ent, result);
+   //    //game.clientPrint (m_ent, result);
+   // }
 }
 
 // explose global

@@ -756,12 +756,12 @@ int BotControl::cmdNodeAcquireEditor () {
 
       //graph.setEditor (nullptr);
       //msg ("Sorry, players \"%s\" already acquired rights to edit graph on this server.", graph.getEditor ()->v.netname.chars ());
-      msg ("Removed editor \"%s\" on this server.", graph.getEditor ()->v.netname.chars ());
+      //msg ("Removed editor \"%s\" on this server.", graph.getEditor ()->v.netname.chars ());
       return BotCommandResult::Handled;
    }
    logger.error ("[yapb] set new editor");
    graph.setEditor (m_ent);
-   msg ("You're acquired rights to edit graph on this server. You're now able to use graph commands.");
+   msg ("Editor set");
 
    return BotCommandResult::Handled;
 }
