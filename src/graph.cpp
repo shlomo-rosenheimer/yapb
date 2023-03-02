@@ -2644,7 +2644,10 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
 
       if (path.number != static_cast <int> (m_paths.index (path))) {
          ctrl.msg ("Node %d path differs from index %d.", path.number, m_paths.index (path));
-         break;
+         //qqq
+         teleport (path);
+         return false;
+        // break;
       }
 
 
@@ -2733,8 +2736,9 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
          if (!isConnected (path.number)) {
             ctrl.msg ("Node %d isn't connected with any other node.", path.number);
             //qqq
+            teleport (path);
+
             erase (m_paths.index (path));
-            //teleport (path);
             //return false;
          }
       }
