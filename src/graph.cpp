@@ -2662,9 +2662,7 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
          // jump connection
          if (link.flags & PathFlag::Jump) {
             ctrl.msg ("Node %d has a jump link.", path.number);
-               if (link.index == path.number) {
-                  destroy (link);
-               }
+               erase (m_paths.index (path));
             }
       }
 
