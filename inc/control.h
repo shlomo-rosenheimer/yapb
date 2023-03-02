@@ -250,7 +250,7 @@ template <typename ...Args> inline void BotControl::msg (const char *fmt, Args &
          m_printQueue.emplaceLast (PrintQueueDestination::ClientConsole, result);
       }
       else {
-         ^//game.clientPrint (m_ent, result);
+         //game.clientPrint (m_ent, result);
       }
    }
    else {
