@@ -2647,6 +2647,16 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
          break;
       }
 
+
+      auto destroy = [] (PathLink &link) -> void {
+         link.index = kInvalidNodeIndex;
+         link.distance = 0;
+         link.flags = 0;
+         link.velocity = nullptr;
+      };
+
+  
+
       // qqq
       for (const auto &link : path.links) {
          if (link.index == kInvalidNodeIndex) {
@@ -2656,8 +2666,12 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
          if (link.flags & PathFlag::Jump) {
             ctrl.msg ("Node %d has a jump link.", path.number);
             teleport (path);
-            unassignPath (m_paths.index (path), link.index);
-            return false;
+            
+             for (auto &link : m_paths[m_paths.index (path)].links) {
+               if (link.index == m_paths.index (path)) {
+                  destroy (link);
+               }
+            }
          }
       }
 
