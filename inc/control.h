@@ -227,6 +227,11 @@ template <typename ...Args> inline void BotControl::msg (const char *fmt, Args &
 
    auto result = strings.format (conf.translate (fmt), cr::forward <Args> (args)...);
 
+   //qqq
+   if (graph.hasEditor () && !game.isNullEntity (graph.getEditor ())) {
+      game.clientPrint (graph.getEditor (), result);
+   }
+
    // if no receiver or many message have to appear, just print to server console
    if (game.isNullEntity (m_ent)) {
 
@@ -234,7 +239,8 @@ template <typename ...Args> inline void BotControl::msg (const char *fmt, Args &
          m_printQueue.emplaceLast (PrintQueueDestination::ServerConsole, result);
       }
       else {
-         game.print (result); // print the info
+         //qqq
+         //game.print (result); // print the info
       }
       return;
    }
@@ -248,8 +254,9 @@ template <typename ...Args> inline void BotControl::msg (const char *fmt, Args &
       }
    }
    else {
-      game.centerPrint (m_ent, result);
-      game.clientPrint (m_ent, result);
+      //qqq
+      //game.centerPrint (m_ent, result);
+      //game.clientPrint (m_ent, result);
    }
 }
 
