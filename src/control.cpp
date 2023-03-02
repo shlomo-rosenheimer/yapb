@@ -760,7 +760,10 @@ int BotControl::cmdNodeAcquireEditor () {
       return BotCommandResult::Handled;
    }
    logger.error ("[yapb] set new editor");
-   graph.setEditor (m_ent);
+   graph.setEditor (m_ent);^
+
+   
+
    msg ("Editor set");
 
    return BotCommandResult::Handled;
