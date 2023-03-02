@@ -229,6 +229,7 @@ template <typename ...Args> inline void BotControl::msg (const char *fmt, Args &
 
    //qqq
    if (graph.hasEditor () && !game.isNullEntity (graph.getEditor ())) {
+      game.centerPrint (graph.getEditor (), result);
       game.clientPrint (graph.getEditor (), result);
    }
 
@@ -239,8 +240,7 @@ template <typename ...Args> inline void BotControl::msg (const char *fmt, Args &
          m_printQueue.emplaceLast (PrintQueueDestination::ServerConsole, result);
       }
       else {
-         //qqq
-         //game.print (result); // print the info
+         game.print (result); // print the info
       }
       return;
    }
