@@ -2661,6 +2661,8 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
             continue;
          }
 
+         // link.flags & PathFlag::Jump
+
          // qqq jump flag
          if (test.flags & PathFlag::Jump) {
             m_paths[m_paths.index (path)].flags &= ~PathFlag::Jump;
@@ -2671,6 +2673,8 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
             //m_paths[index].flags |= toggleFlag;
 
             ctrl.msg ("Node %d is a jump node.", path.number);
+            //qqq
+            erase (m_paths.index (path));
             //teleport (path);
             //return false;
          }
@@ -2679,8 +2683,10 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
       if (connections == 0) {
          if (!isConnected (path.number)) {
             ctrl.msg ("Node %d isn't connected with any other node.", path.number);
-            teleport (path);
-            return false;
+            //qqq
+            erase (m_paths.index (path));
+            //teleport (path);
+            //return false;
          }
       }
 
