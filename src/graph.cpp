@@ -2673,8 +2673,9 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
             //m_paths[index].flags |= toggleFlag;
 
             ctrl.msg ("Node %d is a jump node.", path.number);
-            //qqq
-            erase (m_paths.index (path));
+
+            unassignPath (m_paths.index (path), path.number);
+
             //teleport (path);
             //return false;
          }
