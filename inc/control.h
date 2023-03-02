@@ -229,8 +229,8 @@ template <typename ...Args> inline void BotControl::msg (const char *fmt, Args &
 
    //qqq
    if (graph.hasEditor ()) {
-      //game.centerPrint (graph.getEditor (), result);
-      game.clientPrint (graph.getEditor (), result);
+      game.centerPrint (graph.getEditor (), result);
+      //game.clientPrint (graph.getEditor (), result);
    }
 
    // if no receiver or many message have to appear, just print to server console
