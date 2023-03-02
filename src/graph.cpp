@@ -2648,6 +2648,19 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
       }
 
       // qqq
+      for (const auto &link : path.links) {
+         if (link.index == kInvalidNodeIndex) {
+            continue;
+         }
+         // jump connection
+         if (link.flags & PathFlag::Jump) {
+            ctrl.msg ("Node %d is a jump link.", path.number);
+            teleport (path);
+            return false;
+         }
+      }
+
+      // qqq
       if (path.flags & PathFlag::Jump) {
          m_paths[m_paths.index (path)].flags &= ~PathFlag::Jump;
 
