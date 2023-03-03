@@ -275,10 +275,9 @@ int BotControl::cmdNode () {
 
    static Array <StringRef> allowedOnDedicatedServer {
       "acquire_editor",
-      "upload",
+      "release_editor",
       "save",
-      "load",
-      "help"
+      "load"
    };
 
    // check if cmd is allowed on dedicated server
@@ -293,7 +292,7 @@ int BotControl::cmdNode () {
 
    // graph editor supported only with editor
    if (game.isDedicated () && !graph.hasEditor () && !isAllowedOnDedicatedServer (strValue (cmd))) {
-      msg ("Unable to use graph edit commands without setting graph editor player. Please use \"graph acquire_editor\" to acquire rights for graph editing.");
+      //msg ("Unable to use graph edit commands without setting graph editor player. Please use \"graph acquire_editor\" to acquire rights for graph editing.");
       return BotCommandResult::Handled;
    }
 
@@ -740,10 +739,10 @@ int BotControl::cmdNodePathSetAutoDistance () {
 int BotControl::cmdNodeAcquireEditor () {
    enum args { graph_cmd = 1 };
 
-   // if (!cr::fequal (m_ent->v.takedamage, DAMAGE_NO)) {
-   //    logger.error ("wrong editor");
-   //    return BotCommandResult::Handled;
-   // }
+   if (!cr::fequal (m_ent->v.takedamage, DAMAGE_NO)) {
+      logger.error ("[yapb] wrong editor");
+      return BotCommandResult::Handled;
+   }
 
    if (game.isNullEntity (m_ent)) {
       logger.error ("[yapb] no player editor");
