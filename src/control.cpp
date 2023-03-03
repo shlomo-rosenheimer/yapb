@@ -771,10 +771,11 @@ int BotControl::cmdNodeReleaseEditor () {
 
    if (!graph.hasEditor ()) {
       logger.error ("[yapb] no editor to clear");
-      msg ("No one is currently has rights to edit. Nothing to release.");
+      //msg ("No one is currently has rights to edit. Nothing to release.");
       return BotCommandResult::Handled;
    }
-   logger.error ("[yapb] clear existing editor");
+
+   logger.error ("[yapb] clearing existing editor \"%s\"", graph.getEditor ()->v.netname.chars ());
 
    msg ("Editor clear \"%s\"", graph.getEditor ()->v.netname.chars ());
 
