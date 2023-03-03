@@ -741,7 +741,7 @@ int BotControl::cmdNodeAcquireEditor () {
    enum args { graph_cmd = 1 };
 
    if (!cr::fequal (m_ent->v.takedamage, DAMAGE_NO)) {
-      logger.error ("[yapb] wrong editor");
+      logger.error ("[yapb] editor needs god mode");
       return BotCommandResult::Handled;
    }
 
@@ -778,7 +778,7 @@ int BotControl::cmdNodeReleaseEditor () {
 
    logger.error ("[yapb] clearing existing editor \"%s\"", graph.getEditor ()->v.netname.chars ());
 
-   msg ("Editor clear \"%s\"", graph.getEditor ()->v.netname.chars ());
+   //msg ("Editor clear \"%s\"", graph.getEditor ()->v.netname.chars ());
 
    graph.setEditor (nullptr);
 
