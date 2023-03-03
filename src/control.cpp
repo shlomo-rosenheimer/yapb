@@ -292,6 +292,7 @@ int BotControl::cmdNode () {
 
    // graph editor supported only with editor
    if (game.isDedicated () && !graph.hasEditor () && !isAllowedOnDedicatedServer (strValue (cmd))) {
+      logger.error ("[yapb] no editor set");
       //msg ("Unable to use graph edit commands without setting graph editor player. Please use \"graph acquire_editor\" to acquire rights for graph editing.");
       return BotCommandResult::Handled;
    }
