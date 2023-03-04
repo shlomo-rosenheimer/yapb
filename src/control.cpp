@@ -740,13 +740,8 @@ int BotControl::cmdNodePathSetAutoDistance () {
 int BotControl::cmdNodeAcquireEditor () {
    enum args { graph_cmd = 1 };
 
-   if (!cr::fequal (m_ent->v.takedamage, DAMAGE_NO)) {
-      logger.error ("[yapb] editor needs god mode");
-      return BotCommandResult::Handled;
-   }
-
    if (game.isNullEntity (m_ent)) {
-      logger.error ("[yapb] no player editor");
+      logger.error ("[yapb] editor is null");
       msg ("This command should not be executed from HLDS console.");
       return BotCommandResult::Handled;
    }
@@ -759,6 +754,12 @@ int BotControl::cmdNodeAcquireEditor () {
       //msg ("Removed editor \"%s\" on this server.", graph.getEditor ()->v.netname.chars ());
       return BotCommandResult::Handled;
    }
+
+   if (!(cr::fequal (m_ent->v.takedamage, DAMAGE_NO) || (m_ent->v.flags & FL_GODMODE))) {
+      logger.error ("[yapb] editor needs god mode [\"%s\"] dmg [%f]", m_ent->v.netname.chars (), m_ent->v.takedamage);
+      return BotCommandResult::Handled;
+   }
+
    logger.error ("[yapb] set new editor");
    graph.setEditor (m_ent);
 
