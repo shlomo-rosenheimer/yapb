@@ -2646,8 +2646,8 @@ bool BotGraph::checkNodes (bool teleportPlayer) {
          ctrl.msg ("Node %d path differs from index %d.", path.number, m_paths.index (path));
          //qqq
          teleport (path);
-         return false;
-        // break;
+         //return false;
+        break;
       }
 
 
