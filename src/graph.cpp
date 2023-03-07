@@ -813,7 +813,7 @@ void BotGraph::add (int type, const Vector &pos) {
       }
       clearConnections (index);
    }
-   game.playSound (m_editor, "weapons/xbow_hit1.wav");
+   //game.playSound (m_editor, "weapons/xbow_hit1.wav");
    calculatePathRadius (index); // calculate the wayzone of this node
 }
 
@@ -863,7 +863,7 @@ void BotGraph::erase (int target) {
    eraseFromBucket (path.origin, index);
    m_paths.remove (path);
 
-   game.playSound (m_editor, "weapons/mine_activate.wav");
+   //game.playSound (m_editor, "weapons/mine_activate.wav");
 }
 
 void BotGraph::toggleFlags (int toggleFlag) {
@@ -884,7 +884,7 @@ void BotGraph::toggleFlags (int toggleFlag) {
       }
 
       // play "done" sound...
-      game.playSound (m_editor, "common/wpn_hudon.wav");
+      //game.playSound (m_editor, "common/wpn_hudon.wav");
    }
 }
 
@@ -897,7 +897,7 @@ void BotGraph::setRadius (int index, float radius) {
       m_paths[node].radius = static_cast <float> (radius);
 
       // play "done" sound...
-      game.playSound (m_editor, "common/wpn_hudon.wav");
+      //game.playSound (m_editor, "common/wpn_hudon.wav");
       ctrl.msg ("Node %d has been set to radius %.2f.", node, radius);
    }
 }
@@ -1002,7 +1002,7 @@ void BotGraph::pathCreate (char dir) {
       addPath (nodeTo, nodeFrom, distance);
    }
 
-   game.playSound (m_editor, "common/wpn_hudon.wav");
+   //game.playSound (m_editor, "common/wpn_hudon.wav");
    m_hasChanged = true;
 }
 
@@ -1038,7 +1038,7 @@ void BotGraph::erasePath () {
    for (auto &link : m_paths[nodeFrom].links) {
       if (link.index == nodeTo) {
          destroy (link);
-         game.playSound (m_editor, "weapons/mine_activate.wav");
+         //game.playSound (m_editor, "weapons/mine_activate.wav");
 
          return;
       }
@@ -1050,7 +1050,7 @@ void BotGraph::erasePath () {
    for (auto &link : m_paths[nodeFrom].links) {
       if (link.index == nodeTo) {
          destroy (link);
-         game.playSound (m_editor, "weapons/mine_activate.wav");
+         //game.playSound (m_editor, "weapons/mine_activate.wav");
 
          return;
       }

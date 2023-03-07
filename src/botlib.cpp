@@ -1843,13 +1843,14 @@ void Bot::setConditions () {
    }
 
    // don't listen if seeing enemy, just checked for sounds or being blinded (because its inhuman)
-   if (!cv_ignore_enemies.bool_ () && m_soundUpdateTime < game.time () && m_blindTime < game.time () && m_seeEnemyTime + 1.0f < game.time ()) {
-      updateHearing ();
-      m_soundUpdateTime = game.time () + 0.25f;
-   }
-   else if (m_heardSoundTime < game.time ()) {
-      m_states &= ~Sense::HearingEnemy;
-   }
+   // qqq no hearing
+   // if (!cv_ignore_enemies.bool_ () && m_soundUpdateTime < game.time () && m_blindTime < game.time () && m_seeEnemyTime + 1.0f < game.time ()) {
+   //    updateHearing ();
+   //    m_soundUpdateTime = game.time () + 0.25f;
+   // }
+   // else if (m_heardSoundTime < game.time ()) {
+   //    m_states &= ~Sense::HearingEnemy;
+   // }
 
    if (game.isNullEntity (m_enemy) && !game.isNullEntity (m_lastEnemy) && !m_lastEnemyOrigin.empty ()) {
       m_aimFlags |= AimFlags::PredictPath;
