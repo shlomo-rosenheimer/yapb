@@ -5347,6 +5347,7 @@ void Bot::takeDamage (edict_t *inflictor, int damage, int armor, int bits) {
    // this function gets called from the network message handler, when bot's gets hurt from any
    // other player.
 
+   (void)damage;
    m_lastDamageType = bits;
    // qqq
    //updatePracticeValue (damage);
