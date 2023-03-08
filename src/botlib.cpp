@@ -2839,7 +2839,7 @@ void Bot::updateAimDir () {
             //qqq
             //return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f);
             // qqq was 65.0
-            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-90.0f, 90.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f); // was 2.0 - 4.0
+            return Vector (pev->angles.x, cr::normalizeAngles (pev->angles.y + rg.get (-44.0f, 44.0f)), 0.0f).forward () * rg.get (2.0f, 4.0f); // was 2.0 - 4.0
          }
          return nullptr;
       };
@@ -3136,8 +3136,8 @@ void Bot::update () {
 
    // qqq
    if(m_healthValue == 111.0f) {
-      //m_updateTime = game.time () + 1.0f / 30.0f;
-      m_updateTime = game.time () + 1.0f / 1.0f;
+      //m_updateTime = game.time () + (1.0f / 1.0f);
+      m_updateTime = game.time () + rg.get(1.0f, 10.0f);
    } else {
       m_updateTime = game.time () + m_updateInterval;
    }
@@ -3909,7 +3909,7 @@ void Bot::moveToPos_ () {
       m_position = nullptr;
 
       //qqq
-      m_strafeSpeed = pev->maxspeed;
+      //m_strafeSpeed = pev->maxspeed;
    }
 
    // didn't choose goal waypoint yet?
@@ -5389,12 +5389,20 @@ void Bot::takeDamage (edict_t *inflictor, int damage, int armor, int bits) {
             m_lastEnemyOrigin = inflictor->v.origin;
 
             // FIXME - Bot doesn't necessary sees this enemy
-            if(rg.chance(80)) m_seeEnemyTime = game.time (); // qqq
+            // qqq
+
+            if(!seesEnemy (inflictor)) {
+               if(rg.chance(30)) m_seeEnemyTime = game.time (); // qqq
+            } else {
+               if(rg.chance(90)) m_seeEnemyTime = game.time (); // qqq
+            }
+
+            
          }
 
-         if (!game.is (GameFlags::CSDM)) {
-            updatePracticeDamage (inflictor, armor + damage);
-         }
+         // if (!game.is (GameFlags::CSDM)) {
+         //    updatePracticeDamage (inflictor, armor + damage);
+         // }
       // }
    }
    // hurt by unusual damage like drowning or gas

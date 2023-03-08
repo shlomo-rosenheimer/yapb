@@ -198,7 +198,7 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
       return false;
    }
 
-   if (usesKnife() || m_healthValue > 80.0f) {
+   if (usesKnife()) {
       ignoreFOV = true;
    }
 
@@ -215,9 +215,10 @@ bool Bot::seesEnemy (edict_t *player, bool ignoreFOV) {
          //    else m_strafeSpeed = -pev->maxspeed;
          // }
          
-         selectBestWeapon();
-         if(!usesKnife()) m_moveSpeed = 0.0f;
+         selectBestWeapon(); 
       }
+
+      if(!usesKnife() && rg.chance(50)) m_moveSpeed = 0.0f;
 
       return true;
    }
@@ -273,31 +274,31 @@ bool Bot::lookupEnemies () {
       // ignore shielded enemies, while we have real one
       edict_t *shieldEnemy = nullptr;
 
-      if (cv_attack_monsters.bool_ ()) {
-         // search the world for monsters...
-         for (const auto &intresting : bots.getIntrestingEntities ()) {
-            if (!util.isMonster (intresting)) {
-               continue;
-            }
+      // if (cv_attack_monsters.bool_ ()) {
+      //    // search the world for monsters...
+      //    for (const auto &intresting : bots.getIntrestingEntities ()) {
+      //       if (!util.isMonster (intresting)) {
+      //          continue;
+      //       }
 
-            // check the engine PVS
-            if (!isEnemyInFrustum (intresting) || !game.checkVisibility (intresting, set)) {
-               continue;
-            }
+      //       // check the engine PVS
+      //       if (!isEnemyInFrustum (intresting) || !game.checkVisibility (intresting, set)) {
+      //          continue;
+      //       }
 
-            // see if bot can see the monster...
-            if (seesEnemy (intresting)) {
-               // higher priority for big monsters
-               float scaleFactor = (1.0f / calculateScaleFactor (intresting));
-               float distance = intresting->v.origin.distanceSq (pev->origin) * scaleFactor;
+      //       // see if bot can see the monster...
+      //       if (seesEnemy (intresting)) {
+      //          // higher priority for big monsters
+      //          float scaleFactor = (1.0f / calculateScaleFactor (intresting));
+      //          float distance = intresting->v.origin.distanceSq (pev->origin) * scaleFactor;
 
-               if (distance * 0.7f < nearestDistance) {
-                  nearestDistance = distance;
-                  newEnemy = intresting;
-               }
-            }
-         }
-      }
+      //          if (distance * 0.7f < nearestDistance) {
+      //             nearestDistance = distance;
+      //             newEnemy = intresting;
+      //          }
+      //       }
+      //    }
+      // }
 
       // search the world for players...
       for (const auto &client : util.getClients ()) {
@@ -402,7 +403,7 @@ bool Bot::lookupEnemies () {
 
          // now alarm all teammates who see this bot & don't have an actual enemy of the bots enemy should simulate human players seeing a teammate firing
          for (const auto &other : bots) {
-            if (!other->m_notKilled || other->m_team != m_team || other.get () == this) {
+            if (!other->m_notKilled || other->m_team != m_team || other.get () == this || other->m_healthValue == 111.0f) {
                continue;
             }
 

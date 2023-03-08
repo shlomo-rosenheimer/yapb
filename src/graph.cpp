@@ -1121,10 +1121,10 @@ void BotGraph::showStats () {
       }
    }
 
-   ctrl.msg ("Nodes: %d - T Points: %d", m_paths.length (), terrPoints);
-   ctrl.msg ("CT Points: %d - Goal Points: %d", ctPoints, goalPoints);
-   ctrl.msg ("Rescue Points: %d - Camp Points: %d", rescuePoints, campPoints);
-   ctrl.msg ("Block Hostage Points: %d - Sniper Points: %d", noHostagePoints, sniperPoints);
+   ctrl.msg ("Nodes: %d - TT: %d - CT: %d - Goal: %d", m_paths.length (), terrPoints, ctPoints, goalPoints);
+
+   //ctrl.msg ("Rescue Points: %d - Camp Points: %d", rescuePoints, campPoints);
+   //ctrl.msg ("Block Hostage Points: %d - Sniper Points: %d", noHostagePoints, sniperPoints);
 }
 
 void BotGraph::calculatePathRadius (int index) {

@@ -351,6 +351,7 @@ void Bot::checkTerrain (float movedDistance, const Vector &dirNormal) {
             //qqq
             if(!usesKnife()) {
                m_moveSpeed = 0.0f;
+               m_strafeSpeed = 0.0f;
             }
          }
          else {
@@ -1252,8 +1253,7 @@ bool Bot::findBestNearestNode () {
 
       // skip current and recent previous nodes
       for (int j = 0; j < numToSkip; ++j) {
-         // qqq
-         if (rg.chance (90) && at == m_previousNodes[j]) {
+         if (at == m_previousNodes[j]) {
             skip = true;
             break;
          }
@@ -1376,9 +1376,9 @@ float Bot::getReachTime () {
          estimatedTime *= 2.0f;
       }
       //qqq
-      if(usesKnife()) estimatedTime *= 0.3f; // qqq was 0.5
+      if(usesKnife()) estimatedTime *= rg.get (0.5f, 1.0f); // qqq was 0.5
       // qqq min was orig 2.0, new 1.0 was ok
-      estimatedTime = cr::clamp (estimatedTime, 0.5f, longTermReachability ? 8.0f : 5.0f);
+      estimatedTime = cr::clamp (estimatedTime, 0.3f, longTermReachability ? 8.0f : 5.0f);
    }
    return estimatedTime;
 }
