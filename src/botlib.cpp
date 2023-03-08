@@ -5348,6 +5348,7 @@ void Bot::takeDamage (edict_t *inflictor, int damage, int armor, int bits) {
    // other player.
 
    (void)damage;
+   (void)armor;
    m_lastDamageType = bits;
    // qqq
    //updatePracticeValue (damage);
