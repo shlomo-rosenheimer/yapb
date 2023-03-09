@@ -866,6 +866,7 @@ void BotGraph::erase (int target) {
    //game.playSound (m_editor, "weapons/mine_activate.wav");
 }
 
+// qqq causes crashes!
 void BotGraph::toggleFlags (int toggleFlag) {
    // this function allow manually changing flags
 

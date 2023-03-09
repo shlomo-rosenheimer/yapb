@@ -777,6 +777,8 @@ int BotControl::cmdNodeReleaseEditor () {
       return BotCommandResult::Handled;
    }
 
+   closeMenu ();
+
    logger.error ("[yapb] clearing existing editor \"%s\"", graph.getEditor ()->v.netname.chars ());
 
    //msg ("Editor clear \"%s\"", graph.getEditor ()->v.netname.chars ());
@@ -1420,6 +1422,7 @@ int BotControl::menuGraphType (int item) {
    return BotCommandResult::Handled;
 }
 
+// qqq causes crash
 int BotControl::menuGraphFlag (int item) {
    closeMenu (); // reset menu display fff
 
@@ -1756,7 +1759,9 @@ void BotControl::showMenu (int id) {
       menusParsed = true;
    }
 
-   if (!util.isPlayer (m_ent)) {
+   // qqq 
+   if (!util.isPlayer (m_ent) || !graph.hasEditor ()) {
+      logger.error ("[yapb] no valid client or editor to show menu");
       return;
    }
    auto &client = util.getClient (game.indexOfPlayer (m_ent));
