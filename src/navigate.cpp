@@ -141,20 +141,15 @@ int Bot::findBestGoal () {
    tacticChoice = backoffDesire;
    tactic = 0;
 
-   //qqq
-   // if (campDesire > tacticChoice) {
-   //    tacticChoice = campDesire;
-   //    tactic = 1;
-   // }
+   if (campDesire > tacticChoice) {
+      tacticChoice = campDesire;
+      tactic = 1;
+   }
 
-   // if (forwardDesire > tacticChoice) {
-   //    tacticChoice = forwardDesire;
-   //    tactic = 2;
-   // }
-
-   //qqq
-   forwardDesire = 1.0f;
-   campDesire = 1.0f;
+   if (forwardDesire > tacticChoice) {
+      tacticChoice = forwardDesire;
+      tactic = 2;
+   }
 
    if (goalDesire > tacticChoice) {
       tactic = 3;
@@ -1376,9 +1371,9 @@ float Bot::getReachTime () {
          estimatedTime *= 2.0f;
       }
       //qqq
-      if(usesKnife()) estimatedTime *= rg.get (0.5f, 1.0f); // qqq was 0.5
+      //if(usesKnife()) estimatedTime *= rg.get (0.5f, 1.0f); // qqq was 0.5
       // qqq min was orig 2.0, new 1.0 was ok
-      estimatedTime = cr::clamp (estimatedTime, 0.3f, longTermReachability ? 8.0f : 5.0f);
+      estimatedTime = cr::clamp (estimatedTime, 1.0f, longTermReachability ? 8.0f : 5.0f);
    }
    return estimatedTime;
 }
