@@ -781,9 +781,12 @@ int BotControl::cmdNodeReleaseEditor () {
       return BotCommandResult::Handled;
    }
 
+   // qqq close and clear
    closeMenu ();
+   graph.clearEditFlag (GraphEdit::On | GraphEdit::Auto | GraphEdit::Noclip);
+   enableDrawModels (false);
 
-   logger.error ("[yapb] clearing existing editor \"%s\"", graph.getEditor ()->v.netname.chars ());
+   logger.error ("[yapb] clear existing editor \"%s\"", graph.getEditor ()->v.netname.chars ());
 
    //msg ("Editor clear \"%s\"", graph.getEditor ()->v.netname.chars ());
 
