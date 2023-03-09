@@ -231,9 +231,12 @@ template <typename ...Args> inline void BotControl::msg (const char *fmt, Args &
    if (graph.hasEditor ()) {
       game.centerPrint (graph.getEditor (), result);
       //game.clientPrint (graph.getEditor (), result);
-   } else {
-      logger.error (result);
-   }
+   } 
+   // else {
+   //    logger.error (result);
+   // }
+
+   logger.error (result);
 
    // if no receiver or many message have to appear, just print to server console
    if (game.isNullEntity (m_ent)) {

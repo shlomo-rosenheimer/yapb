@@ -273,11 +273,12 @@ int BotControl::cmdShowCustom () {
 int BotControl::cmdNode () {
    enum args { root, alias, cmd, cmd2 };
 
+   // qqq
    static Array <StringRef> allowedOnDedicatedServer {
       "acquire_editor",
-      "release_editor",
-      "save",
-      "load"
+      "release_editor"
+      //"save",
+      //"load"
    };
 
    // check if cmd is allowed on dedicated server
@@ -289,6 +290,9 @@ int BotControl::cmdNode () {
       }
       return false;
    };
+
+   if (!graph.hasEditor ())
+      logger.error ("[yapb] editor needed");
 
    // graph editor supported only with editor
    if (game.isDedicated () && !graph.hasEditor () && !isAllowedOnDedicatedServer (strValue (cmd))) {
